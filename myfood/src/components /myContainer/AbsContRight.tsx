@@ -27,7 +27,7 @@ export const AbsContRight = (props: AbsoluteContainerProps) => {
         height={"100vh"}
       >
         {children}
-      </Stack>{" "}
+      </Stack>
     </Stack>
   );
 };

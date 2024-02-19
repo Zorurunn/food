@@ -17,3 +17,6 @@ export * from "./orderDetail/FoodDetail";
 export * from "./search/NotFound";
 export * from "./search/SearchedValue";
 export * from "./login/Login";
+export * from "./userProfile/ProfileImage";
+export * from "./providers/AuthProvider";
+export * from "./providers/DataProvider";

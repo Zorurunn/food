@@ -15,19 +15,68 @@ export const MyCart = () => {
   return (
     <AbsContRight width="60%">
       <Stack gap={2}>
-        <Stack>
-          <KeyboardArrowLeftIcon />
-          <Typography>Таны сагс</Typography>
+        <Stack direction={"row"} paddingY={2}>
+          <Stack justifyContent={"center"} alignItems={"center"}>
+            <KeyboardArrowLeftIcon />
+          </Stack>
+          <Stack
+            flexGrow={1}
+            justifyContent={"center"}
+            alignItems={"center"}
+            fontWeight={800}
+            fontSize={18}
+          >
+            Таны сагс
+          </Stack>
         </Stack>
 
         {new Array(10).fill(0).map((_, index) => (
-          <InCartFood
-            imgPath="/temporary/morning.jpg"
-            foodname="Main Pizza"
-            price={38400}
-            recipe="Хулуу, төмс, лууван , сонгино, цөцгийн тос, самрын үр"
-          />
+          <Stack gap={2}>
+            <Divider></Divider>
+            <InCartFood
+              imgPath="/temporary/morning.jpg"
+              foodname="Main Pizza"
+              price={38400}
+              recipe="Хулуу, төмс, лууван , сонгино, цөцгийн тос, самрын үр"
+            />
+          </Stack>
         ))}
+        <Stack
+          height={200}
+          sx={{ border: "1px solid red" }}
+          justifyContent={"center"}
+          alignItems={"center"}
+          width={"100%"}
+        >
+          <Stack
+            width={"100%"}
+            direction={"row"}
+            justifyContent={"space-between"}
+            padding={2}
+            height={80}
+          >
+            <Stack>
+              <Typography fontSize={18} color={"text.secondary"}>
+                Нийт төлөх дүн
+              </Typography>
+              <Typography fontSize={18} fontWeight={800}>
+                34,800₮
+              </Typography>
+            </Stack>
+            <Stack
+              width={"50% "}
+              justifyContent={"center"}
+              alignItems={"center"}
+              sx={{
+                backgroundColor: "primary.main",
+                color: "white",
+                borderRadius: "5px",
+              }}
+            >
+              Захиалах
+            </Stack>
+          </Stack>
+        </Stack>
       </Stack>
     </AbsContRight>
   );

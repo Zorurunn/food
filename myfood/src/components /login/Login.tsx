@@ -1,22 +1,42 @@
-import { CustomInput, HeadText } from "@/components ";
+import { CustomInput, HeadText, useData } from "@/components ";
 import { Button, Stack, Typography } from "@mui/material";
 import { ChangeEvent, useState } from "react";
+import { Formik, useFormik } from "formik";
+import * as yup from "yup";
+import { useAuth } from "../providers/AuthProvider";
+import { useRouter } from "next/navigation";
+
+const validationSchema = yup.object({
+  email: yup.string().email().required(),
+  password: yup
+    .string()
+    .required("No password provided.")
+    .min(2, "Password is too short - should be 2 chars minimum.")
+    .matches(/[a-zA-Z]/, "Password can only contain Latin letters."),
+});
 
 export const Login = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const router = useRouter();
+  const { signIn } = useAuth();
+  const { setIsDisplay } = useData();
+  const formik = useFormik({
+    initialValues: {
+      email: "",
+      password: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
 
-  const handleEmail = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    event.preventDefault();
-    setEmail(event.target.value);
+  const handleSignIn = () => {
+    setIsDisplay(false);
+    signIn({ email: formik.values.email, password: formik.values.password });
   };
-  const handlePassword = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    event.preventDefault();
-    setPassword(event.target.value);
+  const handleSignUp = () => {
+    setIsDisplay(false);
+    router.push("/signUp");
   };
 
   return (
@@ -26,20 +46,28 @@ export const Login = () => {
         <Stack gap={9}>
           <Stack gap={2}>
             <CustomInput
+              name="email"
               label={"Имэйл"}
               placeHolder="Имэйл хаягаа оруулна уу"
-              value={email}
-              handleChange={handleEmail}
+              value={formik.values.email}
+              handleChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.email && Boolean(formik.errors.email)}
               size="medium"
               type="text"
               width={400}
             />
             <Stack alignItems="flex-end">
               <CustomInput
+                name="password"
                 label={"Нууц үг"}
                 placeHolder="Нууц үг"
-                value={password}
-                handleChange={handlePassword}
+                value={formik.values.password}
+                handleChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={
+                  formik.touched.password && Boolean(formik.errors.password)
+                }
                 type="password"
                 adornment="end"
                 size="medium"
@@ -59,11 +87,17 @@ export const Login = () => {
           </Stack>
           <Stack alignItems="center" gap={4}>
             <Button
+              onClick={handleSignIn}
               fullWidth
               variant="contained"
               disableElevation
               sx={{ py: "14.5px" }}
-              disabled={!email || !password}
+              disabled={
+                !formik.touched.email ||
+                Boolean(formik.errors.email) ||
+                !formik.touched.password ||
+                Boolean(formik.errors.password)
+              }
             >
               Нэвтрэх
             </Button>
@@ -76,6 +110,7 @@ export const Login = () => {
                 py: "14.5px",
                 color: "text.primary",
               }}
+              onClick={handleSignUp}
             >
               Бүртгүүлэх
             </Button>

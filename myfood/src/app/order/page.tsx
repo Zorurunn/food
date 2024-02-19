@@ -69,9 +69,11 @@ export default function Dashboard() {
               <MenuItem value="Дүүрэг сонгоно уу" disabled hidden>
                 Дүүрэг сонгоно уу
               </MenuItem>
-              <MenuItem value={"10"}>Ten</MenuItem>
-              <MenuItem value={"20"}>Twenty</MenuItem>
-              <MenuItem value={"30"}>Thirty</MenuItem>
+              <MenuItem value={"10"}>Баянзүрх дүүрэг</MenuItem>
+              <MenuItem value={"10"}>Хан-Уул дүүрэг</MenuItem>
+              <MenuItem value={"10"}>Баянзүрх дүүрэг</MenuItem>
+              <MenuItem value={"20"}>Хан-Уул дүүрэг</MenuItem>
+              <MenuItem value={"30"}>Баянзүрх дүүрэг</MenuItem>
             </Select>
           </Stack>
           <Button

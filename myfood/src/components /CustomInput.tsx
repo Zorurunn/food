@@ -7,13 +7,25 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { ChangeEventHandler, HTMLInputTypeAttribute, useState } from "react";
+import {
+  ChangeEventHandler,
+  FocusEventHandler,
+  HTMLInputTypeAttribute,
+  useState,
+} from "react";
 type CustomInputProps = {
+  onBlur?:
+    | FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
+    | undefined;
+  error?: boolean | undefined;
+  value: string;
+  name?: string;
   label?: string;
-  value?: string;
   placeHolder: string;
   type: HTMLInputTypeAttribute;
-  handleChange?: ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>;
+  handleChange:
+    | ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+    | undefined;
   adornment?: "end" | "start";
   size?: "small" | "medium";
   width: number;
@@ -23,6 +35,9 @@ type CustomInputProps = {
 
 export const CustomInput = (props: CustomInputProps) => {
   const {
+    onBlur,
+    error,
+    name,
     value,
     label,
     handleChange,
@@ -42,14 +57,31 @@ export const CustomInput = (props: CustomInputProps) => {
   const handleSearch = () => {
     setShowPassword((prev) => !prev);
   };
+
+  //   <Select
+  //   name="district"
+  //   placeholder="Дүүрэг сонгоно уу"
+  //   value={formik.values.district}
+  //   onChange={formik.handleChange}
+  //   onBlur={formik.handleBlur}
+  //   error={formik.touched.district && Boolean(formik.errors.district)}
+  //   startAdornment={
+  //     <InputAdornment position="start">
+  //       <LocationOnIcon />
+  //     </InputAdornment>
+  //   }
+  // >
   return (
     <Stack>
       <Typography>{label}</Typography>
       <TextField
+        name={name}
         id={id}
         value={value}
         onChange={handleChange}
         placeholder={placeHolder}
+        onBlur={onBlur}
+        error={error}
         type={type === "password" && showPassword ? "text" : type}
         sx={{
           "& fieldset": {

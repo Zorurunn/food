@@ -32,6 +32,35 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [isReady, setIsReady] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState();
+
+  const getUser = async (token: string) => {
+    try {
+      const res = await api.post("/getUser", {
+        headers: {
+          Authorization: token,
+        },
+      });
+      console.log(res);
+      // setRefresh((prev) => 1 - prev);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    setIsReady(false);
+
+    const token = localStorage.getItem("token");
+
+    if (token) {
+      setIsLoggedIn(true);
+      console.log(token);
+
+      getUser(token);
+    }
+
+    setIsReady(true);
+  }, []);
 
   const router = useRouter();
 

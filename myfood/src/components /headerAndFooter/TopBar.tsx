@@ -3,20 +3,26 @@ import RamenDiningIcon from "@mui/icons-material/RamenDining";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { Button, Stack, Typography } from "@mui/material";
-import { CustomContainer, CustomInput, State } from "..";
+import {
+  AbsContCenter,
+  CustomContainer,
+  CustomInput,
+  Login,
+  State,
+  useAuth,
+  useData,
+} from "..";
 import { ChangeEvent, useState } from "react";
 import { Notify } from "../notfication/ Notify";
 import { Test } from "../notfication/Test";
-type CustomButtonProps = {
-  title: string;
-  width: string;
-  textSize: string;
-};
+import { Absolute } from "@/app/userProfile/_components/Absolute";
+import { useRouter } from "next/navigation";
 
 export const TopBar = () => {
+  const { isDisplay, setIsDisplay } = useData();
+  const { isLoggedIn } = useAuth();
   const [searchVal, setSearchVal] = useState("");
-  const isLoggedIn = false;
-
+  const router = useRouter();
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
@@ -24,8 +30,22 @@ export const TopBar = () => {
     setSearchVal(event.target.value);
   };
 
+  const profileClicked = () => {
+    console.log(isLoggedIn);
+
+    if (!isLoggedIn) {
+      setIsDisplay(true);
+    }
+    router.push("/userProfile");
+  };
+
   return (
     <CustomContainer maxWidth="lg">
+      {isDisplay && (
+        <AbsContCenter>
+          <Login />
+        </AbsContCenter>
+      )}
       <Stack
         direction={"row"}
         justifyContent="space-between"
@@ -54,8 +74,14 @@ export const TopBar = () => {
             <AddShoppingCartIcon sx={{ fontSize: 20 }} />
             <Typography fontSize={14}>Сагс</Typography>
           </Stack>
-          <Stack direction={"row"} gap={1} alignItems={"center"}>
-            <PermIdentityIcon sx={{ fontSize: 20 }} />
+          <Stack
+            direction={"row"}
+            gap={1}
+            alignItems={"center"}
+            onClick={profileClicked}
+            sx={{ cursor: "pointer" }}
+          >
+            {isLoggedIn ? "MY" : <PermIdentityIcon sx={{ fontSize: 20 }} />}
             <Typography fontSize={14}>
               {isLoggedIn ? "Хэрэглэгч" : "Нэвтрэх"}
             </Typography>

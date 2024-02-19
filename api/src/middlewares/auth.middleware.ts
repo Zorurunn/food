@@ -12,12 +12,12 @@ export const authMiddleware: RequestHandler = (req, res, next) => {
 
   if (!authorization) {
     return res.status(401).json({
-      message: "Invalid credentials",
+      message: "Invalid credentials in middleware",
     });
   }
 
   try {
-    const { userId } = jwt.verify(authorization, "secret") as Payload;
+    const { userId } = jwt.verify(authorization, "secret-key") as Payload;
 
     // req.userId = userId;
 

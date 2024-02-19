@@ -1,128 +1,150 @@
-import { CustomInput, HeadText } from "@/components ";
+import { CustomInput, HeadText, useAuth, useData } from "@/components ";
 import { Button, Stack, Typography } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import CloudQueueIcon from "@mui/icons-material/CloudQueue";
+import { Formik, useFormik } from "formik";
+import * as yup from "yup";
+import { useRouter } from "next/navigation";
+
+const validationSchema = yup.object({
+  name: yup.string().required(),
+  email: yup.string().email().required(),
+  address: yup.string().required(),
+  password: yup
+    .string()
+    .required("No password provided.")
+    .min(2, "Password is too short - should be 2 chars minimum.")
+    .matches(/[a-zA-Z]/, "Password can only contain Latin letters."),
+});
 
 export const SignUp = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [address, setAddress] = useState("");
-  const [password, setPassword] = useState("");
-  const [rePassword, setRePassword] = useState("");
+  const router = useRouter();
+  const { signUp } = useAuth();
+  const { setIsDisplay } = useData();
+  const formik = useFormik({
+    initialValues: {
+      name: "",
+      email: "",
+      address: "",
+      password: "",
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      console.log(values);
+    },
+  });
 
-  const handleName = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    event.preventDefault();
-    setName(event.target.value);
+  const handleSubmit = () => {
+    signUp({
+      name: formik.values.name,
+      email: formik.values.email,
+      address: formik.values.address,
+      password: formik.values.password,
+    });
+    // console.log(formik.values);
   };
-  const handleEmail = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    event.preventDefault();
-    setEmail(event.target.value);
-  };
-  const handleAddress = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    event.preventDefault();
-    setAddress(event.target.value);
-  };
-  const handlePassword = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    event.preventDefault();
-    setPassword(event.target.value);
-  };
-  const handleRePassword = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    event.preventDefault();
-    setRePassword(event.target.value);
-  };
+  // const handleSignUp = () => {};
 
   return (
     <Stack>
-      <form>
-        <Stack alignItems={"center"} justifyContent={"center"}>
-          <HeadText text={"Бүртгүүлэх"} size="28px" wieght="700" />
-          <Stack gap={9}>
-            <Stack gap={2}>
-              <CustomInput
-                label={"Нэр"}
-                placeHolder="Нэрээ оруулна уу"
-                value={name}
-                handleChange={handleName}
-                size="medium"
-                type="text"
-                width={400}
-              />
-              <CustomInput
-                label={"Имэйл"}
-                placeHolder="Имэйл хаягаа оруулна уу"
-                value={email}
-                handleChange={handleEmail}
-                size="medium"
-                type="text"
-                width={400}
-              />
-              <CustomInput
-                label={"Хаяг"}
-                placeHolder="Та хаягаа оруулна уу"
-                value={address}
-                handleChange={handleAddress}
-                size="medium"
-                type="text"
-                width={400}
-              />
-              <CustomInput
-                label={"Нууц үг"}
-                placeHolder="Нууц үг"
-                value={password}
-                handleChange={handlePassword}
-                type="password"
-                adornment="end"
-                size="medium"
-                width={400}
-              />
-              <CustomInput
-                label={"Нууц үг давтах"}
-                placeHolder="Нууц үг"
-                value={rePassword}
-                handleChange={handleRePassword}
-                type="password"
-                adornment="end"
-                size="medium"
-                width={400}
-              />
-              <Stack direction={"row"} alignItems={"center"} gap={1}>
-                <CloudQueueIcon sx={{ color: "text.secondary", padding: 0 }} />
-                <Typography
-                  fontSize={14}
-                  textTransform={"none"}
-                  fontWeight={"400"}
-                  color={"text.secondary"}
-                >
-                  Үйлчилгээний нөхцөл зөвшөөрөх
-                </Typography>
-              </Stack>
-            </Stack>
-            <Stack alignItems="center" gap={4}>
-              <Button
-                fullWidth
-                variant="contained"
-                disableElevation
-                sx={{ py: "14.5px" }}
-                disabled={
-                  !name || !email || !address || !password || !rePassword
-                }
+      <Stack alignItems={"center"} justifyContent={"center"}>
+        <HeadText text={"Бүртгүүлэх"} size="28px" wieght="700" />
+        <Stack gap={9}>
+          <Stack gap={2}>
+            <CustomInput
+              name="name"
+              label={"Нэр"}
+              placeHolder="Нэрээ оруулна уу"
+              value={formik.values.name}
+              handleChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.name && Boolean(formik.errors.name)}
+              size="medium"
+              type="text"
+              width={400}
+            />
+            <CustomInput
+              name="email"
+              label={"Имэйл"}
+              placeHolder="Имэйл хаягаа оруулна уу"
+              value={formik.values.email}
+              handleChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.email && Boolean(formik.errors.email)}
+              size="medium"
+              type="text"
+              width={400}
+            />
+            <CustomInput
+              name="address"
+              label={"Хаяг"}
+              placeHolder="Та хаягаа оруулна уу"
+              value={formik.values.address}
+              handleChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.address && Boolean(formik.errors.address)}
+              size="medium"
+              type="text"
+              width={400}
+            />
+            <CustomInput
+              name="password"
+              label={"Нууц үг"}
+              placeHolder="Нууц үг"
+              value={formik.values.password}
+              handleChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={formik.touched.password && Boolean(formik.errors.password)}
+              type="password"
+              adornment="end"
+              size="medium"
+              width={400}
+            />
+            {/* <CustomInput
+              label={"Нууц үг давтах"}
+              placeHolder="Нууц үг"
+              value={rePassword}
+              handleChange={handleRePassword}
+              type="password"
+              adornment="end"
+              size="medium"
+              width={400}
+            /> */}
+            <Stack direction={"row"} alignItems={"center"} gap={1}>
+              <CloudQueueIcon sx={{ color: "text.secondary", padding: 0 }} />
+              <Typography
+                fontSize={14}
+                textTransform={"none"}
+                fontWeight={"400"}
+                color={"text.secondary"}
               >
-                Бүртгүүлэх
-              </Button>
+                Үйлчилгээний нөхцөл зөвшөөрөх
+              </Typography>
             </Stack>
           </Stack>
+          <Stack alignItems="center" gap={4}>
+            <Button
+              onClick={handleSubmit}
+              fullWidth
+              variant="contained"
+              disableElevation
+              sx={{ py: "14.5px" }}
+              disabled={
+                !formik.touched.name ||
+                Boolean(formik.errors.name) ||
+                !formik.touched.email ||
+                Boolean(formik.errors.email) ||
+                !formik.touched.address ||
+                Boolean(formik.errors.address) ||
+                !formik.touched.password ||
+                Boolean(formik.errors.password)
+              }
+            >
+              Бүртгүүлэх
+            </Button>
+          </Stack>
         </Stack>
-      </form>
+      </Stack>
     </Stack>
   );
 };

@@ -13,7 +13,7 @@ export const AbsContCenter = (props: AbsoluteContainerProps) => {
       position="absolute"
       top={0}
       left={0}
-      zIndex={2}
+      zIndex={20}
     >
       <Stack
         position="absolute"
