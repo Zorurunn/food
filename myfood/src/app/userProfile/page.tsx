@@ -7,7 +7,6 @@ export default function UserProfile() {
   return (
     <Stack marginTop={"60px"} marginBottom={"60px"}>
       <Profile />
-      {/* <FoodDetail /> */}
     </Stack>
   );
 }

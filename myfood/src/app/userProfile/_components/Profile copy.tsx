@@ -15,11 +15,7 @@ import { useState } from "react";
 import { ExitButton } from "./ExitButton";
 import { Exit } from "./Exit";
 export const Profile = () => {
-  const { user, signOut, getUser } = useAuth();
-  // console.log(user);
-  // getUser();
-
-  // getUser();
+  const { user, signOut } = useAuth();
   // const [really, setReally] = useState(false);
   const router = useRouter();
   console.log("opo");
@@ -205,7 +201,7 @@ export const Profile = () => {
               Захиалгын түүх
             </Stack>
           </Stack>
-          <ExitButton />
+          {/* <ExitButton /> */}
           {/* <Really /> */}
           {/* <Exit /> */}
         </Stack>

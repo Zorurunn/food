@@ -81,7 +81,7 @@ export const TopBar = () => {
             onClick={profileClicked}
             sx={{ cursor: "pointer" }}
           >
-            {isLoggedIn ? "MY" : <PermIdentityIcon sx={{ fontSize: 20 }} />}
+            <PermIdentityIcon sx={{ fontSize: 20 }} />
             <Typography fontSize={14}>
               {isLoggedIn ? "Хэрэглэгч" : "Нэвтрэх"}
             </Typography>

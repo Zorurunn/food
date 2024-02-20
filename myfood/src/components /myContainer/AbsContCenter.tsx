@@ -24,7 +24,7 @@ export const AbsContCenter = (props: AbsoluteContainerProps) => {
         }}
         borderRadius={5}
         bgcolor={"#fff"}
-        padding={3}
+        // padding={3}
       >
         {props.children}
       </Stack>

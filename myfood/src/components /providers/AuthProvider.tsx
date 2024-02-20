@@ -19,12 +19,15 @@ import {
   useState,
 } from "react";
 import { boolean } from "yup";
+import { Notify } from "..";
+import { ToastContainer, toast } from "react-toastify";
 
 type AuthContextType = {
   isLoggedIn: boolean;
   signUp: (props: SignUpProps) => Promise<void>;
   signIn: (props: SignInProps) => Promise<void>;
   userUpdate: (props: userUpdateProps) => Promise<void>;
+  getUser: () => Promise<void>;
   signOut: () => void;
   user: UserType | undefined;
 };
@@ -37,38 +40,31 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const router = useRouter();
+
+  // console.log("dd");
+
   // GET USER IN USeEFFECT
-  const getUser = async (token: string) => {
+  const getUser = async () => {
     try {
       const res = await api.get("/getUser", {
         headers: {
-          Authorization: token,
+          Authorization: localStorage.getItem("token"),
         },
       });
+      console.log("set user");
+
       setUser({
         address: res.data.address,
         email: res.data.email,
         name: res.data.name,
         phoneNumber: res.data.phoneNumber,
       });
+      // return;
     } catch (error) {
       console.log(error);
     }
   };
-  useEffect(() => {
-    setIsReady(false);
-    const token = localStorage.getItem("token");
-    if (!token) return;
-
-    if (token) {
-      setIsLoggedIn(true);
-      getUser(token);
-    }
-
-    setIsReady(true);
-  }, [isLoggedIn, user]);
-
-  const router = useRouter();
 
   // SIGN UP
   const signUp = async (props: SignUpProps) => {
@@ -188,14 +184,45 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         name: res.data.name,
         phoneNumber: res.data.phoneNumber,
       });
+      toast(
+        <Notify
+          message="Мэдээлэл амжилттай хадгалагдлаа"
+          color="primary.light"
+        />
+      );
     } catch (error) {
       console.log(error);
     }
   };
 
+  // useEffect(() => {
+  //   setIsReady(false);
+  //   const token = localStorage.getItem("token");
+
+  //   if (!token) return;
+
+  //   setIsLoggedIn(true);
+
+  //   setIsReady(true);
+  // }, [isLoggedIn, user]);
+
+  useEffect(() => {
+    if (!isLoggedIn) return;
+    console.log("Getuser");
+
+    getUser();
+  }, [isLoggedIn]);
+
+  useEffect(() => {
+    // if (!isLoggedIn) return;
+    // console.log("Getuser");
+
+    getUser();
+  }, []);
+
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, signIn, signUp, signOut, user, userUpdate }}
+      value={{ isLoggedIn, signIn, signUp, signOut, user, userUpdate, getUser }}
     >
       {/* {isReady && children} */}
       {children}

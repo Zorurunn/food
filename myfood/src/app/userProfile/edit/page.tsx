@@ -9,38 +9,45 @@ import {
   Person,
   Phone,
 } from "@mui/icons-material";
-import { CustomInput, HeadText, useAuth } from "@/components ";
+import {
+  AbsContCenter,
+  CustomInput,
+  HeadText,
+  Notify,
+  useAuth,
+} from "@/components ";
 import { Formik, useFormik } from "formik";
 import * as yup from "yup";
+import { Really } from "../_components/Really";
 
 const validationSchema = yup.object({
   email: yup.string().email().required(),
   name: yup.string().required(),
   phoneNumber: yup.string().required(),
-  // address: yup.string().required(),
 });
 
 export default function ProfileEdit() {
   const { user, userUpdate } = useAuth();
-  // console.log(user);
 
   const formik = useFormik({
     initialValues: {
       email: user?.email,
       name: user?.name,
       phoneNumber: user?.phoneNumber,
-      // address: user?.address,
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log("alert");
-
-      // console.log(values);
+      try {
+        userUpdate({
+          name: values.name || "",
+          email: values.email || "",
+          phoneNumber: values.phoneNumber || "",
+        });
+      } catch (e) {
+        console.log("could not update user", e);
+      }
     },
   });
-  const handleSubmit = () => {
-    console.log(formik.values);
-  };
 
   return (
     <Stack marginTop={"60px"} marginBottom={"60px"}>
