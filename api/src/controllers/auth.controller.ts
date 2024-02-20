@@ -3,8 +3,10 @@ import { UserModel } from "../models";
 import jwt from "jsonwebtoken";
 // SIGN UP
 export const signUp: RequestHandler = async (req, res) => {
-  const { name, address, email, password } = req.body;
+  console.log("kitaaa");
+  console.log("req.body:", req.body);
 
+  const { name, address, email, password, phoneNumber } = req.body;
   const userExist = await UserModel.findOne({ email: email });
 
   if (!userExist) {
@@ -12,6 +14,7 @@ export const signUp: RequestHandler = async (req, res) => {
       const user = await UserModel.create({
         name,
         address,
+        phoneNumber,
         email,
         password,
       });
@@ -40,7 +43,7 @@ export const signIn: RequestHandler = async (req, res) => {
 
   const id = user._id;
 
-  const token = jwt.sign({ id }, "secret-key");
+  const token = jwt.sign({ id }, "secret");
   res.json({
     token,
   });

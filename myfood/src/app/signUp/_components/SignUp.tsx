@@ -10,6 +10,7 @@ const validationSchema = yup.object({
   name: yup.string().required(),
   email: yup.string().email().required(),
   address: yup.string().required(),
+  phoneNumber: yup.string().required(),
   password: yup
     .string()
     .required("No password provided.")
@@ -26,6 +27,7 @@ export const SignUp = () => {
       name: "",
       email: "",
       address: "",
+      phoneNumber: "",
       password: "",
     },
     validationSchema: validationSchema,
@@ -40,8 +42,9 @@ export const SignUp = () => {
       email: formik.values.email,
       address: formik.values.address,
       password: formik.values.password,
+      phoneNumber: formik.values.phoneNumber,
     });
-    // console.log(formik.values);
+    console.log(formik.values);
   };
   // const handleSignUp = () => {};
 
@@ -88,6 +91,20 @@ export const SignUp = () => {
               width={400}
             />
             <CustomInput
+              name="phoneNumber"
+              label={"Утасны дугаар"}
+              placeHolder="Та утасны дугаар аа оруулна уу"
+              value={formik.values.phoneNumber}
+              handleChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={
+                formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)
+              }
+              size="medium"
+              type="text"
+              width={400}
+            />
+            <CustomInput
               name="password"
               label={"Нууц үг"}
               placeHolder="Нууц үг"
@@ -129,16 +146,7 @@ export const SignUp = () => {
               variant="contained"
               disableElevation
               sx={{ py: "14.5px" }}
-              disabled={
-                !formik.touched.name ||
-                Boolean(formik.errors.name) ||
-                !formik.touched.email ||
-                Boolean(formik.errors.email) ||
-                !formik.touched.address ||
-                Boolean(formik.errors.address) ||
-                !formik.touched.password ||
-                Boolean(formik.errors.password)
-              }
+              disabled={!formik.isValid || !formik.dirty}
             >
               Бүртгүүлэх
             </Button>

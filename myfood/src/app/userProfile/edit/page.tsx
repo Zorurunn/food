@@ -1,5 +1,6 @@
-import { HeadText, useAuth } from "@/components ";
+"use client";
 import { Avatar, Stack, Typography } from "@mui/material";
+import { FoodDetail } from "@/components /orderDetail/FoodDetail";
 import {
   Edit,
   Email,
@@ -8,14 +9,41 @@ import {
   Person,
   Phone,
 } from "@mui/icons-material";
-import { useRouter } from "next/navigation";
+import { CustomInput, HeadText, useAuth } from "@/components ";
+import { Formik, useFormik } from "formik";
+import * as yup from "yup";
 
-export const Profile = () => {
-  const { user, signOut } = useAuth();
-  const router = useRouter();
+const validationSchema = yup.object({
+  email: yup.string().email().required(),
+  name: yup.string().required(),
+  phoneNumber: yup.string().required(),
+  // address: yup.string().required(),
+});
+
+export default function ProfileEdit() {
+  const { user, userUpdate } = useAuth();
+  // console.log(user);
+
+  const formik = useFormik({
+    initialValues: {
+      email: user?.email,
+      name: user?.name,
+      phoneNumber: user?.phoneNumber,
+      // address: user?.address,
+    },
+    validationSchema: validationSchema,
+    onSubmit: (values) => {
+      console.log("alert");
+
+      // console.log(values);
+    },
+  });
+  const handleSubmit = () => {
+    console.log(formik.values);
+  };
 
   return (
-    <Stack marginY={2}>
+    <Stack marginTop={"60px"} marginBottom={"60px"}>
       <Stack alignItems={"center"} justifyContent={"center"} gap={3}>
         <Stack position={"relative"}>
           <Avatar
@@ -38,10 +66,6 @@ export const Profile = () => {
                 sx={{
                   fontSize: 24,
                   color: "primary.main",
-                  cursor: "pointer",
-                }}
-                onClick={() => {
-                  router.push("/userProfile/edit");
                 }}
               />
             </Stack>
@@ -74,18 +98,18 @@ export const Profile = () => {
               <Typography fontSize={12} color={"text.secondary"}>
                 Таны нэр
               </Typography>
-              <Typography fontSize={16}>{user?.name}</Typography>
-            </Stack>
-            <Stack justifyContent={"center"} alignItems={"center"}>
-              <Edit
-                sx={{
-                  fontSize: 24,
-                  color: "primary.main",
-                  cursor: "pointer",
-                }}
-                onClick={() => {
-                  router.push("/userProfile/edit");
-                }}
+
+              <CustomInput
+                name="name"
+                placeHolder="Нэрээ оруулна уу"
+                value={formik.values.name ?? user?.name ?? ""}
+                handleChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.name && Boolean(formik.errors.name)}
+                // helperText={}
+                size="medium"
+                type="text"
+                width={400}
               />
             </Stack>
           </Stack>
@@ -114,18 +138,19 @@ export const Profile = () => {
               <Typography fontSize={12} color={"text.secondary"}>
                 Утасны дугаар
               </Typography>
-              <Typography fontSize={16}>{user?.phoneNumber}</Typography>
-            </Stack>
-            <Stack justifyContent={"center"} alignItems={"center"}>
-              <Edit
-                sx={{
-                  fontSize: 24,
-                  color: "primary.main",
-                  cursor: "pointer",
-                }}
-                onClick={() => {
-                  router.push("/userProfile/edit");
-                }}
+              <CustomInput
+                name="phoneNumber"
+                placeHolder="Утасны дугаар аа оруулна уу"
+                value={formik.values.phoneNumber ?? user?.phoneNumber ?? ""}
+                handleChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={
+                  formik.touched.phoneNumber &&
+                  Boolean(formik.errors.phoneNumber)
+                }
+                size="medium"
+                type="text"
+                width={400}
               />
             </Stack>
           </Stack>
@@ -154,18 +179,16 @@ export const Profile = () => {
               <Typography fontSize={12} color={"text.secondary"}>
                 Имэйл хаяг
               </Typography>
-              <Typography fontSize={16}>{user?.email}</Typography>
-            </Stack>
-            <Stack justifyContent={"center"} alignItems={"center"}>
-              <Edit
-                sx={{
-                  fontSize: 24,
-                  color: "primary.main",
-                  cursor: "pointer",
-                }}
-                onClick={() => {
-                  router.push("/userProfile/edit");
-                }}
+              <CustomInput
+                name="email"
+                placeHolder="Email оруулна уу"
+                value={formik.values.email ?? user?.email ?? ""}
+                handleChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                error={formik.touched.email && Boolean(formik.errors.email)}
+                size="medium"
+                type="text"
+                width={400}
               />
             </Stack>
           </Stack>
@@ -175,54 +198,18 @@ export const Profile = () => {
             width={"100%"}
             padding={2}
             gap={2}
-            sx={{ backgroundColor: "primary.dark", cursor: "pointer" }}
+            sx={{ backgroundColor: "primary.main", cursor: "pointer" }}
+            justifyContent={"center"}
+            alignItems={"center"}
+            color={"#fff"}
+            onClick={() => {
+              formik.handleSubmit();
+            }}
           >
-            <Stack
-              justifyContent={"center"}
-              alignItems={"center"}
-              width={48}
-              height={48}
-              sx={{
-                backgroundColor: "#fff",
-                borderRadius: "100%",
-                border: "1px solid",
-                borderColor: "primary.dark",
-              }}
-            >
-              <History />
-            </Stack>
-            <Stack flexGrow={1} justifyContent={"center"}>
-              Захиалгын түүх
-            </Stack>
-          </Stack>
-          <Stack
-            direction={"row"}
-            width={"100%"}
-            padding={2}
-            gap={2}
-            sx={{ backgroundColor: "primary.dark", cursor: "pointer" }}
-            onClick={signOut}
-          >
-            <Stack
-              justifyContent={"center"}
-              alignItems={"center"}
-              width={48}
-              height={48}
-              sx={{
-                backgroundColor: "#fff",
-                borderRadius: "100%",
-                border: "1px solid",
-                borderColor: "primary.dark",
-              }}
-            >
-              <ExitToApp />
-            </Stack>
-            <Stack flexGrow={1} justifyContent={"center"}>
-              Гарах
-            </Stack>
+            Хадгалах
           </Stack>
         </Stack>
       </Stack>
     </Stack>
   );
-};
+}

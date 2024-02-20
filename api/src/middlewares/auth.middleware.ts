@@ -2,11 +2,11 @@ import { RequestHandler } from "express";
 import jwt from "jsonwebtoken";
 
 type Payload = {
-  userId: string;
+  id: string;
 };
 
 export const authMiddleware: RequestHandler = (req, res, next) => {
-  console.log(req);
+  // if (req.path == "/") return next();
 
   const { authorization } = req.headers;
 
@@ -17,9 +17,8 @@ export const authMiddleware: RequestHandler = (req, res, next) => {
   }
 
   try {
-    const { userId } = jwt.verify(authorization, "secret-key") as Payload;
-
-    // req.userId = userId;
+    const { id } = jwt.verify(authorization, "secret") as Payload;
+    console.log("userID in middleware", id);
 
     next();
   } catch (error) {

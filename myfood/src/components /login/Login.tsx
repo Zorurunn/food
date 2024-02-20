@@ -92,12 +92,7 @@ export const Login = () => {
               variant="contained"
               disableElevation
               sx={{ py: "14.5px" }}
-              disabled={
-                !formik.touched.email ||
-                Boolean(formik.errors.email) ||
-                !formik.touched.password ||
-                Boolean(formik.errors.password)
-              }
+              disabled={!formik.isValid || !formik.dirty}
             >
               Нэвтрэх
             </Button>

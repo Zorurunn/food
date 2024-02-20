@@ -5,7 +5,7 @@ export const HeadText = ({
   size,
   wieght,
 }: {
-  text: string;
+  text: string | undefined;
   size: string;
   wieght: string;
 }) => {

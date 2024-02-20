@@ -31,6 +31,7 @@ type CustomInputProps = {
   width: number;
   borderColor?: string;
   id?: string;
+  helperText?: string;
 };
 
 export const CustomInput = (props: CustomInputProps) => {
@@ -48,6 +49,7 @@ export const CustomInput = (props: CustomInputProps) => {
     width,
     borderColor,
     id,
+    helperText,
   } = props;
 
   const [showPassword, setShowPassword] = useState(false);
@@ -82,6 +84,7 @@ export const CustomInput = (props: CustomInputProps) => {
         placeholder={placeHolder}
         onBlur={onBlur}
         error={error}
+        helperText={helperText}
         type={type === "password" && showPassword ? "text" : type}
         sx={{
           "& fieldset": {

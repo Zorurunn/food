@@ -6,11 +6,10 @@ type Payload = {
   id: string;
 };
 
-// GET USER
-export const getUser: RequestHandler = async (req, res) => {
+// UPDATE USER
+export const userUpdate: RequestHandler = async (req, res) => {
   const { authorization } = req.headers;
-  console.log("Auth:", authorization);
-
+  const { name, email, phoneNumber } = req.body;
   if (!authorization) {
     return res.status(401).json({
       message: "Invalid credentials",
@@ -22,7 +21,11 @@ export const getUser: RequestHandler = async (req, res) => {
 
   if (user) {
     try {
-      return res.json(user);
+      const updatedUser = await UserModel.updateOne(
+        { _id: id },
+        { name, email, phoneNumber }
+      );
+      return res.json(updatedUser);
     } catch (error) {
       return res
         .status(401)

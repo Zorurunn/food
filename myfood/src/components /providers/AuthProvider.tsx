@@ -1,7 +1,14 @@
 "use client";
 
-import { SignInProps, SignUpProps, api } from "@/common";
+import {
+  SignInProps,
+  SignUpProps,
+  UserType,
+  api,
+  userUpdateProps,
+} from "@/common";
 import { AxiosError } from "axios";
+import { log } from "console";
 // import { Backdrop, CircularProgress } from "@mui/material";
 import { useRouter } from "next/navigation";
 import {
@@ -12,61 +19,62 @@ import {
   useState,
 } from "react";
 import { boolean } from "yup";
-// import { toast } from "react-toastify";
-
-type User = {
-  email: string;
-  password: string;
-};
 
 type AuthContextType = {
   isLoggedIn: boolean;
   signUp: (props: SignUpProps) => Promise<void>;
   signIn: (props: SignInProps) => Promise<void>;
+  userUpdate: (props: userUpdateProps) => Promise<void>;
   signOut: () => void;
+  user: UserType | undefined;
 };
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
 
 export const AuthProvider = ({ children }: PropsWithChildren) => {
+  const [user, setUser] = useState<UserType>();
   const [isReady, setIsReady] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState();
 
+  // GET USER IN USeEFFECT
   const getUser = async (token: string) => {
     try {
-      const res = await api.post("/getUser", {
+      const res = await api.get("/getUser", {
         headers: {
           Authorization: token,
         },
       });
-      console.log(res);
-      // setRefresh((prev) => 1 - prev);
+      setUser({
+        address: res.data.address,
+        email: res.data.email,
+        name: res.data.name,
+        phoneNumber: res.data.phoneNumber,
+      });
     } catch (error) {
       console.log(error);
     }
   };
   useEffect(() => {
     setIsReady(false);
-
     const token = localStorage.getItem("token");
+    if (!token) return;
 
     if (token) {
       setIsLoggedIn(true);
-      console.log(token);
-
       getUser(token);
     }
 
     setIsReady(true);
-  }, []);
+  }, [isLoggedIn, user]);
 
   const router = useRouter();
 
   // SIGN UP
   const signUp = async (props: SignUpProps) => {
-    const { name, address, email, password } = props;
+    console.log("Props", props);
+
+    const { name, address, email, password, phoneNumber } = props;
     setIsLoading(true);
 
     try {
@@ -75,7 +83,10 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         address,
         email,
         password,
+        phoneNumber,
       });
+      console.log("data:", data);
+
       if (data.error) {
         console.log("error", data.error);
       }
@@ -151,23 +162,43 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  // useEffect(() => {
-  //   setIsReady(false);
+  // USER UPDATE
+  const userUpdate = async (props: userUpdateProps) => {
+    const { email, name, phoneNumber } = props;
+    const token = localStorage.getItem("token");
 
-  //   const token = localStorage.getItem("token");
+    try {
+      const res = await api.post(
+        "/userUpdate",
+        {
+          email,
+          name,
+          phoneNumber,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
 
-  //   if (token) {
-  //     setIsLoggedIn(true);
-  //   }
-
-  //   setIsReady(true);
-  // }, []);
+      setUser({
+        address: res.data.address,
+        email: res.data.email,
+        name: res.data.name,
+        phoneNumber: res.data.phoneNumber,
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
-    <AuthContext.Provider value={{ isLoggedIn, signIn, signUp, signOut }}>
+    <AuthContext.Provider
+      value={{ isLoggedIn, signIn, signUp, signOut, user, userUpdate }}
+    >
       {/* {isReady && children} */}
       {children}
-
       {/* <div>Loading</div> */}
     </AuthContext.Provider>
   );
