@@ -29,7 +29,7 @@ export const userUpdate: RequestHandler = async (req, res) => {
     } catch (error) {
       return res
         .status(401)
-        .json({ error: error, message: "could not send user information" });
+        .json({ error: error, message: "could not update user information" });
     }
   }
   return res.json("user not found");

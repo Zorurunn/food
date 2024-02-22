@@ -24,3 +24,11 @@ export type userUpdateProps = {
   name: string;
   phoneNumber: string;
 };
+export type userUpdatePasswordType = {
+  email: string;
+};
+export type changePasswordType = {
+  otp: string;
+  email: string;
+  newPassword: string;
+};

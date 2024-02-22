@@ -1,17 +1,17 @@
+import { Close } from "@mui/icons-material";
 import CheckIcon from "@mui/icons-material/Check";
-import { Stack } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 export const Notify = ({
   message,
-  color,
+  error = false,
 }: {
   message: string;
-  color: string;
+  error?: boolean;
 }) => {
   return (
     <Stack
       direction={"row"}
       gap={1}
-      color={color}
       borderRadius={2}
       padding={"10px 18px"}
       boxShadow={
@@ -20,8 +20,10 @@ export const Notify = ({
       width={300}
       justifyContent={"center"}
     >
-      <CheckIcon />
-      {message}
+      {error ? <Close sx={{ color: "red" }} /> : <CheckIcon />}
+      <Typography color={error ? "primary.main" : "primary.main"}>
+        {message}
+      </Typography>
     </Stack>
   );
 };

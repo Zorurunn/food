@@ -11,15 +11,15 @@ import {
 import { useRouter } from "next/navigation";
 import { AbsContCenter } from "@/components ";
 import { Really } from "./Really";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ExitButton } from "./ExitButton";
 import { Exit } from "./Exit";
 export const Profile = () => {
-  const { user, signOut, getUser } = useAuth();
-  // console.log(user);
-  // getUser();
+  const { user, getUser } = useAuth();
 
-  // getUser();
+  useEffect(() => {
+    getUser();
+  }, []);
   // const [really, setReally] = useState(false);
   const router = useRouter();
   console.log("opo");
@@ -201,7 +201,7 @@ export const Profile = () => {
             >
               <History />
             </Stack>
-            <Stack flexGrow={1} justifyContent={"center"}>
+            <Stack flexGrow={1} justifyContent={"center"} onClick={getUser}>
               Захиалгын түүх
             </Stack>
           </Stack>

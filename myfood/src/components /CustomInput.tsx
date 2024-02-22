@@ -31,6 +31,8 @@ type CustomInputProps = {
   width: number;
   borderColor?: string;
   id?: string;
+  isError?: string;
+  isTouched?: boolean;
   helperText?: string;
 };
 
@@ -49,6 +51,8 @@ export const CustomInput = (props: CustomInputProps) => {
     width,
     borderColor,
     id,
+    isError,
+    isTouched,
     helperText,
   } = props;
 
@@ -75,7 +79,7 @@ export const CustomInput = (props: CustomInputProps) => {
   // >
   return (
     <Stack>
-      <Typography>{label}</Typography>
+      <Typography color={"text.primary"}>{label}</Typography>
       <TextField
         name={name}
         id={id}
@@ -84,7 +88,7 @@ export const CustomInput = (props: CustomInputProps) => {
         placeholder={placeHolder}
         onBlur={onBlur}
         error={error}
-        helperText={helperText}
+        helperText={isError && isTouched && helperText}
         type={type === "password" && showPassword ? "text" : type}
         sx={{
           "& fieldset": {

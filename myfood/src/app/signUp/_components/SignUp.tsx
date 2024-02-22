@@ -1,5 +1,5 @@
 import { CustomInput, HeadText, useAuth, useData } from "@/components ";
-import { Button, Stack, Typography } from "@mui/material";
+import { Button, Stack, TextField, Typography } from "@mui/material";
 import { ChangeEvent, useState } from "react";
 import CloudQueueIcon from "@mui/icons-material/CloudQueue";
 import { Formik, useFormik } from "formik";
@@ -16,6 +16,12 @@ const validationSchema = yup.object({
     .required("No password provided.")
     .min(2, "Password is too short - should be 2 chars minimum.")
     .matches(/[a-zA-Z]/, "Password can only contain Latin letters."),
+  repeatPassword: yup
+    .string()
+    .oneOf([yup.ref("password")], "Does not match with password!")
+    .required("No password provided.")
+    .min(2, "Password is too short - should be 2 chars minimum.")
+    .matches(/[a-zA-Z]/, "Password can only contain Latin letters."),
 });
 
 export const SignUp = () => {
@@ -29,6 +35,7 @@ export const SignUp = () => {
       address: "",
       phoneNumber: "",
       password: "",
+      repeatPassword: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
@@ -46,7 +53,6 @@ export const SignUp = () => {
     });
     console.log(formik.values);
   };
-  // const handleSignUp = () => {};
 
   return (
     <Stack>
@@ -62,6 +68,9 @@ export const SignUp = () => {
               handleChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={formik.touched.name && Boolean(formik.errors.name)}
+              isError={formik.errors.name}
+              isTouched={formik.touched.name}
+              helperText={String(formik.errors.name)}
               size="medium"
               type="text"
               width={400}
@@ -74,6 +83,9 @@ export const SignUp = () => {
               handleChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={formik.touched.email && Boolean(formik.errors.email)}
+              isError={formik.errors.email}
+              isTouched={formik.touched.email}
+              helperText={String(formik.errors.email)}
               size="medium"
               type="text"
               width={400}
@@ -86,6 +98,9 @@ export const SignUp = () => {
               handleChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={formik.touched.address && Boolean(formik.errors.address)}
+              isError={formik.errors.address}
+              isTouched={formik.touched.address}
+              helperText={String(formik.errors.address)}
               size="medium"
               type="text"
               width={400}
@@ -100,6 +115,9 @@ export const SignUp = () => {
               error={
                 formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)
               }
+              isError={formik.errors.phoneNumber}
+              isTouched={formik.touched.phoneNumber}
+              helperText={String(formik.errors.phoneNumber)}
               size="medium"
               type="text"
               width={400}
@@ -112,21 +130,34 @@ export const SignUp = () => {
               handleChange={formik.handleChange}
               onBlur={formik.handleBlur}
               error={formik.touched.password && Boolean(formik.errors.password)}
+              isError={formik.errors.password}
+              isTouched={formik.touched.password}
+              helperText={String(formik.errors.password)}
               type="password"
               adornment="end"
               size="medium"
               width={400}
             />
-            {/* <CustomInput
+            <CustomInput
+              name="repeatPassword"
               label={"Нууц үг давтах"}
-              placeHolder="Нууц үг"
-              value={rePassword}
-              handleChange={handleRePassword}
+              placeHolder="Нууц үг давтах"
+              value={formik.values.repeatPassword}
+              handleChange={formik.handleChange}
+              onBlur={formik.handleBlur}
+              error={
+                formik.touched.repeatPassword &&
+                Boolean(formik.errors.repeatPassword)
+              }
+              isError={formik.errors.repeatPassword}
+              isTouched={formik.touched.repeatPassword}
+              helperText={String(formik.errors.repeatPassword)}
               type="password"
               adornment="end"
               size="medium"
               width={400}
-            /> */}
+            />
+
             <Stack direction={"row"} alignItems={"center"} gap={1}>
               <CloudQueueIcon sx={{ color: "text.secondary", padding: 0 }} />
               <Typography

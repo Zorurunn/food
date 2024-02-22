@@ -1,8 +1,11 @@
 import { useAuth } from "@/components ";
 import { Button, Stack, Typography } from "@mui/material";
-import { Dispatch, SetStateAction } from "react";
-
-export const Really = () => {
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+export const Really = ({
+  setReally,
+}: {
+  setReally: Dispatch<SetStateAction<boolean>>;
+}) => {
   const { signOut } = useAuth();
 
   return (
@@ -47,13 +50,15 @@ export const Really = () => {
           flexGrow={1}
           justifyContent={"center"}
           alignItems={"center"}
-          sx={{ backgroundColor: "primary.main", color: "#fff" }}
+          sx={{
+            backgroundColor: "primary.main",
+            color: "#fff",
+            cursor: "pointer",
+          }}
           fontWeight={600}
           fontSize={"20px"}
           onClick={() => {
-            console.log("clicked");
-
-            // setReally(false);
+            setReally(false);
           }}
         >
           Үгүй

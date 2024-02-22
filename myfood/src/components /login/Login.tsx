@@ -40,9 +40,9 @@ export const Login = () => {
   };
 
   return (
-    <Stack>
-      <Stack alignItems={"center"} justifyContent={"center"}>
-        <HeadText text={"Нэвтрэх"} size="28px" wieght="700" />
+    <Stack padding={4} sx={{ backgroundColor: "#fff" }} borderRadius={"4%"}>
+      <Stack alignItems={"center"} justifyContent={"center"} gap={3}>
+        <HeadText text={"Нэвтрэх"} size="28px" wieght="700" color="black" />
         <Stack gap={9}>
           <Stack gap={2}>
             <CustomInput
@@ -96,7 +96,7 @@ export const Login = () => {
             >
               Нэвтрэх
             </Button>
-            <Typography>Эсвэл</Typography>
+            <Typography color={"text.primary"}>Эсвэл</Typography>
             <Button
               fullWidth
               variant="outlined"

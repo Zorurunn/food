@@ -3,15 +3,23 @@ import Image from "next/image";
 
 type CardProps = {
   imgPath: string;
-  title: string;
+  name: string;
   price: number;
+  // value: string;
   // discountPrice?: string | null;
-  discountPercentage?: number;
+  discount?: number;
+  ingredients?: string;
 };
 export const Card = (props: CardProps) => {
-  const { imgPath, price, title, discountPercentage } = props;
+  const { imgPath, price, name, discount } = props;
   return (
-    <Stack gap={1.7} width={"100%"}>
+    <Stack
+      gap={1.7}
+      width={"100%"}
+      // onClick={() => {
+      //   console.log(value);
+      // }}
+    >
       <Stack
         position={"relative"}
         paddingTop={"56.25%"}
@@ -36,38 +44,35 @@ export const Card = (props: CardProps) => {
             backgroundColor: "primary.main",
             border: "2px solid white",
             borderRadius: 10,
-            display: discountPercentage ? "flex" : "none",
+            display: discount ? "flex" : "none",
           }}
           justifyContent={"center"}
           alignItems={"center"}
         >
           <Typography fontSize={20} fontWeight={600} color={"white"}>
-            {discountPercentage}%
+            {discount}%
           </Typography>
         </Stack>
       </Stack>
       <Stack>
         <Typography fontSize={20} fontWeight={600} color="text.primary">
-          {title}
+          {name}
         </Typography>
         <Stack direction={"row"} gap={2}>
           <Typography
             fontSize={18}
             fontWeight={800}
             color="primary.main"
-            sx={{ display: discountPercentage ? "flex" : "none" }}
+            sx={{ display: discount ? "flex" : "none" }}
           >
-            {discountPercentage
-              ? price - (price * discountPercentage) / 100
-              : 0}
-            ₮
+            {discount ? price - (price * discount) / 100 : 0}₮
           </Typography>
           <Typography
             fontSize={18}
             fontWeight={800}
-            color={discountPercentage ? "text.primary" : "primary.main"}
+            color={discount ? "text.primary" : "primary.main"}
             sx={{
-              textDecoration: discountPercentage ? "line-through" : "none",
+              textDecoration: discount ? "line-through" : "none",
             }}
           >
             {price}₮
@@ -81,9 +86,9 @@ export const Card = (props: CardProps) => {
 {
   /* <Card
 imgPath="/temporary/morning.jpg"
-title="Өглөөний хоол"
+name="Өглөөний хоол"
 price="4,800"
 discountPrice="4,800"
-discountPercentage="20"
+discount="20"
 /> */
 }

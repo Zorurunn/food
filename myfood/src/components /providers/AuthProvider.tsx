@@ -5,6 +5,8 @@ import {
   SignUpProps,
   UserType,
   api,
+  changePasswordType,
+  userUpdatePasswordType,
   userUpdateProps,
 } from "@/common";
 import { AxiosError } from "axios";
@@ -27,6 +29,12 @@ type AuthContextType = {
   signUp: (props: SignUpProps) => Promise<void>;
   signIn: (props: SignInProps) => Promise<void>;
   userUpdate: (props: userUpdateProps) => Promise<void>;
+  otpGenerate: (
+    props: userUpdatePasswordType
+  ) => Promise<{ message: string; err: boolean }>;
+  changePassword: (
+    props: changePasswordType
+  ) => Promise<{ message: string; err: boolean }>;
   getUser: () => Promise<void>;
   signOut: () => void;
   user: UserType | undefined;
@@ -39,12 +47,11 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [isReady, setIsReady] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  // const [message, setMessage] = useState("");
 
   const router = useRouter();
 
-  // console.log("dd");
-
-  // GET USER IN USeEFFECT
+  // GET USER
   const getUser = async () => {
     try {
       const res = await api.get("/getUser", {
@@ -60,7 +67,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         name: res.data.name,
         phoneNumber: res.data.phoneNumber,
       });
-      // return;
     } catch (error) {
       console.log(error);
     }
@@ -81,12 +87,11 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         password,
         phoneNumber,
       });
-      console.log("data:", data);
+      toast(<Notify message={data.message} />);
 
       if (data.error) {
         console.log("error", data.error);
       }
-      console.log(data);
     } catch (error) {
       if (error instanceof AxiosError) {
         alert(error.response?.data?.error);
@@ -184,45 +189,105 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         name: res.data.name,
         phoneNumber: res.data.phoneNumber,
       });
-      toast(
-        <Notify
-          message="Мэдээлэл амжилттай хадгалагдлаа"
-          color="primary.light"
-        />
-      );
+      toast(<Notify message="Мэдээлэл амжилттай хадгалагдлаа" />);
+      router.push("/userProfile");
     } catch (error) {
       console.log(error);
     }
   };
 
-  // useEffect(() => {
-  //   setIsReady(false);
-  //   const token = localStorage.getItem("token");
+  // OTP GENERATE
+  const otpGenerate = async (props: userUpdatePasswordType) => {
+    let message = "";
+    let err: boolean = false;
+    const { email } = props;
 
-  //   if (!token) return;
+    try {
+      const { data } = await api.post("/otpGenerate", {
+        email,
+      });
+      localStorage.setItem("email", email);
+      // toast(<Notify message={data.message} />);
+      // router.push("/forgotPassword?step=2");
+      message = data.message;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        message = error.response?.data.message ?? error.message;
+        err = true;
+        return { message, err };
+      }
+    } finally {
+      return { message, err };
+    }
+  };
+  // CHANGE PASSWORD
+  const changePassword = async (props: changePasswordType) => {
+    const { otp, email, newPassword } = props;
+    let message = "";
+    let err: boolean = false;
+    try {
+      const { data } = await api.post("/changePassword", {
+        otp,
+        email,
+        newPassword,
+      });
+      localStorage.removeItem("otp");
+      localStorage.removeItem("email");
 
-  //   setIsLoggedIn(true);
+      message = data.message;
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        if (error.response?.data.message) {
+          console.log(" provider axios");
+          // <Notify
+          //   message={error.response?.data.message}
+          //   color="primary.light"
+          // />;
+        } else {
+          // toast();
+          // <Notify
+          //   error={true}
+          //   message={error.message}
+          //   color="primary.light"
+          // />
+        }
+        message = error.response?.data.message ?? error.message;
+        err = true;
+      }
+      return { message, err };
+    } finally {
+      return { message, err };
+    }
+  };
 
-  //   setIsReady(true);
-  // }, [isLoggedIn, user]);
+  console.log(isLoggedIn);
 
+  // USE EFFECT
   useEffect(() => {
-    if (!isLoggedIn) return;
-    console.log("Getuser");
-
+    const token = localStorage.getItem("token");
+    if (!token) return;
+    setIsLoggedIn(true);
     getUser();
   }, [isLoggedIn]);
 
   useEffect(() => {
-    // if (!isLoggedIn) return;
-    // console.log("Getuser");
-
+    if (!isLoggedIn) return;
     getUser();
   }, []);
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn, signIn, signUp, signOut, user, userUpdate, getUser }}
+      value={{
+        isLoggedIn,
+        signIn,
+        signUp,
+        signOut,
+        user,
+        userUpdate,
+        getUser,
+        otpGenerate,
+        changePassword,
+      }}
     >
       {/* {isReady && children} */}
       {children}
