@@ -12,18 +12,26 @@ import { Card, CustomContainer, FoodDetail } from "@/components ";
 import { Category } from "./_component/Category";
 import { SearchedValue } from "@/components /search/SearchedValue";
 import { ButtonCategory } from "./_component/ButtonCategory";
-import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
+import { api } from "@/common";
+import { log } from "console";
 
 const buttons = ["Main course", "Appetizers", "Beverage", "On Sale"];
 
-const foods = [
+const foodsa = [
   {
     imgPath: "/temporary/morning.jpg",
     name: "Өглөөний хоол 1 ",
     price: 4800,
     discount: 10,
     ingredients: "",
-    id: 1,
+    id: "1",
   },
   {
     imgPath: "/temporary/morning.jpg",
@@ -31,7 +39,7 @@ const foods = [
     price: 5800,
     discount: 20,
     ingredients: "",
-    id: 2,
+    id: "2",
   },
   {
     imgPath: "/temporary/morning.jpg",
@@ -39,7 +47,7 @@ const foods = [
     price: 6800,
     discount: 30,
     ingredients: "",
-    id: 3,
+    id: "3",
   },
 ];
 type foodDetailType = {
@@ -48,13 +56,53 @@ type foodDetailType = {
   price: number;
   discount: number;
   ingredients: string;
-  id: number;
+  id?: string;
   // setOpen: Dispatch<SetStateAction<boolean>>;
+};
+
+export type foodType = {
+  _id: string;
+  name: string;
+  ingredients: string;
+  imgPath: string;
+  price: number;
+  discount: number;
+  category: string;
 };
 export default function Dashboard() {
   const [selectedOption, setSelectedOption] = useState("");
   const [open, setOpen] = useState(false);
-  const [thisFood, setThisFood] = useState<foodDetailType | null>(null);
+  const [thisFood, setThisFood] = useState<foodDetailType>({
+    imgPath: "/temporary/morning.jpg",
+    name: "Өглөөний хоол 0",
+    price: 3800,
+    discount: 0,
+    ingredients: "",
+  });
+  const [foods, setFoods] = useState<foodType[]>([
+    {
+      _id: "65d70dedb53b03aa823adc5flll",
+      name: "pizza",
+      ingredients: "Хулуу, төмс, лууван , сонгино, цөцгийн тос, самрын үр  ",
+      imgPath: "/temporary/morning.jpg",
+      price: 10000,
+      discount: 10,
+      category: "breakfast",
+    },
+  ]);
+  const getAllFoods = async () => {
+    try {
+      const res = await api.get("/getAllFoods");
+      setFoods(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAllFoods();
+  }, []);
+  console.log(thisFood);
 
   const handleOptionChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -67,7 +115,7 @@ export default function Dashboard() {
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={open}
       >
-        {/* <FoodDetail {...thisFood} /> */}
+        <FoodDetail {...thisFood} setOpen={setOpen} />
       </Backdrop>
       <CustomContainer maxWidth="lg">
         <Stack gap={8}>
@@ -99,9 +147,10 @@ export default function Dashboard() {
               // const { imgPath, name, price, discount } = item;
               return (
                 <Stack
-                  key={item.id}
+                  key={item._id}
                   onClick={() => {
                     setThisFood(item);
+                    setOpen(true);
                   }}
                 >
                   <Card {...item} />

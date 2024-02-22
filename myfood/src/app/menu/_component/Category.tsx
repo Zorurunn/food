@@ -36,9 +36,9 @@ export const Category = (props: CategoryProps) => {
           {new Array(4).fill(0).map((_, index) => (
             <Card
               imgPath="/temporary/morning.jpg"
-              title="Өглөөний хоол"
+              name="Өглөөний хоол"
               price={4800}
-              discountPercentage={20}
+              discount={20}
             />
           ))}
         </Stack>

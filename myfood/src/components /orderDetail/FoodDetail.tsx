@@ -10,10 +10,14 @@ type foodDetailProps = {
   price: number;
   discount: number;
   ingredients: string;
-  // setOpen: Dispatch<SetStateAction<boolean>>;
 };
-export const FoodDetail = (props: foodDetailProps) => {
-  const { imgPath, name, price, discount, ingredients } = props;
+type setOpenType = {
+  setOpen: Dispatch<SetStateAction<boolean>>;
+};
+
+type twoTypes = foodDetailProps & setOpenType;
+export const FoodDetail = (props: twoTypes) => {
+  const { imgPath, name, price, discount, ingredients, setOpen } = props;
 
   return (
     <Stack
@@ -42,7 +46,7 @@ export const FoodDetail = (props: foodDetailProps) => {
             <Stack alignItems={"flex-end"}>
               <Close
                 onClick={() => {
-                  // setOpen(false);
+                  setOpen(false);
                 }}
                 sx={{ color: "text.primary", cursor: "pointer" }}
               />

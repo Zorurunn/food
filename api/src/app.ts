@@ -15,10 +15,10 @@ app.use(json());
 
 app.use("/", authRouter);
 app.use("/", emailRouter);
+app.use("/", foodRouter);
 
 app.use(authMiddleware);
 
 app.use("/", getUserRouter);
 app.use("/", userUpdateRouter);
-app.use("/foods", foodRouter);
 export default app;

@@ -9,7 +9,7 @@ const foodSchema = new Schema({
     type: String,
     required: true,
   },
-  image: {
+  imgPath: {
     type: String,
     required: false,
   },
@@ -21,6 +21,11 @@ const foodSchema = new Schema({
     type: Number,
     required: false,
     default: 0,
+  },
+  category: {
+    type: String,
+    required: true,
+    default: "breakfast",
   },
 });
 export const FoodModel = model("food", foodSchema);

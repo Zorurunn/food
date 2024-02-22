@@ -1,3 +1,4 @@
+import { foodType } from "@/app/menu/page";
 import { Stack, Typography } from "@mui/material";
 import Image from "next/image";
 
@@ -10,7 +11,7 @@ type CardProps = {
   discount?: number;
   ingredients?: string;
 };
-export const Card = (props: CardProps) => {
+export const Card = (props: foodType) => {
   const { imgPath, price, name, discount } = props;
   return (
     <Stack
