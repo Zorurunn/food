@@ -19,7 +19,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { api } from "@/common";
+import { api, inMyCartType } from "@/common";
 import { log } from "console";
 
 const buttons = ["Main course", "Appetizers", "Beverage", "On Sale"];
@@ -69,6 +69,7 @@ export type foodType = {
   discount: number;
   category: string;
 };
+
 export default function Dashboard() {
   const [selectedOption, setSelectedOption] = useState("");
   const [open, setOpen] = useState(false);
@@ -79,6 +80,8 @@ export default function Dashboard() {
     discount: 0,
     ingredients: "",
   });
+  const [inMyCart, setInMyCart] = useState<inMyCartType[]>();
+
   const [foods, setFoods] = useState<foodType[]>([
     {
       _id: "65d70dedb53b03aa823adc5flll",

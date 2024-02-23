@@ -5,6 +5,8 @@ import {
   updateFood,
   createCategory,
   getAllCategories,
+  deleteCategory,
+  updateCategory,
 } from "../controllers/food.controller";
 
 const foodRouter = Router();
@@ -14,6 +16,8 @@ foodRouter
   .post("/createFood", createFood)
   .post("/updateFood", updateFood)
   .post("/createCategory", createCategory)
-  .get("/getAllCategories", getAllCategories);
+  .get("/getAllCategories", getAllCategories)
+  .post("/deleteCategory", deleteCategory)
+  .post("/updateCategory", updateCategory);
 
 export default foodRouter;

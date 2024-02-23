@@ -103,6 +103,7 @@ export const getAllCategories: RequestHandler = async (req, res) => {
 
   res.json(categories);
 };
+
 // CREATE CATEGORY
 export const createCategory: RequestHandler = async (req, res) => {
   const { name } = req.body;
@@ -128,6 +129,72 @@ export const createCategory: RequestHandler = async (req, res) => {
       name,
     });
     return res.json({ message: `new category "${name}" created` });
+  } catch (error) {
+    return res
+      .status(401)
+      .json({ error: error, message: "could not add category" });
+  }
+};
+
+// UPDATE CATEGORY
+export const updateCategory: RequestHandler = async (req, res) => {
+  const { name, _id } = req.body;
+  const { authorization } = req.headers;
+
+  if (!authorization) {
+    return res.status(401).json({
+      message: "Invalid credentials Auth nashi",
+    });
+  }
+  const { id } = jwt.verify(authorization, "secret") as Payload;
+
+  const user = await UserModel.findOne({ _id: id });
+
+  if (!user) {
+    return res.status(401).json({
+      message: "Invalid credentials user nashi",
+    });
+  }
+
+  try {
+    await CategoryModel.updateOne({
+      _id,
+    },
+    { name  });
+    return res.json({ message: ` category "${name}" updated` });
+  } catch (error) {
+    return res
+      .status(401)
+      .json({ error: error, message: "could not update category" });
+  }
+};
+
+// DELETE CATEGORY
+export const deleteCategory: RequestHandler = async (req, res) => {
+  const { name, _id } = req.body;
+  const { authorization } = req.headers;
+
+  if (!authorization) {
+    return res.status(401).json({
+      message: "Invalid credentials Auth nashi",
+    });
+  }
+  const { id } = jwt.verify(authorization, "secret") as Payload;
+
+  const user = await UserModel.findOne({ _id: id });
+
+  if (!user) {
+    return res.status(401).json({
+      message: "Invalid credentials user nashi",
+    });
+  }
+
+  try {
+    await CategoryModel.deleteOne({
+      name,
+      _id,
+    });
+    return res.json({ message: `ne category "${name}" deleted` });
   } catch (error) {
     return res
       .status(401)

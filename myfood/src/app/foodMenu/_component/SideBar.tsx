@@ -8,7 +8,7 @@ import { api } from "@/common";
 
 // const categories = ["breakfast", "soup", "main course", "desserts"];
 export const SideBar = (props: selectCategoryTypes & setOpenType) => {
-  const { categories } = useData();
+  const { categories, deleteCategory } = useData();
   const { selectedCategory, setSelectedCategory, setOpen } = props;
 
   return (
@@ -21,8 +21,8 @@ export const SideBar = (props: selectCategoryTypes & setOpenType) => {
           categories.map((item) => {
             return (
               <SideLine
+                {...item}
                 key={item._id}
-                title={item.name}
                 selectedCategory={selectedCategory}
                 setSelectedCategory={setSelectedCategory}
               />

@@ -1,3 +1,5 @@
+import { foodType } from "@/app/menu/page";
+
 export type SignInProps = {
   email: string;
   password: string;
@@ -32,7 +34,13 @@ export type changePasswordType = {
   email: string;
   newPassword: string;
 };
+
 export type categoryType = {
-  _id: string;
+  _id?: string;
   name: string;
+};
+
+export type inMyCartType = {
+  food:foodType;
+  countity:number;
 };

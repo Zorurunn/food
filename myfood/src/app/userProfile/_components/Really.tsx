@@ -1,4 +1,5 @@
 import { foodType } from "@/app/menu/page";
+import { categoryType } from "@/common";
 import { useAuth } from "@/components ";
 import { Button, Stack, Typography } from "@mui/material";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
@@ -65,6 +66,7 @@ export const Really = ({
               if (submitFunction) {
                 submitFunction();
               }
+
               setReally(false);
 
               alert("food saved");

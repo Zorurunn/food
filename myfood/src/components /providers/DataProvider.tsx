@@ -20,6 +20,8 @@ type DataContextType = {
   categories: categoryType[] | undefined;
   updateFood: (props: foodType) => Promise<void>;
   createFood: (props: foodType) => Promise<void>;
+  deleteCategory: (props: categoryType) => Promise<void>;
+  updateCategory: (props: categoryType) => Promise<void>;
   createCategory: ({ name }: { name: string }) => Promise<void>;
 };
 
@@ -134,6 +136,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
       console.log("in getAllFoods() function error:", error);
     }
   };
+
   // GET ALL CATEGORIES
   const getAllCategories = async () => {
     try {
@@ -144,6 +147,60 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
       setCategories(res.data);
     } catch (error) {
       console.log("in getAllCategories() function error:", error);
+    }
+  };
+
+  // UPDATE CATEGORY
+  const updateCategory = async (props: categoryType) => {
+    const { name, _id } = props;
+
+    const token = localStorage.getItem("token");
+
+    try {
+      const res = await api.post(
+        "/updateCategory",
+        {
+          name,
+          _id,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      console.log("updated category  res", res);
+
+      setRefresh((prev) => 1 - prev);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // DELETE CATEGORY
+  const deleteCategory = async (props: categoryType) => {
+    const { name, _id } = props;
+
+    const token = localStorage.getItem("token");
+
+    try {
+      const res = await api.post(
+        "/deleteCategory",
+        {
+          name,
+          _id,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      console.log("delete category  res", res);
+
+      setRefresh((prev) => 1 - prev);
+    } catch (error) {
+      console.log(error);
     }
   };
 
@@ -162,6 +219,8 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         updateFood,
         createFood,
         createCategory,
+        deleteCategory,
+        updateCategory,
       }}
     >
       {children}

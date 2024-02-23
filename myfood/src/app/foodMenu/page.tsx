@@ -11,8 +11,8 @@ import { CreateFood } from "./_component/CreateFood";
 import { CreateCategory } from "./_component/CreateCategory";
 
 export default function FoodMenu() {
-  const { foods, categories } = useData();
-  const [selectedCategory, setSelectedCategory] = useState("breakfast");
+  const { foods, categories, deleteCategory } = useData();
+  const [selectedCategory, setSelectedCategory] = useState("Breakfast");
   // const [foods, setFoods] = useState<foodType[] | null>(null);
   const [thisFood, setThisFood] = useState<foodType>();
   const [openEditFood, setOpenEditFood] = useState(false);
@@ -36,6 +36,13 @@ export default function FoodMenu() {
 
   return (
     <CustomContainer maxWidth="lg">
+      <Stack
+        onClick={() => {
+          deleteCategory({ name: "Main course" });
+        }}
+      >
+        DEEEE
+      </Stack>
       {/* CREATE CATEGORY MODAL */}
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
@@ -51,6 +58,19 @@ export default function FoodMenu() {
         <CreateFood setOpen={setOpenCreateFood} />
       </Backdrop>
 
+      {/* DELETE CATEGORY MODAL */}
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openEditFood}
+      >
+        {thisFood && (
+          <EditFood
+            {...thisFood}
+            setOpen={setOpenEditFood}
+            setThisFood={setThisFood}
+          />
+        )}
+      </Backdrop>
       {/* CREATE FOOD MODAL */}
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
