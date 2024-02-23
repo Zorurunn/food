@@ -18,7 +18,7 @@ type CustomInputProps = {
     | FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
     | undefined;
   error?: boolean | undefined;
-  value: string;
+  value: string | number;
   name?: string;
   label?: string;
   placeHolder: string;

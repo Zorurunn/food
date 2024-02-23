@@ -32,3 +32,7 @@ export type changePasswordType = {
   email: string;
   newPassword: string;
 };
+export type categoryType = {
+  _id: string;
+  name: string;
+};

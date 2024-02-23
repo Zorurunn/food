@@ -1,10 +1,19 @@
+import { foodType } from "@/app/menu/page";
 import { useAuth } from "@/components ";
 import { Button, Stack, Typography } from "@mui/material";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 export const Really = ({
   setReally,
+  title,
+  otherSet1,
+  otherSet2,
+  submitFunction,
 }: {
+  title: string;
   setReally: Dispatch<SetStateAction<boolean>>;
+  otherSet1?: Dispatch<SetStateAction<boolean>>;
+  otherSet2?: Dispatch<SetStateAction<foodType | undefined>>;
+  submitFunction?: () => void;
 }) => {
   const { signOut } = useAuth();
 
@@ -25,12 +34,13 @@ export const Really = ({
         alignItems={"center"}
       >
         <Typography
-          width={200}
+          width={220}
           textAlign={"center"}
           fontWeight={600}
           fontSize={"20px"}
+          color={"text.primary"}
         >
-          Та системээс гарахдаа итгэлтэй байна уу?
+          {title}
         </Typography>
       </Stack>
       <Stack width={"100%"} direction={"row"}>
@@ -42,7 +52,24 @@ export const Really = ({
           sx={{ backgroundColor: "primary.light", cursor: "pointer" }}
           fontWeight={600}
           fontSize={"20px"}
-          onClick={signOut}
+          onClick={() => {
+            if (title === "Та системээс гарахдаа итгэлтэй байна уу?") {
+              signOut();
+            } else {
+              if (otherSet1) {
+                otherSet1(false);
+              }
+              if (otherSet2) {
+                otherSet2(undefined);
+              }
+              if (submitFunction) {
+                submitFunction();
+              }
+              setReally(false);
+
+              alert("food saved");
+            }
+          }}
         >
           Тийм
         </Stack>

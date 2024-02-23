@@ -61,7 +61,7 @@ type foodDetailType = {
 };
 
 export type foodType = {
-  _id: string;
+  _id?: string;
   name: string;
   ingredients: string;
   imgPath: string;

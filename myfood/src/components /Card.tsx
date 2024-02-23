@@ -1,6 +1,16 @@
 import { foodType } from "@/app/menu/page";
-import { Stack, Typography } from "@mui/material";
+import { theme } from "@/theme";
+import { AddIcCallOutlined } from "@mui/icons-material";
+import {
+  Backdrop,
+  CircularProgress,
+  Grid,
+  Modal,
+  Stack,
+  Typography,
+} from "@mui/material";
 import Image from "next/image";
+import { useState } from "react";
 
 type CardProps = {
   imgPath: string;
@@ -13,21 +23,48 @@ type CardProps = {
 };
 export const Card = (props: foodType) => {
   const { imgPath, price, name, discount } = props;
+  const [isHover, setIsHover] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(true);
+
   return (
-    <Stack
-      gap={1.7}
-      width={"100%"}
-      // onClick={() => {
-      //   console.log(value);
-      // }}
-    >
+    <Stack gap={1.7} width={"100%"}>
       <Stack
         position={"relative"}
-        paddingTop={"56.25%"}
+        paddingTop={"65%"}
         border={"1px solid transparent"}
         borderRadius={5}
         overflow={"hidden"}
+        onMouseOver={() => {
+          if (!isAdmin) return;
+          setIsHover(true);
+        }}
+        onMouseLeave={() => {
+          if (!isAdmin) return;
+          setIsHover(false);
+        }}
+        sx={{ cursor: "pointer" }}
       >
+        <Backdrop
+          sx={{
+            color: "#fff",
+            zIndex: (theme) => theme.zIndex.drawer + 1,
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+          }}
+          open={isHover}
+        >
+          <Stack
+            width={80}
+            justifyContent={"center"}
+            alignItems={"center"}
+            sx={{ backgroundColor: "#fff", borderRadius: 2 }}
+          >
+            <Typography color={"text.primary"}>Edit</Typography>
+          </Stack>
+        </Backdrop>
         <Image
           src={imgPath}
           alt="Breakfast"

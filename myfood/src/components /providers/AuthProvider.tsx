@@ -10,7 +10,6 @@ import {
   userUpdateProps,
 } from "@/common";
 import { AxiosError } from "axios";
-import { log } from "console";
 // import { Backdrop, CircularProgress } from "@mui/material";
 import { useRouter } from "next/navigation";
 import {
@@ -23,6 +22,7 @@ import {
 import { boolean } from "yup";
 import { Notify } from "..";
 import { ToastContainer, toast } from "react-toastify";
+import { foodType } from "@/app/menu/page";
 
 type AuthContextType = {
   isLoggedIn: boolean;
@@ -35,6 +35,7 @@ type AuthContextType = {
   changePassword: (
     props: changePasswordType
   ) => Promise<{ message: string; err: boolean }>;
+  // getAllFoods: () => Promise<foodType[] | string>;
   getUser: () => Promise<void>;
   signOut: () => void;
   user: UserType | undefined;
@@ -59,7 +60,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
           Authorization: localStorage.getItem("token"),
         },
       });
-      console.log("set user");
 
       setUser({
         address: res.data.address,
@@ -74,8 +74,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   // SIGN UP
   const signUp = async (props: SignUpProps) => {
-    console.log("Props", props);
-
     const { name, address, email, password, phoneNumber } = props;
     setIsLoading(true);
 
@@ -238,7 +236,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     } catch (error) {
       if (error instanceof AxiosError) {
         if (error.response?.data.message) {
-          console.log(" provider axios");
           // <Notify
           //   message={error.response?.data.message}
           //   color="primary.light"
@@ -260,8 +257,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  console.log(isLoggedIn);
-
   // USE EFFECT
   useEffect(() => {
     const token = localStorage.getItem("token");
@@ -273,6 +268,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   useEffect(() => {
     if (!isLoggedIn) return;
     getUser();
+    // getAllFoods();
   }, []);
 
   return (

@@ -12,7 +12,10 @@ export const ExitButton = () => {
     <>
       {really && (
         <AbsContCenter>
-          <Really setReally={setReally} />
+          <Really
+            title={"Та системээс гарахдаа итгэлтэй байна уу?"}
+            setReally={setReally}
+          />
         </AbsContCenter>
       )}
       <Stack

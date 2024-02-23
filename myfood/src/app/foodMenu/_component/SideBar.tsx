@@ -1,4 +1,4 @@
-import { CustomContainer } from "@/components ";
+import { CustomContainer, setOpenType, useData } from "@/components ";
 import { Add, MoreVert } from "@mui/icons-material";
 import { Stack, Typography } from "@mui/material";
 import { SideLine, selectCategoryTypes } from "./SideLine";
@@ -6,9 +6,10 @@ import { ButtonCategory } from "@/app/menu/_component/ButtonCategory";
 import { ChangeEvent, useState } from "react";
 import { api } from "@/common";
 
-const categories = ["breakfast", "soup", "main course", "desserts"];
-export const SideBar = (props: selectCategoryTypes) => {
-  const { selectedCategory, setSelectedCategory } = props;
+// const categories = ["breakfast", "soup", "main course", "desserts"];
+export const SideBar = (props: selectCategoryTypes & setOpenType) => {
+  const { categories } = useData();
+  const { selectedCategory, setSelectedCategory, setOpen } = props;
 
   return (
     <Stack gap={4}>
@@ -16,16 +17,17 @@ export const SideBar = (props: selectCategoryTypes) => {
         Food menu
       </Stack>
       <Stack gap={2}>
-        {categories.map((item) => {
-          return (
-            <SideLine
-              key={item}
-              title={item}
-              selectedCategory={selectedCategory}
-              setSelectedCategory={setSelectedCategory}
-            />
-          );
-        })}
+        {categories &&
+          categories.map((item) => {
+            return (
+              <SideLine
+                key={item._id}
+                title={item.name}
+                selectedCategory={selectedCategory}
+                setSelectedCategory={setSelectedCategory}
+              />
+            );
+          })}
         <Stack
           direction={"row"}
           border={"1px solid"}
@@ -36,7 +38,13 @@ export const SideBar = (props: selectCategoryTypes) => {
           gap={1}
         >
           <Add />
-          <Typography sx={{ cursor: "pointer" }} color={"text.secondary"}>
+          <Typography
+            sx={{ cursor: "pointer" }}
+            color={"text.secondary"}
+            onClick={() => {
+              setOpen(true);
+            }}
+          >
             Create new category
           </Typography>
         </Stack>

@@ -11,7 +11,7 @@ type foodDetailProps = {
   discount: number;
   ingredients: string;
 };
-type setOpenType = {
+export type setOpenType = {
   setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
