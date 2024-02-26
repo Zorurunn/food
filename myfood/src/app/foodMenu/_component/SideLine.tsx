@@ -131,7 +131,7 @@ export const SideLine = (props: selectCategoryTypes & categoryType) => {
                     onClick={() => {
                       console.log("delete clicked");
 
-                      // confirm("test this one", a);
+                      confirm("test this one", a("aaa"));
                       // confirm("test this one", a("refreeeesh"));
                       // deleteCategory({ name, _id });
                     }}

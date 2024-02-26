@@ -74,7 +74,6 @@ export const ConfirmationProvider = ({ children }: PropsWithChildren) => {
 
   const confirm = async (title: string, callback: void) => {
     setTitle(title);
-    // setBackUpFunction({ callback });
   };
 
   return (
