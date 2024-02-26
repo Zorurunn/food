@@ -1,3 +1,4 @@
+import { foodType } from "@/app/menu/page";
 import { CustomInput, HeadText } from "@/components ";
 import { Close } from "@mui/icons-material";
 import { Button, ButtonBase, Stack, Typography } from "@mui/material";
@@ -16,7 +17,7 @@ export type setOpenType = {
 };
 
 type twoTypes = foodDetailProps & setOpenType;
-export const FoodDetail = (props: twoTypes) => {
+export const FoodDetail = (props: foodType & setOpenType) => {
   const { imgPath, name, price, discount, ingredients, setOpen } = props;
 
   return (

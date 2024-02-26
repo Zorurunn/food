@@ -10,6 +10,7 @@ import { AuthProvider, DataProvider, Footer, TopBar } from "@/components ";
 const inter = Inter({ subsets: ["latin"] });
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ConfirmationProvider } from "@/components /providers/ConfirmationProvider";
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
@@ -19,11 +20,13 @@ export default function RootLayout({ children }: PropsWithChildren) {
           <ThemeProvider theme={theme}>
             <AuthProvider>
               <DataProvider>
-                <Stack minHeight="100vh" width={"100%"} position={"relative"}>
-                  <TopBar />
-                  <Stack flex={1}>{children}</Stack>
-                  <Footer />
-                </Stack>
+                <ConfirmationProvider>
+                  <Stack minHeight="100vh" width={"100%"} position={"relative"}>
+                    <TopBar />
+                    <Stack flex={1}>{children}</Stack>
+                    <Footer />
+                  </Stack>
+                </ConfirmationProvider>
               </DataProvider>
             </AuthProvider>
           </ThemeProvider>

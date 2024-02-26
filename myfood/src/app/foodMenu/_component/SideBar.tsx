@@ -2,7 +2,7 @@ import { CustomContainer, setOpenType, useData } from "@/components ";
 import { Add, MoreVert } from "@mui/icons-material";
 import { Stack, Typography } from "@mui/material";
 import { SideLine, selectCategoryTypes } from "./SideLine";
-import { ButtonCategory } from "@/app/menu/_component/ButtonCategory";
+import { CategoryButton } from "@/app/menu/_component/CategoryButton";
 import { ChangeEvent, useState } from "react";
 import { api } from "@/common";
 

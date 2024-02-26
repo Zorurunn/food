@@ -8,46 +8,36 @@ import {
   SetStateAction,
   useState,
 } from "react";
+import { categoryType, selectCategoryTypes } from "@/common";
 
-export const ButtonCategory = ({
-  title,
-  selectedOption,
-  handleOptionChange,
-  setSelectedOption,
-}: {
-  title: string;
-  selectedOption: string;
-  handleOptionChange: ChangeEventHandler<
-    HTMLInputElement | HTMLTextAreaElement
-  >;
-  setSelectedOption: Dispatch<SetStateAction<string>>;
-}) => {
+export const CategoryButton = (props: selectCategoryTypes & categoryType) => {
+  const { selectedCategory, setSelectedCategory, name, _id } = props;
   return (
     <Stack
       border={"1px solid"}
-      borderColor={selectedOption === title ? "primary.main" : "grey.400"}
+      borderColor={selectedCategory === name ? "primary.main" : "grey.400"}
       borderRadius={5}
       padding={"10px 18px"}
       alignItems={"center"}
       width={"100%"}
       position={"relative"}
       sx={{
-        backgroundColor: selectedOption === title ? "primary.main" : null,
+        backgroundColor: selectedCategory === name ? "primary.main" : null,
       }}
     >
       <Typography
         fontSize={16}
         fontWeight={600}
-        color={selectedOption === title ? "#fff" : "text.primary"}
+        color={selectedCategory === name ? "#fff" : "text.primary"}
         onClick={() => {
-          setSelectedOption(title);
+          setSelectedCategory(name);
         }}
         width="100%"
         height="100%"
         textAlign={"center"}
         sx={{ cursor: "pointer" }}
       >
-        {title}
+        {name}
       </Typography>
       {/* <TextField
         onChange={handleOptionChange}

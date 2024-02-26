@@ -23,6 +23,8 @@ type DataContextType = {
   deleteCategory: (props: categoryType) => Promise<void>;
   updateCategory: (props: categoryType) => Promise<void>;
   createCategory: ({ name }: { name: string }) => Promise<void>;
+  setRefresh: Dispatch<SetStateAction<number>>;
+  a: (title: string) => void;
 };
 
 const DataContext = createContext<DataContextType>({} as DataContextType);
@@ -32,6 +34,11 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
   const [isDisplay, setIsDisplay] = useState(false);
   const [foods, setFoods] = useState<foodType[]>();
   const [categories, setCategories] = useState<categoryType[]>();
+
+  // TEST
+  const a = (title: string) => {
+    console.log("hi from provider Title: ", title);
+  };
 
   // CREATE FOOD
   const createFood = async (props: foodType) => {
@@ -221,6 +228,8 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         createCategory,
         deleteCategory,
         updateCategory,
+        setRefresh,
+        a,
       }}
     >
       {children}

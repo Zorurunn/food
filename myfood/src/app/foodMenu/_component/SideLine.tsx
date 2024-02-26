@@ -1,11 +1,11 @@
-import { categoryType } from "@/common";
+import { categoryType, selectCategoryTypes } from "@/common";
 import { useData } from "@/components ";
 import { Dropdown, MenuButton } from "@mui/base";
 import { Delete, Edit, MoreVert } from "@mui/icons-material";
 import { Backdrop, MenuItem, Stack, Typography } from "@mui/material";
 import { ChangeEventHandler, Dispatch, SetStateAction } from "react";
 import * as React from "react";
-import { Menu, MenuListboxSlotProps } from "@mui/base/Menu";
+import { Menu } from "@mui/base/Menu";
 import { MenuButton as BaseMenuButton } from "@mui/base/MenuButton";
 import { MenuItem as BaseMenuItem, menuItemClasses } from "@mui/base/MenuItem";
 import { styled } from "@mui/system";
@@ -13,21 +13,20 @@ import { CssTransition } from "@mui/base/Transitions";
 import { PopupContext } from "@mui/base/Unstable_Popup";
 import { EditCategory } from "./EditCategory";
 import { Really } from "@/app/userProfile/_components/Really";
+import { useConfirm } from "@/components /providers/ConfirmationProvider";
 
-export type selectCategoryTypes = {
-  selectedCategory: string;
-  setSelectedCategory: Dispatch<SetStateAction<string>>;
-};
-type nameType = {
-  name: string;
-};
 // const categories = ["breakfast", "soup", "main course", "desserts"];
 export const SideLine = (props: selectCategoryTypes & categoryType) => {
+  const { confirm, test } = useConfirm();
   const [openEditCategoryName, setOpenEditCategoryName] = React.useState(false);
-  const [really, setReally] = React.useState(false);
+  // const [really, setReally] = React.useState(false);
   const { name, _id, selectedCategory, setSelectedCategory } = props;
-  const { deleteCategory, updateCategory } = useData();
-  const a = "A";
+  const { a } = useData();
+
+  const d = () => {
+    console.log("Hi");
+  };
+
   return (
     <>
       {/* EDIT CATEGORY NAME MODAL */}
@@ -48,7 +47,8 @@ export const SideLine = (props: selectCategoryTypes & categoryType) => {
           width: "100%",
           height: "100%",
         }}
-        open={really}
+        // open={really}
+        open={false}
       >
         <Stack
           width={80}
@@ -56,13 +56,9 @@ export const SideLine = (props: selectCategoryTypes & categoryType) => {
           alignItems={"center"}
           sx={{ backgroundColor: "#fff", borderRadius: 2 }}
         >
-          <Really
+          {/* <Really
             title={"Та устгахдаа итгэлтэй байна уу ?"}
-            setReally={setReally}
-            // otherSet1={setOpen}
-            // submitFunction={formik.handleSubmit}
-            // deleteCategoryFunction={deleteCategory({ name, _id })}
-          />
+          /> */}
         </Stack>
       </Backdrop>
       <Stack
@@ -133,7 +129,11 @@ export const SideLine = (props: selectCategoryTypes & categoryType) => {
                   <Delete />
                   <Stack
                     onClick={() => {
-                      deleteCategory({ name, _id });
+                      console.log("delete clicked");
+
+                      // confirm("test this one", a);
+                      // confirm("test this one", a("refreeeesh"));
+                      // deleteCategory({ name, _id });
                     }}
                   >
                     Delete category

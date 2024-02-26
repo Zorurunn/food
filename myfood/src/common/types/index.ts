@@ -1,4 +1,5 @@
 import { foodType } from "@/app/menu/page";
+import { Dispatch, SetStateAction } from "react";
 
 export type SignInProps = {
   email: string;
@@ -41,6 +42,19 @@ export type categoryType = {
 };
 
 export type inMyCartType = {
-  food:foodType;
-  countity:number;
+  food: foodType;
+  countity: number;
+};
+
+export type selectCategoryTypes = {
+  selectedCategory: string;
+  setSelectedCategory: Dispatch<SetStateAction<string>>;
+};
+export type setTypeBoolean = {
+  selectedCategory: string;
+  setSelectedCategory: Dispatch<SetStateAction<string>>;
+};
+export type confirmType = {
+  title: string;
+  deleteCategory: (props: categoryType) => Promise<void>;
 };
