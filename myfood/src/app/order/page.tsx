@@ -78,7 +78,12 @@ export default function Dashboard() {
                   </InputAdornment>
                 }
               >
-                <MenuItem value="Дүүрэг сонгоно уу" disabled hidden>
+                <MenuItem
+                  value="Дүүрэг сонгоно уу"
+                  disabled
+                  hidden
+                  selected={true}
+                >
                   Дүүрэг сонгоно уу
                 </MenuItem>
                 <MenuItem value={"10"}>Баянзүрх дүүрэг</MenuItem>

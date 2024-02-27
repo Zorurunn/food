@@ -1,3 +1,5 @@
+"use client";
+
 import {
   CustomInput,
   HeadText,
@@ -5,7 +7,14 @@ import {
   useAuth,
   useData,
 } from "@/components ";
-import { Backdrop, Button, Stack, Typography } from "@mui/material";
+import {
+  Backdrop,
+  Button,
+  InputAdornment,
+  Stack,
+  Typography,
+  MenuItem,
+} from "@mui/material";
 import {
   ChangeEvent,
   Dispatch,
@@ -20,8 +29,9 @@ import { useRouter } from "next/navigation";
 import { foodType } from "@/app/menu/page";
 import { log } from "console";
 import { Really } from "@/app/userProfile/_components/Really";
-import { Close } from "@mui/icons-material";
+import { Close, LocationCityOutlined } from "@mui/icons-material";
 import { create } from "domain";
+import { categoryType } from "@/common";
 
 const lines = [
   "Хоолны нэр",
@@ -45,10 +55,11 @@ type setThisFoodType = {
 };
 
 export const CreateFood = (props: setOpenType) => {
-  const { setOpen } = props;
   const [really, setReally] = useState(false);
+
+  const { setOpen } = props;
   const router = useRouter();
-  const { createFood } = useData();
+  const { createFood, categories } = useData();
 
   const formik = useFormik({
     initialValues: {
@@ -74,6 +85,11 @@ export const CreateFood = (props: setOpenType) => {
     },
   });
 
+  useEffect(() => {
+    if (categories) {
+      formik.setFieldValue("category", categories[0]._id);
+    }
+  }, [categories]);
   return (
     <>
       <Backdrop
@@ -139,20 +155,33 @@ export const CreateFood = (props: setOpenType) => {
                 type="text"
                 width={400}
               />
-              <CustomInput
-                name="category"
-                label={"Хоолны ангилал"}
-                placeHolder="Хоолны ангилал оруулна уу"
-                value={formik.values.category}
-                handleChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={
-                  formik.touched.category && Boolean(formik.errors.category)
-                }
-                size="medium"
-                type="text"
-                width={400}
-              />
+
+              {categories && (
+                <CustomInput
+                  adornment="start"
+                  name="category"
+                  label={"Хоолны ангилал"}
+                  placeHolder="Хоолны ангилал оруулна уу"
+                  value={formik.values.category ?? ""}
+                  handleChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={
+                    formik.touched.category && Boolean(formik.errors.category)
+                  }
+                  size="medium"
+                  type="text"
+                  width={400}
+                  select={true}
+                >
+                  {categories.map((item) => {
+                    return (
+                      <MenuItem key={item._id} value={item._id}>
+                        {item.name}
+                      </MenuItem>
+                    );
+                  })}
+                </CustomInput>
+              )}
               <CustomInput
                 name="ingredients"
                 label={"Хоолны орц"}

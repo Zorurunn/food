@@ -17,15 +17,11 @@ import { useConfirm } from "@/components /providers/ConfirmationProvider";
 
 // const categories = ["breakfast", "soup", "main course", "desserts"];
 export const SideLine = (props: selectCategoryTypes & categoryType) => {
-  const { confirm, test } = useConfirm();
+  const { confirm } = useConfirm();
   const [openEditCategoryName, setOpenEditCategoryName] = React.useState(false);
   // const [really, setReally] = React.useState(false);
   const { name, _id, selectedCategory, setSelectedCategory } = props;
-  const { a } = useData();
-
-  const d = () => {
-    console.log("Hi");
-  };
+  const { deleteCategory } = useData();
 
   return (
     <>
@@ -34,7 +30,13 @@ export const SideLine = (props: selectCategoryTypes & categoryType) => {
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={openEditCategoryName}
       >
-        <EditCategory name={name} _id={_id} setOpen={setOpenEditCategoryName} />
+        {openEditCategoryName && (
+          <EditCategory
+            name={name}
+            _id={_id}
+            setOpen={setOpenEditCategoryName}
+          />
+        )}
       </Backdrop>
       {/* DELETE CATEGORY REALLY */}
       <Backdrop
@@ -65,24 +67,25 @@ export const SideLine = (props: selectCategoryTypes & categoryType) => {
         direction={"row"}
         border={"1px solid"}
         borderColor={
-          selectedCategory === name ? "primary.main" : "text.secondary"
+          selectedCategory?._id === _id ? "primary.main" : "text.secondary"
         }
         borderRadius={2}
         padding={1}
         alignItems={"center"}
         sx={{
-          backgroundColor: selectedCategory === name ? "primary.main" : null,
+          backgroundColor:
+            selectedCategory?._id === _id ? "primary.main" : null,
           cursor: "pointer",
         }}
       >
         <Stack
           flexGrow={1}
           onClick={() => {
-            setSelectedCategory(name);
+            setSelectedCategory({ _id, name });
           }}
         >
           <Typography
-            color={selectedCategory === name ? "#fff" : "text.primary"}
+            color={selectedCategory?._id === _id ? "#fff" : "text.primary"}
           >
             {name}
           </Typography>
@@ -92,7 +95,7 @@ export const SideLine = (props: selectCategoryTypes & categoryType) => {
           <MenuButton>
             <MoreVert
               sx={{
-                color: selectedCategory === name ? "#fff" : "text.primary",
+                color: selectedCategory?._id === _id ? "#fff" : "text.primary",
               }}
               onClick={() => {}}
             />
@@ -111,33 +114,26 @@ export const SideLine = (props: selectCategoryTypes & categoryType) => {
               gap={1}
               paddingY={1}
             >
-              <MenuItem>
-                <Stack
-                  direction={"row"}
-                  gap={1}
-                  width={150}
-                  onClick={() => {
-                    setOpenEditCategoryName(true);
-                  }}
-                >
+              <MenuItem
+                onClick={() => {
+                  setOpenEditCategoryName(true);
+                }}
+              >
+                <Stack direction={"row"} gap={1} width={150}>
                   <Edit />
                   <Stack flexGrow={1}>Edit Name</Stack>
                 </Stack>
               </MenuItem>
-              <MenuItem>
+              <MenuItem
+                onClick={() => {
+                  confirm("Та устгахдаа итгэлтэй байна уу ?", () =>
+                    deleteCategory({ name, _id })
+                  );
+                }}
+              >
                 <Stack direction={"row"} gap={1} width={150} color={"red"}>
                   <Delete />
-                  <Stack
-                    onClick={() => {
-                      console.log("delete clicked");
-
-                      confirm("test this one", a("aaa"));
-                      // confirm("test this one", a("refreeeesh"));
-                      // deleteCategory({ name, _id });
-                    }}
-                  >
-                    Delete category
-                  </Stack>
+                  <Stack>Delete category</Stack>
                 </Stack>
               </MenuItem>
             </Stack>

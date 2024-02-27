@@ -21,10 +21,7 @@ import { Really } from "@/app/userProfile/_components/Really";
 // }
 
 type ConfirmationContextType = {
-  // confirm: (title: string, d: () => Promise<void>) => void;
-  confirm: (title: string, d: void) => void;
-  deleteCategory: (props: categoryType) => Promise<void>;
-  test: () => void;
+  confirm: (title: string, callback: () => Promise<void>) => void;
   // setIsDisplay: Dispatch<SetStateAction<boolean>>;
 };
 
@@ -33,56 +30,22 @@ const ConfirmationContext = createContext<ConfirmationContextType>(
 );
 
 export const ConfirmationProvider = ({ children }: PropsWithChildren) => {
-  const [title, setTitle] = useState("");
-  const [backUpFunction, setBackUpFunction] = useState<any>({
-    callback: null,
+  const [callBackFunction, setCallBackFunction] = useState<any>({
+    title: "",
+    callback: () => Promise<void>,
   });
 
-  const { setRefresh } = useData();
-
-  // DELETE CATEGORY
-  const deleteCategory = async (props: categoryType) => {
-    const { name, _id } = props;
-
-    const token = localStorage.getItem("token");
-
-    try {
-      const res = await api.post(
-        "/deleteCategory",
-        {
-          name,
-          _id,
-        },
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
-      console.log("delete category  res", res);
-
-      setRefresh((prev) => 1 - prev);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  // TEST
-  const test = () => {
-    console.log("this is test function");
-  };
-
-  const confirm = async (title: string, callback: void) => {
-    setTitle(title);
+  const confirm = async (title: string, callback: () => void) => {
+    setCallBackFunction({ title, callback });
   };
 
   return (
-    <ConfirmationContext.Provider value={{ confirm, deleteCategory, test }}>
+    <ConfirmationContext.Provider value={{ confirm }}>
       <Backdrop
         sx={{
-          zIndex: (theme) => theme.zIndex.drawer + 1,
+          zIndex: (theme) => theme.zIndex.drawer + 2,
         }}
-        open={Boolean(title)}
+        open={Boolean(callBackFunction.title)}
       >
         {/* Confirmation */}
         <Stack
@@ -113,7 +76,7 @@ export const ConfirmationProvider = ({ children }: PropsWithChildren) => {
                 fontSize={"20px"}
                 color={"text.primary"}
               >
-                {title}
+                {callBackFunction.title}
               </Typography>
             </Stack>
             <Stack width={"100%"} direction={"row"}>
@@ -125,10 +88,11 @@ export const ConfirmationProvider = ({ children }: PropsWithChildren) => {
                 sx={{ backgroundColor: "primary.light", cursor: "pointer" }}
                 fontWeight={600}
                 fontSize={"20px"}
-                onClick={() => {
-                  if (backUpFunction.callback) {
-                    backUpFunction.callback();
+                onClick={async () => {
+                  if (callBackFunction.callback) {
+                    await callBackFunction.callback();
                   }
+                  setCallBackFunction({ title: "", callback: undefined });
                 }}
               >
                 Тийм
@@ -145,8 +109,7 @@ export const ConfirmationProvider = ({ children }: PropsWithChildren) => {
                 fontWeight={600}
                 fontSize={"20px"}
                 onClick={() => {
-                  setTitle("");
-                  setBackUpFunction(undefined);
+                  setCallBackFunction({ title: "", callback: undefined });
                 }}
               >
                 Үгүй

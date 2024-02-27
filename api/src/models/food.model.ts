@@ -25,7 +25,7 @@ const foodSchema = new Schema({
   category: {
     type: String,
     required: true,
-    default: "breakfast",
+    // default: "breakfast",
   },
 });
 export const FoodModel = model("food", foodSchema);

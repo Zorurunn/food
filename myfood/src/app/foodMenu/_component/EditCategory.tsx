@@ -23,6 +23,7 @@ import { Really } from "@/app/userProfile/_components/Really";
 import { Close } from "@mui/icons-material";
 import { create } from "domain";
 import { categoryType } from "@/common";
+import { useConfirm } from "@/components /providers/ConfirmationProvider";
 
 const lines = [
   "Хоолны нэр",
@@ -39,8 +40,9 @@ const validationSchema = yup.object({
 
 export const EditCategory = (props: setOpenType & categoryType) => {
   const { name, _id, setOpen } = props;
-  const [really, setReally] = useState(false);
   const { updateCategory } = useData();
+  const { confirm } = useConfirm();
+  const [really, setReally] = useState(false);
 
   const formik = useFormik({
     initialValues: {
@@ -48,12 +50,11 @@ export const EditCategory = (props: setOpenType & categoryType) => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log("FOORMIIK");
-
-      console.log("formik values", values);
-      updateCategory({ name: values.name, _id });
-      // createCategory({ name: values.name });
-      // formik.resetForm();
+      confirm("Та шинэчлэлт хийхдээ итгэлтэй байна уу ?", async () => {
+        await updateCategory({ name: values.name, _id });
+        setOpen(false);
+        formik.resetForm();
+      });
     },
   });
 
@@ -131,6 +132,9 @@ export const EditCategory = (props: setOpenType & categoryType) => {
                   paddingX={2}
                   paddingY={1}
                   sx={{ cursor: "pointer" }}
+                  onClick={() => {
+                    formik.resetForm();
+                  }}
                 >
                   Clear
                 </Stack>
@@ -143,7 +147,7 @@ export const EditCategory = (props: setOpenType & categoryType) => {
                   paddingY={1}
                   borderRadius={2}
                   onClick={() => {
-                    setReally(true);
+                    formik.handleSubmit();
                   }}
                 >
                   Continue

@@ -40,6 +40,10 @@ export type categoryType = {
   _id?: string;
   name: string;
 };
+export type nameIdType = {
+  _id?: string;
+  name: string;
+};
 
 export type inMyCartType = {
   food: foodType;
@@ -47,8 +51,8 @@ export type inMyCartType = {
 };
 
 export type selectCategoryTypes = {
-  selectedCategory: string;
-  setSelectedCategory: Dispatch<SetStateAction<string>>;
+  selectedCategory: categoryType | undefined;
+  setSelectedCategory: Dispatch<SetStateAction<categoryType>>;
 };
 export type setTypeBoolean = {
   selectedCategory: string;

@@ -4,7 +4,7 @@ import { Backdrop, Button, Grid, Stack, Typography } from "@mui/material";
 import { SideBar } from "./_component/SideBar";
 import { useEffect, useState } from "react";
 import { foodType } from "../menu/page";
-import { api } from "@/common";
+import { api, categoryType } from "@/common";
 import { RightTop } from "./_component/RightTop";
 import { EditFood } from "./_component/EditFood";
 import { CreateFood } from "./_component/CreateFood";
@@ -15,7 +15,7 @@ export default function FoodMenu() {
   const { foods, categories, deleteCategory, a } = useData();
   const { confirm } = useConfirm();
 
-  const [selectedCategory, setSelectedCategory] = useState("Breakfast");
+  const [selectedCategory, setSelectedCategory] = useState<categoryType>();
   // const [foods, setFoods] = useState<foodType[] | null>(null);
   const [thisFood, setThisFood] = useState<foodType>();
   const [openEditFood, setOpenEditFood] = useState(false);
@@ -36,6 +36,12 @@ export default function FoodMenu() {
   // useEffect(() => {
   //   getAllFoods();
   // }, []);
+
+  useEffect(() => {
+    if (categories) {
+      setSelectedCategory(categories[0]);
+    }
+  }, [categories]);
 
   return (
     <CustomContainer maxWidth="lg">
@@ -108,7 +114,7 @@ export default function FoodMenu() {
           >
             <Stack direction={"row"} justifyContent={"space-between"}>
               <Typography fontSize={22} fontWeight={700}>
-                {selectedCategory}
+                {selectedCategory && selectedCategory.name}
               </Typography>
               <Stack
                 width={130}
@@ -129,28 +135,30 @@ export default function FoodMenu() {
               </Stack>
             </Stack>
             <Grid container spacing={4}>
-              {foods
-                ?.filter((item) => {
-                  return item.category === selectedCategory;
-                })
-                .map((item) => {
-                  return (
-                    <Grid
-                      item
-                      xs={4}
-                      key={item._id}
-                      onClick={() => {
-                        console.log("clicked item", item);
+              {selectedCategory &&
+                foods &&
+                foods
+                  ?.filter((item) => {
+                    return item.category === selectedCategory._id;
+                  })
+                  .map((item) => {
+                    return (
+                      <Grid
+                        item
+                        xs={4}
+                        key={item._id}
+                        onClick={() => {
+                          console.log("clicked item", item);
 
-                        setThisFood(item);
-                        setOpenEditFood(true);
-                      }}
-                      justifyContent={"center"}
-                    >
-                      <Card {...item} />
-                    </Grid>
-                  );
-                })}
+                          setThisFood(item);
+                          setOpenEditFood(true);
+                        }}
+                        justifyContent={"center"}
+                      >
+                        <Card {...item} />
+                      </Grid>
+                    );
+                  })}
             </Grid>
           </Stack>
         </Stack>

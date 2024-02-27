@@ -5,6 +5,7 @@ import {
   InputAdornment,
   Stack,
   TextField,
+  TextFieldProps,
   Typography,
 } from "@mui/material";
 import {
@@ -34,7 +35,8 @@ type CustomInputProps = {
   isError?: string;
   isTouched?: boolean;
   helperText?: string;
-};
+  select?: boolean;
+} & TextFieldProps;
 
 export const CustomInput = (props: CustomInputProps) => {
   const {
@@ -54,6 +56,8 @@ export const CustomInput = (props: CustomInputProps) => {
     isError,
     isTouched,
     helperText,
+    children,
+    select = false,
   } = props;
 
   const [showPassword, setShowPassword] = useState(false);
@@ -81,6 +85,7 @@ export const CustomInput = (props: CustomInputProps) => {
     <Stack>
       <Typography color={"text.primary"}>{label}</Typography>
       <TextField
+        // select
         name={name}
         id={id}
         value={value}
@@ -90,6 +95,7 @@ export const CustomInput = (props: CustomInputProps) => {
         error={error}
         helperText={isError && isTouched && helperText}
         type={type === "password" && showPassword ? "text" : type}
+        select={select}
         sx={{
           "& fieldset": {
             borderColor: borderColor,
@@ -103,7 +109,7 @@ export const CustomInput = (props: CustomInputProps) => {
           },
         }}
         InputProps={{
-          style: {
+          sx: {
             borderColor: "red",
           },
           endAdornment: adornment === "end" && (
@@ -119,7 +125,9 @@ export const CustomInput = (props: CustomInputProps) => {
             </InputAdornment>
           ),
         }}
-      />
+      >
+        {children}
+      </TextField>
     </Stack>
   );
 };

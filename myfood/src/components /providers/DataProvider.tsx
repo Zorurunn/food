@@ -1,7 +1,7 @@
 "use client";
 
 import { foodType } from "@/app/menu/page";
-import { api, categoryType, userUpdateProps } from "@/common";
+import { api, categoryType, nameIdType, userUpdateProps } from "@/common";
 import {
   Dispatch,
   PropsWithChildren,
@@ -24,7 +24,6 @@ type DataContextType = {
   updateCategory: (props: categoryType) => Promise<void>;
   createCategory: ({ name }: { name: string }) => Promise<void>;
   setRefresh: Dispatch<SetStateAction<number>>;
-  a: (title: string) => void;
 };
 
 const DataContext = createContext<DataContextType>({} as DataContextType);
@@ -33,12 +32,8 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
   const [refresh, setRefresh] = useState(0);
   const [isDisplay, setIsDisplay] = useState(false);
   const [foods, setFoods] = useState<foodType[]>();
+  const [districts, setDistricts] = useState<nameIdType[]>();
   const [categories, setCategories] = useState<categoryType[]>();
-
-  // TEST
-  const a = (title: string) => {
-    console.log("hi from provider Title: ", title);
-  };
 
   // CREATE FOOD
   const createFood = async (props: foodType) => {
@@ -143,6 +138,17 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
       console.log("in getAllFoods() function error:", error);
     }
   };
+  // GET ALL DISTRICTS
+  const getAllDistricts = async () => {
+    try {
+      const res = await api.get("/getAllDistricts");
+      console.log("get All districts");
+
+      setDistricts(res.data);
+    } catch (error) {
+      console.log("in get all districts() function error:", error);
+    }
+  };
 
   // GET ALL CATEGORIES
   const getAllCategories = async () => {
@@ -229,7 +235,6 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         deleteCategory,
         updateCategory,
         setRefresh,
-        a,
       }}
     >
       {children}

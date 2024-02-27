@@ -1,10 +1,10 @@
 import { CustomContainer, setOpenType, useData } from "@/components ";
 import { Add, MoreVert } from "@mui/icons-material";
 import { Stack, Typography } from "@mui/material";
-import { SideLine, selectCategoryTypes } from "./SideLine";
+import { SideLine } from "./SideLine";
 import { CategoryButton } from "@/app/menu/_component/CategoryButton";
 import { ChangeEvent, useState } from "react";
-import { api } from "@/common";
+import { api, selectCategoryTypes } from "@/common";
 
 // const categories = ["breakfast", "soup", "main course", "desserts"];
 export const SideBar = (props: selectCategoryTypes & setOpenType) => {

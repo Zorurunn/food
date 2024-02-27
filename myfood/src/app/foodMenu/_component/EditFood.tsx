@@ -5,7 +5,7 @@ import {
   useAuth,
   useData,
 } from "@/components ";
-import { Backdrop, Button, Stack, Typography } from "@mui/material";
+import { Backdrop, Button, MenuItem, Stack, Typography } from "@mui/material";
 import {
   ChangeEvent,
   Dispatch,
@@ -61,7 +61,7 @@ export const EditFood = (props: twoTypes) => {
   // const { setOpen } = props;
   const [isHover, setIsHover] = useState(false);
   const [really, setReally] = useState(false);
-  const { foods } = useData();
+  const { foods, categories } = useData();
   const router = useRouter();
   const { setIsDisplay, updateFood } = useData();
 
@@ -156,7 +156,32 @@ export const EditFood = (props: twoTypes) => {
                 type="text"
                 width={400}
               />
-              <CustomInput
+              {categories && (
+                <CustomInput
+                  name="category"
+                  label={"Хоолны ангилал"}
+                  placeHolder="Хоолны ангилал оруулна уу"
+                  value={formik.values.category ?? ""}
+                  handleChange={formik.handleChange}
+                  onBlur={formik.handleBlur}
+                  error={
+                    formik.touched.category && Boolean(formik.errors.category)
+                  }
+                  size="medium"
+                  type="text"
+                  width={400}
+                  select={true}
+                >
+                  {categories.map((item) => {
+                    return (
+                      <MenuItem key={item._id} value={item._id}>
+                        {item.name}
+                      </MenuItem>
+                    );
+                  })}
+                </CustomInput>
+              )}
+              {/* <CustomInput
                 name="category"
                 label={"Хоолны ангилал"}
                 placeHolder="Хоолны ангилал оруулна уу"
@@ -169,7 +194,7 @@ export const EditFood = (props: twoTypes) => {
                 size="medium"
                 type="text"
                 width={400}
-              />
+              /> */}
               <CustomInput
                 name="ingredients"
                 label={"Хоолны орц"}
