@@ -1,4 +1,10 @@
-import { AbsContRight, Card, CustomInput, HeadText } from "@/components ";
+import {
+  AbsContRight,
+  Card,
+  CustomInput,
+  HeadText,
+  useData,
+} from "@/components ";
 import {
   Button,
   ButtonBase,
@@ -12,6 +18,9 @@ import { ChangeEvent, useState } from "react";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { InCartFood } from "./InCartFood";
 export const MyCart = () => {
+  const { baskets } = useData();
+  console.log(baskets);
+
   return (
     <AbsContRight width="60%">
       <Stack gap={2}>
@@ -30,17 +39,21 @@ export const MyCart = () => {
           </Stack>
         </Stack>
 
-        {new Array(10).fill(0).map((_, index) => (
-          <Stack gap={2}>
-            <Divider></Divider>
-            <InCartFood
-              imgPath="/temporary/morning.jpg"
-              foodname="Main Pizza"
-              price={38400}
-              recipe="Хулуу, төмс, лууван , сонгино, цөцгийн тос, самрын үр"
-            />
-          </Stack>
-        ))}
+        {baskets &&
+          baskets.map((item) => {
+            return (
+              <Stack gap={2} key={item._id}>
+                <Divider></Divider>
+                <InCartFood
+                  imgPath={item.imgPath}
+                  foodname={item.name}
+                  price={item.price}
+                  recipe={item.ingredients}
+                  countity={item.countity}
+                />
+              </Stack>
+            );
+          })}
         <Stack
           height={200}
           sx={{ border: "1px solid red" }}

@@ -2,15 +2,19 @@ import { Button, Grid, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
+import { useData } from "..";
 type InCartFood = {
   imgPath: string;
   foodname: string;
   price: number;
   discountPersentage?: number;
   recipe: string;
+  countity: number | undefined;
 };
 export const InCartFood = (props: InCartFood) => {
-  const { imgPath, foodname, price, discountPersentage, recipe } = props;
+  const { baskets } = useData();
+  const { imgPath, foodname, price, discountPersentage, recipe, countity } =
+    props;
   return (
     <Stack
       maxWidth={"800px"}
@@ -68,7 +72,7 @@ export const InCartFood = (props: InCartFood) => {
                 >
                   <RemoveIcon />
                 </Stack>
-                <Typography>Тоо</Typography>
+                <Typography>{countity}</Typography>
                 <Stack
                   sx={{
                     cursor: "pointer",

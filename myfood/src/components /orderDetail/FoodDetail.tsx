@@ -1,9 +1,16 @@
-import { foodType } from "@/app/menu/page";
-import { CustomInput, HeadText } from "@/components ";
+import { foodType } from "@/common";
+import { CustomInput, HeadText, useData } from "@/components ";
 import { Close } from "@mui/icons-material";
 import { Button, ButtonBase, Stack, Typography } from "@mui/material";
+import { setIn } from "formik";
 import Image from "next/image";
-import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 
 type foodDetailProps = {
   imgPath: string;
@@ -18,8 +25,22 @@ export type setOpenType = {
 
 type twoTypes = foodDetailProps & setOpenType;
 export const FoodDetail = (props: foodType & setOpenType) => {
-  const { imgPath, name, price, discount, ingredients, setOpen } = props;
+  const [count, setCount] = useState<number>(1);
+  const {
+    imgPath,
+    name,
+    price,
+    discount,
+    ingredients,
+    setOpen,
+    _id,
+    category,
+  } = props;
+  const { addBasket } = useData();
 
+  const [isAdded, setIsAdded] = useState<boolean>(false);
+
+  useEffect(() => {}, []);
   return (
     <Stack
       sx={{
@@ -48,6 +69,7 @@ export const FoodDetail = (props: foodType & setOpenType) => {
               <Close
                 onClick={() => {
                   setOpen(false);
+                  setCount(1);
                 }}
                 sx={{ color: "text.primary", cursor: "pointer" }}
               />
@@ -95,12 +117,16 @@ export const FoodDetail = (props: foodType & setOpenType) => {
                     // borderColor: "text.primary",
                   },
                 }}
+                onClick={() => {
+                  if (count === 1) return;
+                  setCount((prev) => prev - 1);
+                }}
               >
                 <Typography fontSize={30} width={"100%"}>
                   -
                 </Typography>
               </Button>
-              <Typography color={"text.primary"}>Тоо</Typography>
+              <Typography color={"text.primary"}>{count}</Typography>
               <Button
                 sx={{
                   backgroundColor: "primary.main",
@@ -113,6 +139,9 @@ export const FoodDetail = (props: foodType & setOpenType) => {
                     // border: "1px solid",
                     // borderColor: "text.primary",
                   },
+                }}
+                onClick={() => {
+                  setCount((prev) => prev + 1);
                 }}
               >
                 <Typography fontSize={30} width={"100%"}>
@@ -134,7 +163,22 @@ export const FoodDetail = (props: foodType & setOpenType) => {
                 },
               }}
             >
-              <Typography fontSize={14} width={"100%"}>
+              <Typography
+                fontSize={14}
+                width={"100%"}
+                onClick={() => {
+                  addBasket({
+                    countity: count,
+                    _id: _id,
+                    name: name,
+                    ingredients: ingredients,
+                    imgPath: imgPath,
+                    price: price,
+                    discount: discount,
+                    category: category,
+                  });
+                }}
+              >
                 Сагслах
               </Typography>
             </Button>

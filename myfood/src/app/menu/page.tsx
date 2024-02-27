@@ -8,7 +8,13 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Card, CustomContainer, FoodDetail, useData } from "@/components ";
+import {
+  Card,
+  CustomContainer,
+  FoodDetail,
+  setOpenType,
+  useData,
+} from "@/components ";
 import { Category } from "./_component/Category";
 import { SearchedValue } from "@/components /search/SearchedValue";
 import { CategoryButton } from "./_component/CategoryButton";
@@ -19,7 +25,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { api, inMyCartType } from "@/common";
+import { api, categoryType, foodType } from "@/common";
 import { log } from "console";
 
 const buttons = ["Main course", "Appetizers", "Beverage", "On Sale"];
@@ -60,22 +66,12 @@ type foodDetailType = {
   // setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
-export type foodType = {
-  _id?: string;
-  name: string;
-  ingredients: string;
-  imgPath: string;
-  price: number;
-  discount: number;
-  category: string;
-};
-
 export default function Dashboard() {
-  const [selectedCategory, setSelectedCategory] = useState("Breakfast");
-  const [open, setOpen] = useState(false);
+  const [selectedCategory, setSelectedCategory] = useState<categoryType>();
+  const [open, setOpen] = useState<setOpenType>();
   const [thisFood, setThisFood] = useState<foodType>();
-  const [inMyCart, setInMyCart] = useState<inMyCartType[]>();
   const { categories, foods } = useData();
+  console.log(selectedCategory);
 
   return (
     <>
@@ -114,7 +110,7 @@ export default function Dashboard() {
             {foods &&
               foods
                 .filter((item) => {
-                  return item.category === selectedCategory;
+                  return item.category === selectedCategory?._id;
                 })
                 .map((item) => {
                   return (

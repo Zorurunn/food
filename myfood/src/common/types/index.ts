@@ -1,5 +1,25 @@
-import { foodType } from "@/app/menu/page";
 import { Dispatch, SetStateAction } from "react";
+
+export type foodType = {
+  _id?: string;
+  name: string;
+  ingredients: string;
+  imgPath: string;
+  price: number;
+  discount: number;
+  category: string;
+  countity?: number;
+};
+export type basketType = {
+  _id?: string;
+  name: string;
+  ingredients: string;
+  imgPath: string;
+  price: number;
+  discount: number;
+  category: string;
+  countity?: number;
+};
 
 export type SignInProps = {
   email: string;
@@ -45,7 +65,7 @@ export type nameIdType = {
   name: string;
 };
 
-export type inMyCartType = {
+export type addCartType = {
   food: foodType;
   countity: number;
 };

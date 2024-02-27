@@ -7,6 +7,8 @@ import { authMiddleware } from "./middlewares";
 import emailRouter from "./routers/email.router";
 import getUserRouter from "./routers/getUser.router";
 import userUpdateRouter from "./routers/userUpdate.router";
+import getRouter from "./routers/get.router";
+import basketRouter from "./routers/basket.router";
 
 const app = express();
 
@@ -19,6 +21,9 @@ app.use("/", foodRouter);
 
 app.use(authMiddleware);
 
+app.use("/", getRouter);
 app.use("/", getUserRouter);
 app.use("/", userUpdateRouter);
+app.use("/", basketRouter);
+
 export default app;

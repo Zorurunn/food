@@ -1,7 +1,14 @@
 "use client";
 
-import { foodType } from "@/app/menu/page";
-import { api, categoryType, nameIdType, userUpdateProps } from "@/common";
+import {
+  addCartType,
+  api,
+  basketType,
+  categoryType,
+  foodType,
+  nameIdType,
+  userUpdateProps,
+} from "@/common";
 import {
   Dispatch,
   PropsWithChildren,
@@ -12,18 +19,31 @@ import {
   useState,
 } from "react";
 import { setOpenType } from "..";
+import { setIn } from "formik";
+import { log } from "console";
+type countityType = {
+  countity: number;
+};
 
 type DataContextType = {
   isDisplay: boolean;
   setIsDisplay: Dispatch<SetStateAction<boolean>>;
   foods: foodType[] | undefined;
   categories: categoryType[] | undefined;
+  districts: nameIdType[] | undefined;
+  khoroos: nameIdType[] | undefined;
+  apartments: nameIdType[] | undefined;
+  inCart: foodType[] | undefined;
+  setInCart: Dispatch<SetStateAction<foodType[] | undefined>>;
   updateFood: (props: foodType) => Promise<void>;
   createFood: (props: foodType) => Promise<void>;
   deleteCategory: (props: categoryType) => Promise<void>;
   updateCategory: (props: categoryType) => Promise<void>;
+  addCart: (props: addCartType) => void;
   createCategory: ({ name }: { name: string }) => Promise<void>;
   setRefresh: Dispatch<SetStateAction<number>>;
+  addBasket: (props: foodType & countityType) => Promise<void>;
+  baskets: basketType[] | undefined;
 };
 
 const DataContext = createContext<DataContextType>({} as DataContextType);
@@ -33,7 +53,11 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
   const [isDisplay, setIsDisplay] = useState(false);
   const [foods, setFoods] = useState<foodType[]>();
   const [districts, setDistricts] = useState<nameIdType[]>();
+  const [khoroos, setKhoroos] = useState<nameIdType[]>();
+  const [apartments, setApartments] = useState<nameIdType[]>();
   const [categories, setCategories] = useState<categoryType[]>();
+  const [inCart, setInCart] = useState<foodType[]>();
+  const [baskets, setBaskets] = useState<basketType[]>();
 
   // CREATE FOOD
   const createFood = async (props: foodType) => {
@@ -138,17 +162,6 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
       console.log("in getAllFoods() function error:", error);
     }
   };
-  // GET ALL DISTRICTS
-  const getAllDistricts = async () => {
-    try {
-      const res = await api.get("/getAllDistricts");
-      console.log("get All districts");
-
-      setDistricts(res.data);
-    } catch (error) {
-      console.log("in get all districts() function error:", error);
-    }
-  };
 
   // GET ALL CATEGORIES
   const getAllCategories = async () => {
@@ -163,6 +176,72 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  // GET  DISTRICTS
+  const getDistricts = async () => {
+    console.log("KITAA");
+    const token = localStorage.getItem("token");
+    try {
+      const res = await api.get("/getDistricts", {
+        headers: {
+          Authorization: token,
+        },
+      });
+      console.log("get All districts");
+
+      setDistricts(res.data);
+      console.log(res.data);
+    } catch (error) {
+      console.log("in get all districts() function error:", error);
+    }
+  };
+
+  // GET  KHOROOS
+  const getKhoroos = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await api.get("/getKhoroos", {
+        headers: {
+          Authorization: token,
+        },
+      });
+
+      setKhoroos(res.data);
+    } catch (error) {
+      console.log("in get all districts() function error:", error);
+    }
+  };
+  // GET  APARTMENTS
+  const getApartments = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await api.get("/getApartments", {
+        headers: {
+          Authorization: token,
+        },
+      });
+
+      setApartments(res.data);
+    } catch (error) {
+      console.log("in get all apartments() function error:", error);
+    }
+  };
+
+  // GET BASKETS
+  const getBaskets = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const res = await api.get("/getBaskets", {
+        headers: {
+          Authorization: token,
+        },
+      });
+      console.log("get baskets");
+
+      setBaskets(res.data);
+    } catch (error) {
+      console.log("in getBaskets() function error:", error);
+    }
+  };
   // UPDATE CATEGORY
   const updateCategory = async (props: categoryType) => {
     const { name, _id } = props;
@@ -217,9 +296,78 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
+  // ADD BASKET
+  const addBasket = async (props: foodType & countityType) => {
+    const {
+      name,
+      ingredients,
+      imgPath,
+      price,
+      discount,
+      category,
+      _id,
+      countity,
+    } = props;
+    console.log("add basket", props);
+
+    const token = localStorage.getItem("token");
+
+    try {
+      const res = await api.post(
+        "/addBasket",
+        {
+          name,
+          ingredients,
+          imgPath,
+          price,
+          discount,
+          category,
+          _id,
+          countity,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+      console.log("add basket result", res);
+
+      setRefresh((prev) => 1 - prev);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // ADD CART
+  console.log("FOOODS; ", inCart);
+
+  const addCart = (props: addCartType) => {
+    const { food, countity } = props;
+    if (!inCart) {
+      food.countity = countity;
+      setInCart([food]);
+    } else {
+      const isAdded = inCart.find((item) => item._id === food._id);
+      if (isAdded) {
+        if (isAdded.countity) {
+          isAdded.countity += countity;
+        }
+        return;
+      } else {
+        food.countity = countity;
+        setInCart([...inCart, food]);
+      }
+    }
+  };
+
   useEffect(() => {
     getAllFoods();
     getAllCategories();
+    getDistricts();
+    getKhoroos();
+    getApartments();
+    getBaskets();
   }, [refresh]);
 
   return (
@@ -235,6 +383,14 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         deleteCategory,
         updateCategory,
         setRefresh,
+        districts,
+        khoroos,
+        apartments,
+        inCart,
+        setInCart,
+        addCart,
+        addBasket,
+        baskets,
       }}
     >
       {children}

@@ -3,8 +3,7 @@ import { Card, CustomContainer, Login, useData } from "@/components ";
 import { Backdrop, Button, Grid, Stack, Typography } from "@mui/material";
 import { SideBar } from "./_component/SideBar";
 import { useEffect, useState } from "react";
-import { foodType } from "../menu/page";
-import { api, categoryType } from "@/common";
+import { api, categoryType, foodType } from "@/common";
 import { RightTop } from "./_component/RightTop";
 import { EditFood } from "./_component/EditFood";
 import { CreateFood } from "./_component/CreateFood";
@@ -12,7 +11,7 @@ import { CreateCategory } from "./_component/CreateCategory";
 import { useConfirm } from "@/components /providers/ConfirmationProvider";
 
 export default function FoodMenu() {
-  const { foods, categories, deleteCategory, a } = useData();
+  const { foods, categories, deleteCategory } = useData();
   const { confirm } = useConfirm();
 
   const [selectedCategory, setSelectedCategory] = useState<categoryType>();

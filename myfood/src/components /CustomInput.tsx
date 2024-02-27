@@ -1,5 +1,10 @@
 "use client";
-import { Search, VisibilityOff, Visibility } from "@mui/icons-material";
+import {
+  Search,
+  VisibilityOff,
+  Visibility,
+  LocationOn,
+} from "@mui/icons-material";
 import {
   IconButton,
   InputAdornment,
@@ -22,7 +27,7 @@ type CustomInputProps = {
   value: string | number;
   name?: string;
   label?: string;
-  placeHolder: string;
+  placeHolder?: string;
   type: HTMLInputTypeAttribute;
   handleChange:
     | ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
@@ -36,6 +41,8 @@ type CustomInputProps = {
   isTouched?: boolean;
   helperText?: string;
   select?: boolean;
+  iconType?: "location" | "search";
+  multiLine?: boolean;
 } & TextFieldProps;
 
 export const CustomInput = (props: CustomInputProps) => {
@@ -58,6 +65,8 @@ export const CustomInput = (props: CustomInputProps) => {
     helperText,
     children,
     select = false,
+    iconType = "search",
+    multiLine = false,
   } = props;
 
   const [showPassword, setShowPassword] = useState(false);
@@ -96,6 +105,8 @@ export const CustomInput = (props: CustomInputProps) => {
         helperText={isError && isTouched && helperText}
         type={type === "password" && showPassword ? "text" : type}
         select={select}
+        multiline={multiLine}
+        rows={multiLine ? 4 : 0}
         sx={{
           "& fieldset": {
             borderColor: borderColor,
@@ -121,7 +132,11 @@ export const CustomInput = (props: CustomInputProps) => {
           ),
           startAdornment: adornment === "start" && (
             <InputAdornment position="start">
-              <IconButton onClick={handleSearch}>{<Search />}</IconButton>
+              {
+                <IconButton onClick={handleSearch}>
+                  {iconType === "search" ? <Search /> : <LocationOn />}
+                </IconButton>
+              }
             </InputAdornment>
           ),
         }}
