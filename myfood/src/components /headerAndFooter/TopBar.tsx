@@ -2,7 +2,7 @@
 import RamenDiningIcon from "@mui/icons-material/RamenDining";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
-import { Backdrop, Button, Stack, Typography } from "@mui/material";
+import { Backdrop, Button, Drawer, Stack, Typography } from "@mui/material";
 import {
   AbsContCenter,
   CustomContainer,
@@ -17,10 +17,13 @@ import { Notify } from "../notfication/ Notify";
 import { Test } from "../notfication/Test";
 import { Absolute } from "@/app/userProfile/_components/Absolute";
 import { useRouter } from "next/navigation";
+import { MyCart } from "../orderDetail/MyCart";
+import { useBackDrop } from "../providers/BackDropProvider";
 
 export const TopBar = () => {
   const { isDisplay, setIsDisplay } = useData();
   const { isLoggedIn } = useAuth();
+  const { toggleDrawer } = useBackDrop();
   const [searchVal, setSearchVal] = useState("");
   const router = useRouter();
   const handleChange = (
@@ -38,8 +41,17 @@ export const TopBar = () => {
     }
   };
 
+  // const [open, setOpen] = useState(false);
+
+  // const toggleDrawer = (newOpen: boolean) => () => {
+  //   setOpen(newOpen);
+  // };
   return (
     <>
+      {/* <Button onClick={toggleDrawer(true)}>Open drawer</Button>
+      <Drawer open={open} onClose={toggleDrawer(false)} anchor="right">
+        <MyCart toggleDrawer={toggleDrawer} />
+      </Drawer> */}
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={isDisplay}
@@ -96,22 +108,32 @@ export const TopBar = () => {
               width={200}
               borderColor="text.primary"
             />
-            <Stack direction={"row"} gap={1} alignItems={"center"}>
-              <AddShoppingCartIcon sx={{ fontSize: 20 }} />
-              <Typography fontSize={14}>Сагс</Typography>
-            </Stack>
-            <Stack
-              direction={"row"}
-              gap={1}
-              alignItems={"center"}
-              onClick={profileClicked}
-              sx={{ cursor: "pointer" }}
-            >
-              <PermIdentityIcon sx={{ fontSize: 20 }} />
-              <Typography fontSize={14}>
-                {isLoggedIn ? "Хэрэглэгч" : "Нэвтрэх"}
-              </Typography>
-            </Stack>
+            <Button sx={{ textTransform: "none", color: "text.primary" }}>
+              <Stack
+                direction={"row"}
+                gap={1}
+                alignItems={"center"}
+                onClick={toggleDrawer(true)}
+                sx={{ cursor: "pointer" }}
+              >
+                <AddShoppingCartIcon sx={{ fontSize: 20 }} />
+                <Typography fontSize={14}>Сагс</Typography>
+              </Stack>
+            </Button>
+            <Button sx={{ textTransform: "none", color: "text.primary" }}>
+              <Stack
+                direction={"row"}
+                gap={1}
+                alignItems={"center"}
+                onClick={profileClicked}
+                sx={{ cursor: "pointer" }}
+              >
+                <PermIdentityIcon sx={{ fontSize: 20 }} />
+                <Typography fontSize={14}>
+                  {isLoggedIn ? "Хэрэглэгч" : "Нэвтрэх"}
+                </Typography>
+              </Stack>
+            </Button>
           </Stack>
         </Stack>
         {/* {Test()} */}

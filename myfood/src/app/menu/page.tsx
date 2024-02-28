@@ -27,6 +27,8 @@ import {
 } from "react";
 import { api, categoryType, foodType } from "@/common";
 import { log } from "console";
+import { MyCart } from "@/components /orderDetail/MyCart";
+import { Button } from "@mui/base";
 
 const buttons = ["Main course", "Appetizers", "Beverage", "On Sale"];
 
@@ -67,19 +69,21 @@ type foodDetailType = {
 };
 
 export default function Dashboard() {
+  const [c, setC] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<categoryType>();
-  const [open, setOpen] = useState<setOpenType>();
+  const [open, setOpen] = useState(false);
   const [thisFood, setThisFood] = useState<foodType>();
   const { categories, foods } = useData();
   console.log(selectedCategory);
 
   return (
     <>
+      {/* <MyCart /> */}
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={open}
       >
-        {thisFood && <FoodDetail {...thisFood} setOpen={setOpen} />}
+        {thisFood && <FoodDetail food={thisFood} setOpen={setOpen} />}
       </Backdrop>
       <CustomContainer maxWidth="lg">
         <Stack gap={8}>
@@ -134,6 +138,14 @@ export default function Dashboard() {
               />
             ))} */}
           </Stack>
+          {c && <MyCart />}
+          <Button
+            onClick={() => {
+              setC(true);
+            }}
+          >
+            aadsfsdfsdf
+          </Button>
         </Stack>
       </CustomContainer>
     </>

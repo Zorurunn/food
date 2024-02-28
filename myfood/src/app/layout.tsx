@@ -11,6 +11,7 @@ const inter = Inter({ subsets: ["latin"] });
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ConfirmationProvider } from "@/components /providers/ConfirmationProvider";
+import { BackDropProvider } from "@/components /providers/BackDropProvider";
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
@@ -21,11 +22,17 @@ export default function RootLayout({ children }: PropsWithChildren) {
             <AuthProvider>
               <DataProvider>
                 <ConfirmationProvider>
-                  <Stack minHeight="100vh" width={"100%"} position={"relative"}>
-                    <TopBar />
-                    <Stack flex={1}>{children}</Stack>
-                    <Footer />
-                  </Stack>
+                  <BackDropProvider>
+                    <Stack
+                      minHeight="100vh"
+                      width={"100%"}
+                      position={"relative"}
+                    >
+                      <TopBar />
+                      <Stack flex={1}>{children}</Stack>
+                      <Footer />
+                    </Stack>
+                  </BackDropProvider>
                 </ConfirmationProvider>
               </DataProvider>
             </AuthProvider>

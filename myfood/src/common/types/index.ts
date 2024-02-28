@@ -67,7 +67,7 @@ export type nameIdType = {
 
 export type addCartType = {
   food: foodType;
-  countity: number;
+  quantity: number;
 };
 
 export type selectCategoryTypes = {

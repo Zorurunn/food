@@ -33,8 +33,8 @@ type DataContextType = {
   districts: nameIdType[] | undefined;
   khoroos: nameIdType[] | undefined;
   apartments: nameIdType[] | undefined;
-  inCart: foodType[] | undefined;
-  setInCart: Dispatch<SetStateAction<foodType[] | undefined>>;
+  inCart: addCartType[];
+  setInCart: Dispatch<SetStateAction<addCartType[]>>;
   updateFood: (props: foodType) => Promise<void>;
   createFood: (props: foodType) => Promise<void>;
   deleteCategory: (props: categoryType) => Promise<void>;
@@ -44,6 +44,8 @@ type DataContextType = {
   setRefresh: Dispatch<SetStateAction<number>>;
   addBasket: (props: foodType & countityType) => Promise<void>;
   baskets: basketType[] | undefined;
+  minusQuantity: (id: string) => void;
+  addQuantity: (id: string) => void;
 };
 
 const DataContext = createContext<DataContextType>({} as DataContextType);
@@ -56,7 +58,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
   const [khoroos, setKhoroos] = useState<nameIdType[]>();
   const [apartments, setApartments] = useState<nameIdType[]>();
   const [categories, setCategories] = useState<categoryType[]>();
-  const [inCart, setInCart] = useState<foodType[]>();
+  const [inCart, setInCart] = useState<addCartType[]>([]);
   const [baskets, setBaskets] = useState<basketType[]>();
 
   // CREATE FOOD
@@ -210,6 +212,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
       console.log("in get all districts() function error:", error);
     }
   };
+
   // GET  APARTMENTS
   const getApartments = async () => {
     const token = localStorage.getItem("token");
@@ -242,6 +245,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
       console.log("in getBaskets() function error:", error);
     }
   };
+
   // UPDATE CATEGORY
   const updateCategory = async (props: categoryType) => {
     const { name, _id } = props;
@@ -340,24 +344,57 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
   };
 
   // ADD CART
-  console.log("FOOODS; ", inCart);
+  console.log("INCART", inCart);
 
   const addCart = (props: addCartType) => {
-    const { food, countity } = props;
-    if (!inCart) {
-      food.countity = countity;
-      setInCart([food]);
-    } else {
-      const isAdded = inCart.find((item) => item._id === food._id);
-      if (isAdded) {
-        if (isAdded.countity) {
-          isAdded.countity += countity;
+    const { food, quantity } = props;
+    const isAdded = inCart.find((item) => item.food._id === food._id);
+
+    if (isAdded) {
+      const newInCart = inCart.map((item) => {
+        if (item.food._id === food._id) {
+          item.quantity += quantity;
         }
-        return;
-      } else {
-        food.countity = countity;
-        setInCart([...inCart, food]);
+        return item;
+      });
+      setInCart(newInCart);
+    } else {
+      setInCart([...inCart, props]);
+    }
+  };
+
+  // ADD QUANTITY
+  const addQuantity = (id: string) => {
+    const newInCart = inCart.map((item) => {
+      if (item.food._id === id) {
+        if (item.quantity <= 20) {
+          item.quantity += 1;
+        }
       }
+      return item;
+    });
+    setInCart(newInCart);
+  };
+
+  // MINUS QUANTITY
+  const minusQuantity = (id: string) => {
+    const thisFood = inCart.filter((item) => {
+      return item.food._id === id;
+    });
+
+    if (thisFood[0].quantity === 1) {
+      const newInCart = inCart.filter((item) => {
+        return !(item.food._id === id);
+      });
+      setInCart(newInCart);
+    } else {
+      const newInCart = inCart.map((item) => {
+        if (item.food._id === id) {
+          item.quantity -= 1;
+        }
+        return item;
+      });
+      setInCart(newInCart);
     }
   };
 
@@ -369,6 +406,19 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
     getApartments();
     getBaskets();
   }, [refresh]);
+
+  useEffect(() => {
+    if (!inCart.length) return;
+    const data = JSON.stringify(inCart);
+    localStorage.setItem("cart", data);
+  }, [inCart]);
+
+  useEffect(() => {
+    const rawData = localStorage.getItem("cart");
+    if (!rawData) return;
+    const data = JSON.parse(rawData);
+    setInCart(data);
+  }, []);
 
   return (
     <DataContext.Provider
@@ -391,6 +441,8 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         addCart,
         addBasket,
         baskets,
+        minusQuantity,
+        addQuantity,
       }}
     >
       {children}

@@ -22,21 +22,18 @@ type foodDetailProps = {
 export type setOpenType = {
   setOpen: Dispatch<SetStateAction<boolean>>;
 };
-
 type twoTypes = foodDetailProps & setOpenType;
-export const FoodDetail = (props: foodType & setOpenType) => {
+export const FoodDetail = ({
+  food,
+  setOpen,
+}: {
+  food: foodType;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+}) => {
+  // export const FoodDetail = (props: foodType & setOpenType) => {
   const [count, setCount] = useState<number>(1);
-  const {
-    imgPath,
-    name,
-    price,
-    discount,
-    ingredients,
-    setOpen,
-    _id,
-    category,
-  } = props;
-  const { addBasket } = useData();
+  const { imgPath, name, price, discount, ingredients, _id, category } = food;
+  const { addCart } = useData();
 
   const [isAdded, setIsAdded] = useState<boolean>(false);
 
@@ -167,16 +164,7 @@ export const FoodDetail = (props: foodType & setOpenType) => {
                 fontSize={14}
                 width={"100%"}
                 onClick={() => {
-                  addBasket({
-                    countity: count,
-                    _id: _id,
-                    name: name,
-                    ingredients: ingredients,
-                    imgPath: imgPath,
-                    price: price,
-                    discount: discount,
-                    category: category,
-                  });
+                  addCart({ food: food, quantity: count });
                 }}
               >
                 Сагслах

@@ -1,6 +1,5 @@
 "use client";
 
-import { foodType } from "@/app/menu/page";
 import { api, categoryType, userUpdateProps } from "@/common";
 import {
   Dispatch,
