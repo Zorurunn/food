@@ -22,7 +22,6 @@ import {
 import { boolean } from "yup";
 import { Notify } from "..";
 import { ToastContainer, toast } from "react-toastify";
-import { foodType } from "@/app/menu/page";
 
 type AuthContextType = {
   isLoggedIn: boolean;
@@ -129,6 +128,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   // SIGN OUT
   const signOut = () => {
+    localStorage.removeItem("cart");
     localStorage.removeItem("token");
 
     setIsLoggedIn(false);

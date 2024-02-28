@@ -18,9 +18,6 @@ import {
   useEffect,
   useState,
 } from "react";
-import { setOpenType } from "..";
-import { setIn } from "formik";
-import { log } from "console";
 type countityType = {
   countity: number;
 };
@@ -46,6 +43,8 @@ type DataContextType = {
   baskets: basketType[] | undefined;
   minusQuantity: (id: string) => void;
   addQuantity: (id: string) => void;
+  setSelectedFood: Dispatch<SetStateAction<foodType | undefined>>;
+  selectedFood: foodType | undefined;
 };
 
 const DataContext = createContext<DataContextType>({} as DataContextType);
@@ -60,6 +59,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
   const [categories, setCategories] = useState<categoryType[]>();
   const [inCart, setInCart] = useState<addCartType[]>([]);
   const [baskets, setBaskets] = useState<basketType[]>();
+  const [selectedFood, setSelectedFood] = useState<foodType>();
 
   // CREATE FOOD
   const createFood = async (props: foodType) => {
@@ -443,6 +443,8 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         baskets,
         minusQuantity,
         addQuantity,
+        selectedFood,
+        setSelectedFood,
       }}
     >
       {children}

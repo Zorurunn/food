@@ -1,28 +1,10 @@
 import { foodType } from "@/common";
-import { CustomInput, HeadText, useData } from "@/components ";
+import { useData } from "@/components ";
 import { Close } from "@mui/icons-material";
 import { Button, ButtonBase, Stack, Typography } from "@mui/material";
-import { setIn } from "formik";
 import Image from "next/image";
-import {
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 
-type foodDetailProps = {
-  imgPath: string;
-  name: string;
-  price: number;
-  discount: number;
-  ingredients: string;
-};
-export type setOpenType = {
-  setOpen: Dispatch<SetStateAction<boolean>>;
-};
-type twoTypes = foodDetailProps & setOpenType;
 export const FoodDetail = ({
   food,
   setOpen,
@@ -30,14 +12,10 @@ export const FoodDetail = ({
   food: foodType;
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
-  // export const FoodDetail = (props: foodType & setOpenType) => {
   const [count, setCount] = useState<number>(1);
   const { imgPath, name, price, discount, ingredients, _id, category } = food;
   const { addCart } = useData();
 
-  const [isAdded, setIsAdded] = useState<boolean>(false);
-
-  useEffect(() => {}, []);
   return (
     <Stack
       sx={{
@@ -159,14 +137,13 @@ export const FoodDetail = ({
                   borderColor: "text.primary",
                 },
               }}
+              onClick={() => {
+                addCart({ food: food, quantity: count });
+                setCount(1);
+                setOpen(false);
+              }}
             >
-              <Typography
-                fontSize={14}
-                width={"100%"}
-                onClick={() => {
-                  addCart({ food: food, quantity: count });
-                }}
-              >
+              <Typography fontSize={14} width={"100%"}>
                 Сагслах
               </Typography>
             </Button>

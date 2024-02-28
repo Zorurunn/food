@@ -14,6 +14,7 @@ import { Really } from "./Really";
 import { useEffect, useState } from "react";
 import { ExitButton } from "./ExitButton";
 import { Exit } from "./Exit";
+import { useConfirm } from "@/components /providers/ConfirmationProvider";
 export const Profile = () => {
   const { user, getUser } = useAuth();
 
@@ -206,8 +207,6 @@ export const Profile = () => {
             </Stack>
           </Stack>
           <ExitButton />
-          {/* <Really /> */}
-          {/* <Exit /> */}
         </Stack>
       </Stack>
     </Stack>

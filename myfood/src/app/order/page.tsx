@@ -2,6 +2,7 @@
 
 import { CustomContainer, CustomInput, State, useData } from "@/components ";
 import { MyCart } from "@/components /orderDetail/MyCart";
+import { OrderDetail } from "@/components /orderDetail/OrderDetail";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import {
   Button,
@@ -44,7 +45,6 @@ export default function Dashboard() {
 
   return (
     <CustomContainer maxWidth="lg">
-      <MyCart />
       <Stack>
         <Grid container spacing={2}>
           <Grid item xs={6}>
@@ -203,7 +203,24 @@ export default function Dashboard() {
           </Grid>
 
           <Grid item xs={6}>
-            right
+            <Stack
+              direction={"row"}
+              // justifyContent={"center"}
+              alignItems={"center"}
+              gap={2}
+            >
+              <State />
+              <Stack>
+                <Typography color={"text.secondary"} fontSize={14}>
+                  Алхам 2
+                </Typography>
+                <Typography fontSize={20}>Захиалга баталгаажуулах</Typography>
+                <Typography fontSize={16} color={"#0468C8"}>
+                  Хүлээгдэж байна
+                </Typography>
+              </Stack>
+            </Stack>
+            <OrderDetail />
           </Grid>
         </Grid>
       </Stack>

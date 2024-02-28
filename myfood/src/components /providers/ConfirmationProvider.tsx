@@ -10,7 +10,6 @@ import {
   useEffect,
   useState,
 } from "react";
-import { setOpenType, useData } from "..";
 import { Backdrop, Stack, Typography } from "@mui/material";
 import { Really } from "@/app/userProfile/_components/Really";
 
@@ -20,7 +19,7 @@ import { Really } from "@/app/userProfile/_components/Really";
 // }
 
 type ConfirmationContextType = {
-  confirm: (title: string, callback: () => Promise<void>) => void;
+  confirm: (title: string, callback: () => void) => void;
   // setIsDisplay: Dispatch<SetStateAction<boolean>>;
 };
 

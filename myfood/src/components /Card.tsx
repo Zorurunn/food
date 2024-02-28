@@ -1,36 +1,28 @@
 import { foodType } from "@/common";
-import { theme } from "@/theme";
-import { AddIcCallOutlined } from "@mui/icons-material";
-import {
-  Backdrop,
-  CircularProgress,
-  Grid,
-  Modal,
-  Stack,
-  Typography,
-} from "@mui/material";
+import { Backdrop, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import { useState } from "react";
 import { useData } from ".";
+import { useBackDrop } from "./providers/BackDropProvider";
 
-type CardProps = {
-  imgPath: string;
-  name: string;
-  price: number;
-  // value: string;
-  // discountPrice?: string | null;
-  discount?: number;
-  ingredients?: string;
-};
 export const Card = (props: foodType) => {
-  const { inCart, setInCart } = useData();
+  const { setSelectedFood } = useData();
+  const { setOpenFoodDetail } = useBackDrop();
   const { imgPath, price, name, discount } = props;
   const [isHover, setIsHover] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
 
   return (
     <>
-      <Stack gap={1.7} width={"100%"}>
+      <Stack
+        gap={1.7}
+        width={"100%"}
+        onClick={() => {
+          setSelectedFood(props);
+          setOpenFoodDetail(true);
+        }}
+        sx={{ cursor: "pointer" }}
+      >
         <Stack
           position={"relative"}
           paddingTop={"65%"}
@@ -43,7 +35,6 @@ export const Card = (props: foodType) => {
           onMouseLeave={() => {
             setIsHover(false);
           }}
-          sx={{ cursor: "pointer" }}
           onClick={() => {
             setIsHover(false);
           }}

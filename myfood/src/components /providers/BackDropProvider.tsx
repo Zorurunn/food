@@ -10,7 +10,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { setOpenType, useData } from "..";
+import { FoodDetail, useData } from "..";
 import { Backdrop, Drawer, Stack, Typography } from "@mui/material";
 import { Really } from "@/app/userProfile/_components/Really";
 import { Button } from "@mui/base";
@@ -19,7 +19,8 @@ import { MyCart } from "../orderDetail/MyCart";
 type BackDropContextType = {
   // confirm: (title: string, callback: () => Promise<void>) => void;
   // setIsDisplay: Dispatch<SetStateAction<boolean>>;
-  toggleDrawer: (newOpen: boolean) => () => void;
+  toggleMyCart: (newOpen: boolean) => () => void;
+  setOpenFoodDetail: Dispatch<SetStateAction<boolean>>;
 };
 
 const BackDropContext = createContext<BackDropContextType>(
@@ -28,19 +29,31 @@ const BackDropContext = createContext<BackDropContextType>(
 
 export const BackDropProvider = ({ children }: PropsWithChildren) => {
   const [openMyCart, setOpenMyCart] = useState(false);
+  const [openFoodDetail, setOpenFoodDetail] = useState(false);
+  const { selectedFood } = useData();
 
-  const toggleDrawer = (newOpen: boolean) => () => {
+  const toggleMyCart = (newOpen: boolean) => () => {
     setOpenMyCart(newOpen);
   };
 
   return (
-    <BackDropContext.Provider value={{ toggleDrawer }}>
-      <Button onClick={toggleDrawer(true)}>Open drawer</Button>
+    <BackDropContext.Provider value={{ toggleMyCart, setOpenFoodDetail }}>
+      <Button onClick={toggleMyCart(true)}>Open drawer</Button>
 
       {/* MY CART */}
-      <Drawer open={openMyCart} onClose={toggleDrawer(false)} anchor="right">
-        <MyCart toggleDrawer={toggleDrawer} />
+      <Drawer open={openMyCart} onClose={toggleMyCart(false)} anchor="right">
+        <MyCart toggleDrawer={toggleMyCart} />
       </Drawer>
+
+      {/* FOOD DETAIL */}
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={openFoodDetail}
+      >
+        {selectedFood && (
+          <FoodDetail food={selectedFood} setOpen={setOpenFoodDetail} />
+        )}
+      </Backdrop>
 
       {children}
     </BackDropContext.Provider>

@@ -19,6 +19,7 @@ import {
 import { Formik, useFormik } from "formik";
 import * as yup from "yup";
 import { Really } from "../_components/Really";
+import { useConfirm } from "@/components /providers/ConfirmationProvider";
 
 const validationSchema = yup.object({
   email: yup.string().email().required(),
@@ -28,6 +29,7 @@ const validationSchema = yup.object({
 
 export default function ProfileEdit() {
   const { user, userUpdate } = useAuth();
+  const { confirm } = useConfirm();
 
   const formik = useFormik({
     initialValues: {
@@ -38,10 +40,12 @@ export default function ProfileEdit() {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       try {
-        userUpdate({
-          name: values.name || "",
-          email: values.email || "",
-          phoneNumber: values.phoneNumber || "",
+        confirm("Та шинэчлэлт хийхдээ итгэлтэй байна уу ?", async () => {
+          await userUpdate({
+            name: values.name || "",
+            email: values.email || "",
+            phoneNumber: values.phoneNumber || "",
+          });
         });
       } catch (e) {
         console.log("could not update user", e);

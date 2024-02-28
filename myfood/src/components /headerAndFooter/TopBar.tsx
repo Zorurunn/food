@@ -3,6 +3,8 @@ import RamenDiningIcon from "@mui/icons-material/RamenDining";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { Backdrop, Button, Drawer, Stack, Typography } from "@mui/material";
+import MailIcon from "@mui/icons-material/Mail";
+import Badge from "@mui/material/Badge";
 import {
   AbsContCenter,
   CustomContainer,
@@ -12,18 +14,20 @@ import {
   useAuth,
   useData,
 } from "..";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Notify } from "../notfication/ Notify";
 import { Test } from "../notfication/Test";
 import { Absolute } from "@/app/userProfile/_components/Absolute";
 import { useRouter } from "next/navigation";
 import { MyCart } from "../orderDetail/MyCart";
 import { useBackDrop } from "../providers/BackDropProvider";
+import { useAmount } from "../providers/AmountProvider";
 
 export const TopBar = () => {
-  const { isDisplay, setIsDisplay } = useData();
+  const { orderAmount } = useAmount();
+  const { isDisplay, setIsDisplay, inCart, setInCart } = useData();
   const { isLoggedIn } = useAuth();
-  const { toggleDrawer } = useBackDrop();
+  const { toggleMyCart } = useBackDrop();
   const [searchVal, setSearchVal] = useState("");
   const router = useRouter();
   const handleChange = (
@@ -41,11 +45,6 @@ export const TopBar = () => {
     }
   };
 
-  // const [open, setOpen] = useState(false);
-
-  // const toggleDrawer = (newOpen: boolean) => () => {
-  //   setOpen(newOpen);
-  // };
   return (
     <>
       {/* <Button onClick={toggleDrawer(true)}>Open drawer</Button>
@@ -108,24 +107,33 @@ export const TopBar = () => {
               width={200}
               borderColor="text.primary"
             />
-            <Button sx={{ textTransform: "none", color: "text.primary" }}>
+
+            <Button
+              sx={{ textTransform: "none", color: "text.primary" }}
+              onClick={toggleMyCart(true)}
+            >
               <Stack
                 direction={"row"}
                 gap={1}
                 alignItems={"center"}
-                onClick={toggleDrawer(true)}
                 sx={{ cursor: "pointer" }}
               >
-                <AddShoppingCartIcon sx={{ fontSize: 20 }} />
+                <Badge badgeContent={orderAmount} color="error">
+                  <AddShoppingCartIcon sx={{ fontSize: 20 }} />
+                </Badge>
+
                 <Typography fontSize={14}>Сагс</Typography>
               </Stack>
             </Button>
-            <Button sx={{ textTransform: "none", color: "text.primary" }}>
+
+            <Button
+              sx={{ textTransform: "none", color: "text.primary" }}
+              onClick={profileClicked}
+            >
               <Stack
                 direction={"row"}
                 gap={1}
                 alignItems={"center"}
-                onClick={profileClicked}
                 sx={{ cursor: "pointer" }}
               >
                 <PermIdentityIcon sx={{ fontSize: 20 }} />
@@ -136,9 +144,6 @@ export const TopBar = () => {
             </Button>
           </Stack>
         </Stack>
-        {/* {Test()} */}
-        {/* <Notify message="Амжилттай бүртгэгдлээ." color="primary.main" /> */}
-        {/* <State /> */}
       </CustomContainer>
     </>
   );
