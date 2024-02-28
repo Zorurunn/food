@@ -6,116 +6,117 @@ import { useData } from ".";
 import { useBackDrop } from "./providers/BackDropProvider";
 
 export const Card = (props: foodType) => {
-  const { setSelectedFood } = useData();
-  const { setOpenFoodDetail } = useBackDrop();
+  const { setSelectedFood, selectedFood } = useData();
+  const { setOpenFoodDetail, setOpenEditFood } = useBackDrop();
   const { imgPath, price, name, discount } = props;
   const [isHover, setIsHover] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(true);
 
   return (
-    <>
+    <Stack
+      gap={1.7}
+      width={"100%"}
+      onClick={() => {
+        setSelectedFood(props);
+        if (isAdmin) {
+          // setOpenEditFood
+        }
+        setOpenFoodDetail(true);
+      }}
+      sx={{ cursor: "pointer" }}
+    >
       <Stack
-        gap={1.7}
-        width={"100%"}
-        onClick={() => {
-          setSelectedFood(props);
-          setOpenFoodDetail(true);
+        position={"relative"}
+        paddingTop={"65%"}
+        border={"1px solid transparent"}
+        borderRadius={5}
+        overflow={"hidden"}
+        onMouseOver={() => {
+          setIsHover(true);
         }}
-        sx={{ cursor: "pointer" }}
+        onMouseLeave={() => {
+          setIsHover(false);
+        }}
+        onClick={() => {
+          setIsHover(false);
+        }}
       >
-        <Stack
-          position={"relative"}
-          paddingTop={"65%"}
-          border={"1px solid transparent"}
-          borderRadius={5}
-          overflow={"hidden"}
-          onMouseOver={() => {
-            setIsHover(true);
+        <Backdrop
+          sx={{
+            color: "#fff",
+            zIndex: (theme) => theme.zIndex.drawer + 1,
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
           }}
-          onMouseLeave={() => {
-            setIsHover(false);
-          }}
-          onClick={() => {
-            setIsHover(false);
-          }}
+          open={isHover}
         >
-          <Backdrop
-            sx={{
-              color: "#fff",
-              zIndex: (theme) => theme.zIndex.drawer + 1,
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "100%",
-            }}
-            open={isHover}
-          >
-            <Stack
-              justifyContent={"center"}
-              alignItems={"center"}
-              sx={{ backgroundColor: "#fff", borderRadius: 2 }}
-              paddingX={2}
-            >
-              <Typography color={"text.primary"}>
-                {isAdmin ? "Edit" : "Food Detail"}
-              </Typography>
-            </Stack>
-          </Backdrop>
-          <Image
-            src={imgPath}
-            alt="Breakfast"
-            fill
-            style={{ objectFit: "cover" }}
-          />
           <Stack
-            position={"absolute"}
-            zIndex={2}
-            width={"20%"}
-            height={"20%"}
-            top={"10%"}
-            right={"10%"}
-            sx={{
-              backgroundColor: "primary.main",
-              border: "2px solid white",
-              borderRadius: 10,
-              display: discount ? "flex" : "none",
-            }}
             justifyContent={"center"}
             alignItems={"center"}
+            sx={{ backgroundColor: "#fff", borderRadius: 2 }}
+            paddingX={2}
           >
-            <Typography fontSize={20} fontWeight={600} color={"white"}>
-              {discount}%
+            <Typography color={"text.primary"}>
+              {isAdmin ? "Edit" : "Food Detail"}
             </Typography>
           </Stack>
-        </Stack>
-        <Stack>
-          <Typography fontSize={20} fontWeight={600} color="text.primary">
-            {name}
+        </Backdrop>
+        <Image
+          src={imgPath}
+          alt="Breakfast"
+          fill
+          style={{ objectFit: "cover" }}
+        />
+        <Stack
+          position={"absolute"}
+          zIndex={2}
+          width={"20%"}
+          height={"20%"}
+          top={"10%"}
+          right={"10%"}
+          sx={{
+            backgroundColor: "primary.main",
+            border: "2px solid white",
+            borderRadius: 10,
+            display: discount ? "flex" : "none",
+          }}
+          justifyContent={"center"}
+          alignItems={"center"}
+        >
+          <Typography fontSize={20} fontWeight={600} color={"white"}>
+            {discount}%
           </Typography>
-          <Stack direction={"row"} gap={2}>
-            <Typography
-              fontSize={18}
-              fontWeight={800}
-              color="primary.main"
-              sx={{ display: discount ? "flex" : "none" }}
-            >
-              {discount ? price - (price * discount) / 100 : 0}₮
-            </Typography>
-            <Typography
-              fontSize={18}
-              fontWeight={800}
-              color={discount ? "text.primary" : "primary.main"}
-              sx={{
-                textDecoration: discount ? "line-through" : "none",
-              }}
-            >
-              {price}₮
-            </Typography>
-          </Stack>
         </Stack>
       </Stack>
-    </>
+      <Stack>
+        <Typography fontSize={20} fontWeight={600} color="text.primary">
+          {name}
+        </Typography>
+        <Stack direction={"row"} gap={2}>
+          <Typography
+            fontSize={18}
+            fontWeight={800}
+            color="primary.main"
+            sx={{ display: discount ? "flex" : "none" }}
+          >
+            {discount ? price - (price * discount) / 100 : 0}₮
+          </Typography>
+          <Typography
+            fontSize={18}
+            fontWeight={800}
+            color={discount ? "text.primary" : "primary.main"}
+            sx={{
+              textDecoration: discount ? "line-through" : "none",
+            }}
+          >
+            {price}₮
+          </Typography>
+        </Stack>
+      </Stack>
+    </Stack>
   );
 };
 

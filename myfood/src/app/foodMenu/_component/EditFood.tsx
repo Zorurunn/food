@@ -1,10 +1,4 @@
-import {
-  CustomInput,
-  HeadText,
-  setOpenType,
-  useAuth,
-  useData,
-} from "@/components ";
+import { CustomInput, HeadText, useAuth, useData } from "@/components ";
 import { Backdrop, Button, MenuItem, Stack, Typography } from "@mui/material";
 import {
   ChangeEvent,
@@ -17,10 +11,9 @@ import { Formik, useFormik } from "formik";
 import * as yup from "yup";
 // import { useAuth } from "../providers/AuthProvider";
 import { useRouter } from "next/navigation";
-import { foodType } from "@/app/menu/page";
-import { log } from "console";
 import { Really } from "@/app/userProfile/_components/Really";
 import { Close } from "@mui/icons-material";
+import { foodType } from "@/common";
 
 const lines = [
   "Хоолны нэр",
@@ -39,24 +32,15 @@ const validationSchema = yup.object({
   discount: yup.number().required(),
   imgPath: yup.string().required(),
 });
-type setThisFoodType = {
-  setThisFood: Dispatch<SetStateAction<foodType | undefined>>;
-};
-type twoTypes = (foodType | undefined) & setOpenType & setThisFoodType;
 
-export const EditFood = (props: twoTypes) => {
-  const {
-    imgPath,
-    name,
-    price,
-    discount,
-    ingredients,
-    category,
-    _id,
-    setOpen,
-    setThisFood,
-  } = props;
-  console.log("edit doof prpd", props);
+export const EditFood = ({
+  food,
+  setOpen,
+}: {
+  food: foodType;
+  setOpen: Dispatch<SetStateAction<boolean>>;
+}) => {
+  const { imgPath, name, price, discount, ingredients, category, _id } = food;
 
   // const { setOpen } = props;
   const [isHover, setIsHover] = useState(false);
@@ -112,8 +96,8 @@ export const EditFood = (props: twoTypes) => {
           <Really
             title={"Хадгалахдаа итгэлтэй байна уу ?"}
             setReally={setReally}
-            otherSet1={setOpen}
-            otherSet2={setThisFood}
+            // otherSet1={setOpen}
+            // otherSet2={setThisFood}
             submitFunction={formik.handleSubmit}
           />
         </Stack>
@@ -126,8 +110,8 @@ export const EditFood = (props: twoTypes) => {
               alignItems={"center"}
               sx={{ cursor: "pointer" }}
               onClick={() => {
-                setOpen(false);
-                setThisFood(undefined);
+                // setOpen(false);
+                // setThisFood(undefined);
               }}
             >
               <Close sx={{ color: "text.primary" }} />
