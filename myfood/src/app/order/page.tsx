@@ -11,8 +11,6 @@ import {
   IconButton,
   InputAdornment,
   MenuItem,
-  Radio,
-  Select,
   Stack,
   TextareaAutosize,
   Typography,
@@ -20,15 +18,21 @@ import {
 import { Formik, useFormik } from "formik";
 import { ST } from "next/dist/shared/lib/utils";
 import * as yup from "yup";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import { useState } from "react";
 const validationSchema = yup.object({
   district: yup.string().required(),
   khoroo: yup.string().required(),
   apartment: yup.string().required(),
   additionalInformation: yup.string().required(),
   phoneNumber: yup.number().required(),
+  radioSelect: yup.string().required(),
 });
 export default function Dashboard() {
-  const { districts, khoroos, apartments } = useData();
+  const [paymentType, setPaymentType] = useState<string>("");
+
+  const { districts, khoroos, apartments, inCart } = useData();
   const formik = useFormik({
     initialValues: {
       district: "defaultValue",
@@ -36,9 +40,11 @@ export default function Dashboard() {
       apartment: "defaultValue",
       additionalInformation: "",
       phoneNumber: null,
+      radioSelect: "",
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
+      formik.values.radioSelect = paymentType;
       console.log(values);
     },
   });
@@ -191,6 +197,34 @@ export default function Dashboard() {
                   type="text"
                   width={400}
                 />
+
+                <RadioGroup
+                  name="radioSelect"
+                  value={
+                    formik.values.radioSelect === ""
+                      ? paymentType
+                      : formik.values.radioSelect
+                  }
+                  onChange={(event) => {
+                    setPaymentType(event.currentTarget.value);
+                  }}
+                >
+                  <FormControlLabel
+                    control={<Radio />}
+                    label="Option 1"
+                    value="female"
+                  />
+                  <FormControlLabel
+                    control={<Radio />}
+                    label="Option 2"
+                    value="male"
+                  />
+                  <FormControlLabel
+                    control={<Radio />}
+                    label="Option 3"
+                    value="other"
+                  />
+                </RadioGroup>
               </Stack>
             </Stack>
             <Button
@@ -220,7 +254,7 @@ export default function Dashboard() {
                 </Typography>
               </Stack>
             </Stack>
-            <OrderDetail />
+            {inCart.length ? <OrderDetail /> : "no food"}
           </Grid>
         </Grid>
       </Stack>

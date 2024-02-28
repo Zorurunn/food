@@ -1,44 +1,21 @@
-import {
-  CustomInput,
-  HeadText,
-  setOpenType,
-  useAuth,
-  useData,
-} from "@/components ";
+import { CustomInput, HeadText, useData } from "@/components ";
 import { Backdrop, Button, Stack, Typography } from "@mui/material";
-import {
-  ChangeEvent,
-  Dispatch,
-  SetStateAction,
-  useEffect,
-  useState,
-} from "react";
+import { Dispatch, SetStateAction } from "react";
 import { Formik, useFormik } from "formik";
 import * as yup from "yup";
-// import { useAuth } from "../providers/AuthProvider";
-import { useRouter } from "next/navigation";
-import { foodType } from "@/app/menu/page";
-import { log } from "console";
-import { Really } from "@/app/userProfile/_components/Really";
 import { Close } from "@mui/icons-material";
-import { create } from "domain";
-
-const lines = [
-  "Хоолны нэр",
-  "Хоолны ангилал",
-  "Хоолны орц",
-  "Хоолны үнэ",
-  "Хямдралтай эсэх",
-  "Хоолны зураг",
-];
+import { useConfirm } from "@/components /providers/ConfirmationProvider";
 
 const validationSchema = yup.object({
   name: yup.string().required(),
 });
 
-export const CreateCategory = (props: setOpenType) => {
-  const { setOpen } = props;
-  const [really, setReally] = useState(false);
+export const CreateCategory = ({
+  setOpen,
+}: {
+  setOpen: Dispatch<SetStateAction<boolean>>;
+}) => {
+  const { confirm } = useConfirm();
   const { createCategory } = useData();
 
   const formik = useFormik({
@@ -47,40 +24,20 @@ export const CreateCategory = (props: setOpenType) => {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log("formik values", values);
-      createCategory({ name: values.name });
-      formik.resetForm();
+      try {
+        confirm("Та хадгалахдаа итгэлтэй байна уу ?", async () => {
+          await createCategory({ name: values.name });
+          setOpen(false);
+          formik.resetForm();
+        });
+      } catch (e) {
+        alert(e);
+      }
     },
   });
 
   return (
     <>
-      <Backdrop
-        sx={{
-          color: "#fff",
-          zIndex: (theme) => theme.zIndex.drawer + 1,
-          position: "absolute",
-          top: 0,
-          left: 0,
-          width: "100%",
-          height: "100%",
-        }}
-        open={really}
-      >
-        <Stack
-          width={80}
-          justifyContent={"center"}
-          alignItems={"center"}
-          sx={{ backgroundColor: "#fff", borderRadius: 2 }}
-        >
-          <Really
-            title={"Хадгалахдаа итгэлтэй байна уу ?"}
-            setReally={setReally}
-            otherSet1={setOpen}
-            submitFunction={formik.handleSubmit}
-          />
-        </Stack>
-      </Backdrop>
       <Stack padding={4} sx={{ backgroundColor: "#fff" }} borderRadius={"4%"}>
         <Stack alignItems={"center"} justifyContent={"center"} gap={3}>
           <Stack direction={"row"} width={"100%"}>
@@ -127,6 +84,9 @@ export const CreateCategory = (props: setOpenType) => {
                   paddingX={2}
                   paddingY={1}
                   sx={{ cursor: "pointer" }}
+                  onClick={() => {
+                    setOpen(false);
+                  }}
                 >
                   Clear
                 </Stack>
@@ -139,7 +99,7 @@ export const CreateCategory = (props: setOpenType) => {
                   paddingY={1}
                   borderRadius={2}
                   onClick={() => {
-                    setReally(true);
+                    formik.handleSubmit();
                   }}
                 >
                   Continue

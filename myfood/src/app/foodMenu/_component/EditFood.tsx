@@ -14,6 +14,7 @@ import { useRouter } from "next/navigation";
 import { Really } from "@/app/userProfile/_components/Really";
 import { Close } from "@mui/icons-material";
 import { foodType } from "@/common";
+import { useConfirm } from "@/components /providers/ConfirmationProvider";
 
 const lines = [
   "Хоолны нэр",
@@ -41,13 +42,14 @@ export const EditFood = ({
   setOpen: Dispatch<SetStateAction<boolean>>;
 }) => {
   const { imgPath, name, price, discount, ingredients, category, _id } = food;
+  const { setSelectedFood } = useData();
 
-  // const { setOpen } = props;
   const [isHover, setIsHover] = useState(false);
   const [really, setReally] = useState(false);
   const { foods, categories } = useData();
   const router = useRouter();
   const { setIsDisplay, updateFood } = useData();
+  const { confirm } = useConfirm();
 
   const formik = useFormik({
     initialValues: {
@@ -60,22 +62,30 @@ export const EditFood = ({
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log("formik values", values);
-      updateFood({
-        name: values.name,
-        category: values.category,
-        ingredients: values.ingredients,
-        price: values.price,
-        discount: values.discount,
-        imgPath: values.imgPath,
-        _id: _id,
-      });
+      try {
+        confirm("Та шинэчлэлт хийхдээ итгэлтэй байна уу ?", async () => {
+          await updateFood({
+            name: values.name,
+            category: values.category,
+            ingredients: values.ingredients,
+            price: values.price,
+            discount: values.discount,
+            imgPath: values.imgPath,
+            _id: _id,
+          });
+          setOpen(false);
+          setSelectedFood(undefined);
+          formik.resetForm();
+        });
+      } catch (e) {
+        alert(e);
+      }
     },
   });
 
   return (
     <>
-      <Backdrop
+      {/* <Backdrop
         sx={{
           color: "#fff",
           zIndex: (theme) => theme.zIndex.drawer + 1,
@@ -101,7 +111,7 @@ export const EditFood = ({
             submitFunction={formik.handleSubmit}
           />
         </Stack>
-      </Backdrop>
+      </Backdrop> */}
       <Stack padding={4} sx={{ backgroundColor: "#fff" }} borderRadius={"4%"}>
         <Stack alignItems={"center"} justifyContent={"center"} gap={3}>
           <Stack direction={"row"} width={"100%"}>
@@ -110,8 +120,8 @@ export const EditFood = ({
               alignItems={"center"}
               sx={{ cursor: "pointer" }}
               onClick={() => {
-                // setOpen(false);
-                // setThisFood(undefined);
+                setSelectedFood(undefined);
+                setOpen(false);
               }}
             >
               <Close sx={{ color: "text.primary" }} />
@@ -165,20 +175,7 @@ export const EditFood = ({
                   })}
                 </CustomInput>
               )}
-              {/* <CustomInput
-                name="category"
-                label={"Хоолны ангилал"}
-                placeHolder="Хоолны ангилал оруулна уу"
-                value={formik.values.category}
-                handleChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={
-                  formik.touched.category && Boolean(formik.errors.category)
-                }
-                size="medium"
-                type="text"
-                width={400}
-              /> */}
+
               <CustomInput
                 name="ingredients"
                 label={"Хоолны орц"}
@@ -240,6 +237,9 @@ export const EditFood = ({
                   paddingX={2}
                   paddingY={1}
                   sx={{ cursor: "pointer" }}
+                  onClick={() => {
+                    setOpen(false);
+                  }}
                 >
                   Clear
                 </Stack>
@@ -252,7 +252,7 @@ export const EditFood = ({
                   paddingY={1}
                   borderRadius={2}
                   onClick={() => {
-                    setReally(true);
+                    formik.handleSubmit();
                   }}
                 >
                   Continue

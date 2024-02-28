@@ -1,15 +1,17 @@
-import { CustomContainer, setOpenType, useData } from "@/components ";
+import { CustomContainer, useData } from "@/components ";
 import { Add, MoreVert } from "@mui/icons-material";
 import { Stack, Typography } from "@mui/material";
 import { SideLine } from "./SideLine";
 import { CategoryButton } from "@/app/menu/_component/CategoryButton";
 import { ChangeEvent, useState } from "react";
 import { api, selectCategoryTypes } from "@/common";
+import { useBackDrop } from "@/components /providers/BackDropProvider";
 
 // const categories = ["breakfast", "soup", "main course", "desserts"];
-export const SideBar = (props: selectCategoryTypes & setOpenType) => {
+export const SideBar = (props: selectCategoryTypes) => {
+  const { setOpenCreateCategory } = useBackDrop();
   const { categories, deleteCategory } = useData();
-  const { selectedCategory, setSelectedCategory, setOpen } = props;
+  const { selectedCategory, setSelectedCategory } = props;
 
   return (
     <Stack gap={4}>
@@ -36,17 +38,13 @@ export const SideBar = (props: selectCategoryTypes & setOpenType) => {
           padding={1}
           alignItems={"center"}
           gap={1}
+          onClick={() => {
+            setOpenCreateCategory(true);
+          }}
+          sx={{ cursor: "pointer" }}
         >
           <Add />
-          <Typography
-            sx={{ cursor: "pointer" }}
-            color={"text.secondary"}
-            onClick={() => {
-              setOpen(true);
-            }}
-          >
-            Create new category
-          </Typography>
+          <Typography color={"text.secondary"}>Create new category</Typography>
         </Stack>
       </Stack>
     </Stack>

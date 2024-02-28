@@ -9,6 +9,7 @@ import { EditFood } from "./_component/EditFood";
 import { CreateFood } from "./_component/CreateFood";
 import { CreateCategory } from "./_component/CreateCategory";
 import { useConfirm } from "@/components /providers/ConfirmationProvider";
+import { useBackDrop } from "@/components /providers/BackDropProvider";
 
 export default function FoodMenu() {
   const { foods, categories, deleteCategory } = useData();
@@ -18,7 +19,7 @@ export default function FoodMenu() {
   // const [foods, setFoods] = useState<foodType[] | null>(null);
   const [thisFood, setThisFood] = useState<foodType>();
   const [openEditFood, setOpenEditFood] = useState(false);
-  const [openCreateFood, setOpenCreateFood] = useState(false);
+  const { setOpenCreateFood } = useBackDrop();
   const [openCreateCategory, setOpenCreateCategory] = useState(false);
   // console.log("selected", selectedCategory);
 
@@ -44,43 +45,43 @@ export default function FoodMenu() {
 
   return (
     <CustomContainer maxWidth="lg">
-      <Stack
+      {/* <Stack
         onClick={() => {
           deleteCategory({ name: "Main course" });
         }}
       >
         DEEEE
-      </Stack>
+      </Stack> */}
       {/* CREATE CATEGORY MODAL */}
-      <Backdrop
+      {/* <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={openCreateCategory}
       >
         <CreateCategory setOpen={setOpenCreateCategory} />
-      </Backdrop>
+      </Backdrop> */}
       {/* ADD FOOD MODAL */}
-      <Backdrop
+      {/* <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={openCreateFood}
       >
         <CreateFood setOpen={setOpenCreateFood} />
-      </Backdrop>
+      </Backdrop> */}
 
       {/* DELETE CATEGORY MODAL */}
-      <Backdrop
+      {/* <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={openEditFood}
-      >
-        {thisFood && (
+      > */}
+      {/* {thisFood && (
           <EditFood
             {...thisFood}
             setOpen={setOpenEditFood}
             setThisFood={setThisFood}
           />
-        )}
-      </Backdrop>
+        )} */}
+      {/* </Backdrop> */}
       {/* CREATE FOOD MODAL */}
-      <Backdrop
+      {/* <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={openEditFood}
       >
@@ -91,7 +92,7 @@ export default function FoodMenu() {
             setThisFood={setThisFood}
           />
         )}
-      </Backdrop>
+      </Backdrop> */}
 
       <Stack
         direction={"row"}
@@ -102,7 +103,6 @@ export default function FoodMenu() {
         <SideBar
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
-          setOpen={setOpenCreateCategory}
         />
         <Stack sx={{ backgroundColor: "primary.dark" }}>
           <Stack
@@ -146,12 +146,6 @@ export default function FoodMenu() {
                         item
                         xs={4}
                         key={item._id}
-                        onClick={() => {
-                          console.log("clicked item", item);
-
-                          setThisFood(item);
-                          setOpenEditFood(true);
-                        }}
                         justifyContent={"center"}
                       >
                         <Card {...item} />
