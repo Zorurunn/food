@@ -31,7 +31,7 @@ const basketSchema = new Schema({
     type: Number,
     required: true,
   },
-  foodId: {
+  useId: {
     type: String,
     required: true,
   },

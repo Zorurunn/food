@@ -5,3 +5,4 @@ export * from "./getUser.controller";
 export * from "./userUpdate.controller";
 export * from "./get.controller";
 export * from "./basket.controller";
+export * from "./order.controller";

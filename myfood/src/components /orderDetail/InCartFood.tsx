@@ -6,18 +6,24 @@ import { useData } from "..";
 import { AddCard } from "@mui/icons-material";
 import { addCartType } from "@/common";
 
-export const InCartFood = (props: addCartType) => {
+type sizeType = {
+  fontSize?: number;
+  imgHeight?: number;
+  isSimple?: boolean;
+};
+export const InCartFood = (props: addCartType & sizeType) => {
   const { minusQuantity, addQuantity } = useData();
-  const { food, quantity } = props;
+  const { food, quantity, fontSize, imgHeight, isSimple = false } = props;
   const { imgPath, name, price, discount, ingredients, _id } = food;
   return (
     <Stack
       maxWidth={"800px"}
       direction={"row"}
       width={"100%"}
-      height={200}
+      height={imgHeight ?? 200}
       gap={2}
     >
+      {/* IMAGE */}
       <Stack flexGrow={1}>
         <Stack position={"relative"} width={"100%"} height={"100%"}>
           <Image
@@ -28,6 +34,8 @@ export const InCartFood = (props: addCartType) => {
           />
         </Stack>
       </Stack>
+
+      {/* FOOD DETAIL */}
       <Stack flexGrow={1}>
         <Stack position={"relative"} width={"100%"} height={"100%"}>
           <Stack
@@ -37,14 +45,28 @@ export const InCartFood = (props: addCartType) => {
             top={0}
             left={0}
           >
-            <Stack gap={1}>
-              <Typography fontSize={20} fontWeight={800}>
+            <Stack gap={1} justifyContent={"space-between"} height={"100%"}>
+              <Typography fontSize={fontSize ?? 20} fontWeight={800}>
                 {name}
               </Typography>
-              <Typography fontSize={20} fontWeight={800} color={"primary.main"}>
-                {price}
+              <Typography
+                fontSize={fontSize ?? 20}
+                fontWeight={800}
+                color={"primary.main"}
+              >
+                {price}₮
               </Typography>
-              <Typography color={"text.secondary"}>{ingredients}</Typography>
+              {!isSimple && (
+                <Typography
+                  color={"text.secondary"}
+                  height={200}
+                  overflow={"scroll"}
+                  fontSize={fontSize ?? 14}
+                >
+                  {ingredients}
+                </Typography>
+              )}
+
               <Stack
                 direction={"row"}
                 justifyContent={"space-between"}
@@ -54,8 +76,8 @@ export const InCartFood = (props: addCartType) => {
                   sx={{
                     cursor: "pointer",
                     backgroundColor: "primary.main",
-                    width: 40,
-                    height: 40,
+                    width: fontSize ? 30 : 40,
+                    height: fontSize ? 30 : 40,
                     color: "#fff",
                     justifyContent: "center",
                     alignItems: "center",
@@ -70,13 +92,13 @@ export const InCartFood = (props: addCartType) => {
                 >
                   <RemoveIcon />
                 </Stack>
-                <Typography>{quantity}</Typography>
+                <Typography fontSize={fontSize ?? 20}>{quantity}</Typography>
                 <Stack
                   sx={{
                     cursor: "pointer",
                     backgroundColor: "primary.main",
-                    width: 40,
-                    height: 40,
+                    width: fontSize ? 30 : 40,
+                    height: fontSize ? 30 : 40,
                     color: "#fff",
                     justifyContent: "center",
                     alignItems: "center",

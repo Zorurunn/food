@@ -4,11 +4,9 @@ import { CustomContainer, State, useData } from "@/components ";
 import { OrderDetail } from "@/components /orderDetail/OrderDetail";
 import { Button, Grid, Stack, Typography } from "@mui/material";
 import { useState } from "react";
-import { AddressFormik } from "./_component/AddressFormik";
-import { HeaderState } from "./_component/HeaderState";
-import { OrderFormik } from "./_component/OrderFormik";
+import { OrderHistories } from "./_component/OrderHistories";
 
-export default function Order() {
+export default function Page() {
   return (
     <CustomContainer maxWidth="lg">
       <Stack
@@ -16,11 +14,9 @@ export default function Order() {
         marginY={4}
       >
         <Stack alignItems={"center"}>
-          <AddressFormik />
+          <OrderHistories />
         </Stack>
-        <Stack alignItems={"center"}>
-          <OrderFormik />
-        </Stack>
+        <Stack alignItems={"center"}>2</Stack>
       </Stack>
     </CustomContainer>
   );

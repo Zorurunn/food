@@ -9,6 +9,7 @@ import getUserRouter from "./routers/getUser.router";
 import userUpdateRouter from "./routers/userUpdate.router";
 import getRouter from "./routers/get.router";
 import basketRouter from "./routers/basket.router";
+import orderRouter from "./routers/order.router";
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(json());
 app.use("/", authRouter);
 app.use("/", emailRouter);
 app.use("/", foodRouter);
+app.use("/", orderRouter);
 
 app.use(authMiddleware);
 
