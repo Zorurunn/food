@@ -2,18 +2,24 @@ import { Stack } from "@mui/material";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { OrderDetail } from "./OrderDetail";
 import { useData } from "..";
+import { useBackDrop } from "../providers/BackDropProvider";
 type toggleDrawerType = {
   toggleDrawer: (newOpen: boolean) => () => void;
 };
-export const MyCart = (props: toggleDrawerType) => {
+export const MyCart = () => {
   const { inCart } = useData();
+  const { setOpenMyCart } = useBackDrop();
+  console.log("incart", inCart);
+
   return (
     <Stack gap={2} width={650} paddingX={3}>
       <Stack direction={"row"} paddingY={2}>
         <Stack
           justifyContent={"center"}
           alignItems={"center"}
-          onClick={props.toggleDrawer(false)}
+          onClick={() => {
+            setOpenMyCart(false);
+          }}
           sx={{
             cursor: "pointer",
           }}

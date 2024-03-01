@@ -1,23 +1,47 @@
 "use client";
 
-import { useData } from "@/components ";
-import { Stack, Typography, Button } from "@mui/material";
-import { FormEvent } from "react";
+import { CustomInput, State, useData } from "@/components ";
+import {
+  FormControlLabel,
+  MenuItem,
+  Stack,
+  Typography,
+  Button,
+} from "@mui/material";
+import { useFormik } from "formik";
+import * as yup from "yup";
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import { useState } from "react";
+import { HeaderState } from "./HeaderState";
+import { OrderDetail } from "@/components /orderDetail/OrderDetail";
 import { Foods } from "./Foods";
 import { useAmount } from "@/components /providers/AmountProvider";
+import { SubmitOrder } from "./SubmitOrder";
 
-export const OrderFormik = ({
-  submitFormik,
-  disable,
-}: {
-  submitFormik: (e?: FormEvent<HTMLFormElement> | undefined) => void;
-  disable: boolean;
-}) => {
+const validationSchema = yup.object({
+  district: yup.string().required(),
+  khoroo: yup.string().required(),
+  apartment: yup.string().required(),
+  additionalInformation: yup.string().required(),
+  phoneNumber: yup.number().required(),
+  radioSelect: yup.string().required(),
+});
+
+export const OrderFormik = () => {
+  const [isNotConfirmed, setIsNotConfirmed] = useState(true);
   const { inCart } = useData();
   const { priceAmount } = useAmount();
 
   return (
     <Stack gap={4} alignItems={"center"} width={500}>
+      {/* <Stack width={"100%"}>
+        <HeaderState
+          title="Захиалга баталгаажуулах"
+          stepNumber={2}
+          disabled={isNotConfirmed}
+        />
+      </Stack> */}
       <Stack
         width={"100%"}
         height={700}
@@ -53,26 +77,25 @@ export const OrderFormik = ({
                 {priceAmount && priceAmount}₮
               </Typography>
             </Stack>
-
-            <Button
+            <Stack
+              width={"50% "}
+              justifyContent={"center"}
+              alignItems={"center"}
               sx={{
-                textTransform: "none",
-                backgroundColor: disable ? "primary.light" : "primary.main",
-                color: "#fff",
-                ":hover": {
-                  color: "text.primary",
-                },
-                width: "50%",
+                backgroundColor: "primary.main",
+                color: "white",
+                borderRadius: "5px",
+                cursor: "pointer",
               }}
               onClick={() => {
-                submitFormik();
+                setIsNotConfirmed(false);
               }}
-              disabled={disable || inCart.length === 0}
             >
               Захиалах
-            </Button>
+            </Stack>
           </Stack>
         </Stack>
+        <SubmitOrder />
       </Stack>
     </Stack>
   );

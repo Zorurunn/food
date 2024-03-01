@@ -43,7 +43,7 @@ export const AmountProvider = ({ children }: PropsWithChildren) => {
 
     // Set price amount
     const priceArray = inCart.map((item) => {
-      return item.food.price * item.quantity;
+      return item.price * item.quantity;
     });
 
     const priceResult = priceArray.reduce(

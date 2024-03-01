@@ -21,6 +21,36 @@ export type basketType = {
   countity?: number;
 };
 
+export type deliveryAddressType = {
+  district: String;
+  khoroo: String;
+  apartment: String;
+  additionalInformation: String;
+  phoneNumber: Number;
+};
+
+export type basketFoodType = {
+  _id: string | undefined;
+  imgPath?: string;
+  name: String;
+  price: number;
+  discount: number;
+  ingredients?: string;
+  quantity: number;
+};
+// export type addCartType = {
+//   food: basketFoodType;
+//   quantity: number;
+// };
+
+export type orderType = {
+  _id?: string;
+  deliveryAddress: deliveryAddressType;
+  foods: basketFoodType[];
+  deliveryStatus?: boolean;
+  createdAt?: string;
+};
+
 export type SignInProps = {
   email: string;
   password: string;
@@ -65,11 +95,6 @@ export type nameIdType = {
   name: string;
 };
 
-export type addCartType = {
-  food: foodType;
-  quantity: number;
-};
-
 export type selectCategoryTypes = {
   selectedCategory: categoryType | undefined;
   setSelectedCategory: Dispatch<SetStateAction<categoryType>>;
@@ -82,3 +107,7 @@ export type confirmType = {
   title: string;
   deleteCategory: (props: categoryType) => Promise<void>;
 };
+
+// type orderHistoryType={
+
+// }

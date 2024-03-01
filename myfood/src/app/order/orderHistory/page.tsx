@@ -5,8 +5,13 @@ import { OrderDetail } from "@/components /orderDetail/OrderDetail";
 import { Button, Grid, Stack, Typography } from "@mui/material";
 import { useState } from "react";
 import { OrderHistories } from "./_component/OrderHistories";
+import { basketFoodType } from "@/common";
+import { OrderedFoods } from "./_component/OrderedFoods";
+import { useOrderData } from "@/components /providers/OrderDataProvider";
 
 export default function Page() {
+  const [foods, setFoods] = useState<basketFoodType[]>();
+  const [orderId, setOrderId] = useState<string>("");
   return (
     <CustomContainer maxWidth="lg">
       <Stack
@@ -14,9 +19,11 @@ export default function Page() {
         marginY={4}
       >
         <Stack alignItems={"center"}>
-          <OrderHistories />
+          <OrderHistories setFoods={setFoods} setOrderId={setOrderId} />
         </Stack>
-        <Stack alignItems={"center"}>2</Stack>
+        <Stack alignItems={"center"}>
+          <OrderedFoods foods={foods} orderId={orderId} />
+        </Stack>
       </Stack>
     </CustomContainer>
   );

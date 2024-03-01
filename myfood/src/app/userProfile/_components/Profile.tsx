@@ -187,6 +187,9 @@ export const Profile = () => {
             padding={2}
             gap={2}
             sx={{ backgroundColor: "primary.dark", cursor: "pointer" }}
+            onClick={() => {
+              router.push("/order/orderHistory");
+            }}
           >
             <Stack
               justifyContent={"center"}

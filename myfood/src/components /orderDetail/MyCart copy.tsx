@@ -42,16 +42,16 @@ export const MyCart = () => {
         {inCart &&
           inCart.map((item) => {
             return (
-              <Stack gap={2} key={item.food._id}>
+              <Stack gap={2} key={item._id}>
                 <Divider></Divider>
-                <InCartFood
+                {/* <InCartFood
                   imgPath={item.food.imgPath}
-                  foodname={item.food.name}
+                  name={item.food.name}
                   price={item.food.price}
-                  recipe={item.food.ingredients}
-                  countity={item.quantity}
+                  ingredients={item.food.ingredients}
+                  quantity={item.quantity}
                   _id={item.food._id}
-                />
+                /> */}
               </Stack>
             );
           })}

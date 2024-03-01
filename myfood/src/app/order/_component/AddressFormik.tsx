@@ -8,56 +8,93 @@ import {
   Typography,
   Button,
 } from "@mui/material";
-import { useFormik } from "formik";
-import * as yup from "yup";
 import Radio from "@mui/material/Radio";
 import RadioGroup from "@mui/material/RadioGroup";
-import { useState } from "react";
+import {
+  ChangeEventHandler,
+  FocusEventHandler,
+  FormEvent,
+  HTMLInputTypeAttribute,
+  useState,
+} from "react";
 import { HeaderState } from "./HeaderState";
+import { useFormik } from "formik";
+import * as yup from "yup";
+type AddressFormikType = {
+  handleBlur?:
+    | FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
+    | undefined;
+  handleChange:
+    | ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
+    | undefined;
 
-const validationSchema = yup.object({
-  district: yup.string().required(),
-  khoroo: yup.string().required(),
-  apartment: yup.string().required(),
-  additionalInformation: yup.string(),
-  phoneNumber: yup.number().required(),
-  // radioSelect: yup.string().required(),
-});
+  // district
+  districtName: string;
+  districtValue: string | number;
+  districtError?: boolean | undefined;
 
-export const AddressFormik = () => {
+  // khoroo
+  khorooName: string;
+  khorooValue: string | number;
+  khorooError?: boolean | undefined;
+
+  // apartment
+  apartmentName: string;
+  apartmentValue: string | number;
+  apartmentError?: boolean | undefined;
+
+  // additionalInformation
+  additionalInformationName: string;
+  additionalInformationValue: string | number;
+  additionalInformationError?: boolean | undefined;
+
+  // phoneNUMBER
+  phoneNumberName: string;
+  phoneNumberValue: number | null;
+  phoneNumberError?: boolean | undefined;
+};
+
+export const AddressFormik = (props: AddressFormikType) => {
+  const {
+    // district
+    districtName,
+    districtValue,
+    districtError,
+
+    // khoroo
+    khorooName,
+    khorooValue,
+    khorooError,
+
+    // apartment
+    apartmentName,
+    apartmentValue,
+    apartmentError,
+
+    // additionalInformation
+    additionalInformationName,
+    additionalInformationValue,
+    additionalInformationError,
+
+    // additionalInformation
+    phoneNumberName,
+    phoneNumberValue,
+    phoneNumberError,
+
+    handleChange,
+    handleBlur,
+  } = props;
+
   const { districts, khoroos, apartments, inCart } = useData();
-  const formik = useFormik({
-    initialValues: {
-      district: "defaultValue",
-      khoroo: "defaultValue",
-      apartment: "defaultValue",
-      additionalInformation: "",
-      phoneNumber: null,
-      // radioSelect: "",
-    },
-    validationSchema: validationSchema,
-    onSubmit: (values) => {
-      // formik.values.radioSelect = value;
-      console.log(values);
-    },
-  });
 
-  const [value, setValue] = useState("female");
+  // const [value, setValue] = useState("female");
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue((event.target as HTMLInputElement).value);
-  };
+  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  //   setValue((event.target as HTMLInputElement).value);
+  // };
 
   return (
     <Stack gap={4} alignItems={"center"} width={500}>
-      {/* HEADER */}
-      <Stack width={"100%"}>
-        <HeaderState
-          title="Хаягийн мэдээлэл оруулах"
-          stepNumber={1}
-          disabled={!formik.isValid || !formik.dirty}
-        />
-      </Stack>
       {/* FOMIK FIELDS */}
       <Stack
         width={"100%"}
@@ -77,15 +114,10 @@ export const AddressFormik = () => {
               {districts && (
                 <CustomInput
                   name="district"
-                  value={formik.values.district ?? "defaultValue"}
-                  handleChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={
-                    (formik.touched.district &&
-                      Boolean(formik.errors.district)) ||
-                    (formik.touched.district &&
-                      formik.values.district == formik.initialValues.district)
-                  }
+                  value={districtValue ?? "defaultValue"}
+                  handleChange={handleChange}
+                  onBlur={handleBlur}
+                  error={districtError}
                   size="medium"
                   type="text"
                   width={400}
@@ -98,7 +130,7 @@ export const AddressFormik = () => {
                   </MenuItem>
                   {districts.map((item) => {
                     return (
-                      <MenuItem key={item._id} value={item._id}>
+                      <MenuItem key={item._id} value={item.name}>
                         {item.name}
                       </MenuItem>
                     );
@@ -107,15 +139,11 @@ export const AddressFormik = () => {
               )}
               {khoroos && (
                 <CustomInput
-                  name="khoroo"
-                  value={formik.values.khoroo ?? "defaultValue"}
-                  handleChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={
-                    (formik.touched.khoroo && Boolean(formik.errors.khoroo)) ||
-                    (formik.touched.khoroo &&
-                      formik.values.khoroo == formik.initialValues.khoroo)
-                  }
+                  name={khorooName}
+                  value={khorooValue ?? "defaultValue"}
+                  handleChange={handleChange}
+                  onBlur={handleBlur}
+                  error={khorooError}
                   size="medium"
                   type="text"
                   width={400}
@@ -128,7 +156,7 @@ export const AddressFormik = () => {
                   </MenuItem>
                   {khoroos.map((item) => {
                     return (
-                      <MenuItem key={item._id} value={item._id}>
+                      <MenuItem key={item._id} value={item.name}>
                         {item.name}
                       </MenuItem>
                     );
@@ -137,16 +165,11 @@ export const AddressFormik = () => {
               )}
               {apartments && (
                 <CustomInput
-                  name="apartment"
-                  value={formik.values.apartment ?? "defaultValue"}
-                  handleChange={formik.handleChange}
-                  onBlur={formik.handleBlur}
-                  error={
-                    (formik.touched.apartment &&
-                      Boolean(formik.errors.apartment)) ||
-                    (formik.touched.apartment &&
-                      formik.values.apartment == formik.initialValues.apartment)
-                  }
+                  name={apartmentName}
+                  value={apartmentValue ?? "defaultValue"}
+                  handleChange={handleChange}
+                  onBlur={handleBlur}
+                  error={apartmentError}
                   size="medium"
                   type="text"
                   width={400}
@@ -159,7 +182,7 @@ export const AddressFormik = () => {
                   </MenuItem>
                   {apartments.map((item) => {
                     return (
-                      <MenuItem key={item._id} value={item._id}>
+                      <MenuItem key={item._id} value={item.name}>
                         {item.name}
                       </MenuItem>
                     );
@@ -171,16 +194,13 @@ export const AddressFormik = () => {
 
           {/* ADDITIONAL INFORMATION */}
           <CustomInput
-            name="additionalInformation"
+            name={additionalInformationName}
             label={"Нэмэлт мэдээлэл"}
             placeHolder="Орц, давхар, орцны код ..."
-            value={formik.values.additionalInformation}
-            handleChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={
-              formik.touched.additionalInformation &&
-              Boolean(formik.errors.additionalInformation)
-            }
+            value={additionalInformationValue}
+            handleChange={handleChange}
+            onBlur={handleBlur}
+            error={additionalInformationError}
             size="medium"
             type="text"
             width={400}
@@ -189,15 +209,13 @@ export const AddressFormik = () => {
 
           {/* PHONE NUMBER */}
           <CustomInput
-            name="phoneNumber"
+            name={phoneNumberName}
             label={"Утасны дугаар *"}
             placeHolder="Утасны дугаараа оруулна уу"
-            value={formik.values.phoneNumber ?? ""}
-            handleChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            error={
-              formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)
-            }
+            value={phoneNumberValue ?? ""}
+            handleChange={handleChange}
+            onBlur={handleBlur}
+            error={phoneNumberError}
             size="medium"
             type="text"
             width={400}
@@ -208,9 +226,9 @@ export const AddressFormik = () => {
             <Stack>Төлбөр төлөх </Stack>
             <RadioGroup
               aria-labelledby="demo-controlled-radio-buttons-group"
-              name="controlled-radio-buttons-group"
-              // value={value}
-              // onChange={handleChange}
+              name="radioSelect"
+              value={}
+              onChange={(e) => {}}
             >
               <Stack
                 direction={"row"}
@@ -231,13 +249,6 @@ export const AddressFormik = () => {
             </RadioGroup>
           </Stack> */}
         </Stack>
-        <Button
-          onClick={() => {
-            formik.handleSubmit();
-          }}
-        >
-          Submit
-        </Button>
       </Stack>
     </Stack>
   );

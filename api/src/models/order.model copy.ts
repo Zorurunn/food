@@ -16,6 +16,10 @@ const orderSchema = new Schema({
 
   foods: [
     {
+      foodId: {
+        type: mongoose.Schema.Types.ObjectId,
+        requd: true,
+      },
       name: String,
       price: Number,
       discount: Number,

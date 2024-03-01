@@ -4,17 +4,27 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import { useData } from "..";
 import { AddCard } from "@mui/icons-material";
-import { addCartType } from "@/common";
+import { basketFoodType } from "@/common";
 
 type sizeType = {
   fontSize?: number;
   imgHeight?: number;
   isSimple?: boolean;
 };
-export const InCartFood = (props: addCartType & sizeType) => {
+export const InCartFood = (props: basketFoodType & sizeType) => {
   const { minusQuantity, addQuantity } = useData();
-  const { food, quantity, fontSize, imgHeight, isSimple = false } = props;
-  const { imgPath, name, price, discount, ingredients, _id } = food;
+  const {
+    imgPath,
+    name,
+    price,
+    discount,
+    _id,
+    ingredients,
+    quantity,
+    fontSize,
+    imgHeight,
+    isSimple = false,
+  } = props;
   return (
     <Stack
       maxWidth={"800px"}

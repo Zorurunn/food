@@ -13,6 +13,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { ConfirmationProvider } from "@/components /providers/ConfirmationProvider";
 import { BackDropProvider } from "@/components /providers/BackDropProvider";
 import { AmountProvider } from "@/components /providers/AmountProvider";
+import { OrderDataProvider } from "@/components /providers/OrderDataProvider";
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (
@@ -22,21 +23,23 @@ export default function RootLayout({ children }: PropsWithChildren) {
           <ThemeProvider theme={theme}>
             <AuthProvider>
               <DataProvider>
-                <ConfirmationProvider>
-                  <AmountProvider>
-                    <BackDropProvider>
-                      <Stack
-                        minHeight="100vh"
-                        width={"100%"}
-                        position={"relative"}
-                      >
-                        <TopBar />
-                        <Stack flex={1}>{children}</Stack>
-                        <Footer />
-                      </Stack>
-                    </BackDropProvider>
-                  </AmountProvider>
-                </ConfirmationProvider>
+                <OrderDataProvider>
+                  <ConfirmationProvider>
+                    <AmountProvider>
+                      <BackDropProvider>
+                        <Stack
+                          minHeight="100vh"
+                          width={"100%"}
+                          position={"relative"}
+                        >
+                          <TopBar />
+                          <Stack flex={1}>{children}</Stack>
+                          <Footer />
+                        </Stack>
+                      </BackDropProvider>
+                    </AmountProvider>
+                  </ConfirmationProvider>
+                </OrderDataProvider>
               </DataProvider>
             </AuthProvider>
           </ThemeProvider>

@@ -138,7 +138,15 @@ export const FoodDetail = ({
                 },
               }}
               onClick={() => {
-                addCart({ food: food, quantity: count });
+                addCart({
+                  imgPath,
+                  name,
+                  price,
+                  discount,
+                  ingredients,
+                  _id,
+                  quantity: count,
+                });
                 setCount(1);
                 setOpen(false);
               }}

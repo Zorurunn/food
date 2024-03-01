@@ -25,6 +25,7 @@ type BackDropContextType = {
   setOpenEditFood: Dispatch<SetStateAction<boolean>>;
   setOpenCreateFood: Dispatch<SetStateAction<boolean>>;
   setOpenCreateCategory: Dispatch<SetStateAction<boolean>>;
+  setOpenMyCart: Dispatch<SetStateAction<boolean>>;
 };
 
 const BackDropContext = createContext<BackDropContextType>(
@@ -51,13 +52,21 @@ export const BackDropProvider = ({ children }: PropsWithChildren) => {
         setOpenEditFood,
         setOpenCreateFood,
         setOpenCreateCategory,
+        setOpenMyCart,
       }}
     >
       <Button onClick={toggleMyCart(true)}>Open drawer</Button>
 
       {/* MY CART */}
-      <Drawer open={openMyCart} onClose={toggleMyCart(false)} anchor="right">
-        <MyCart toggleDrawer={toggleMyCart} />
+      <Drawer
+        open={openMyCart}
+        onClose={() => {
+          setOpenMyCart(false);
+        }}
+        anchor="right"
+      >
+        <MyCart />
+        {/* <MyCart toggleDrawer={toggleMyCart} /> */}
       </Drawer>
 
       {/* FOOD DETAIL */}

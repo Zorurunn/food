@@ -65,6 +65,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         email: res.data.email,
         name: res.data.name,
         phoneNumber: res.data.phoneNumber,
+        _id: res.data._id,
       });
     } catch (error) {
       console.log(error);
