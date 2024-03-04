@@ -25,16 +25,22 @@ import { useAmount } from "../providers/AmountProvider";
 
 export const TopBar = () => {
   const { orderAmount } = useAmount();
-  const { isDisplay, setIsDisplay, inCart, setInCart } = useData();
+  const {
+    isDisplay,
+    setIsDisplay,
+    inCart,
+    setInCart,
+    setSearchValue,
+    searchValue,
+  } = useData();
   const { isLoggedIn } = useAuth();
   const { toggleMyCart } = useBackDrop();
-  const [searchVal, setSearchVal] = useState("");
   const router = useRouter();
   const handleChange = (
     event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
     event.preventDefault();
-    setSearchVal(event.target.value);
+    setSearchValue(event.target.value);
   };
 
   const profileClicked = () => {
@@ -78,7 +84,7 @@ export const TopBar = () => {
               <Typography
                 fontSize={14}
                 onClick={() => {
-                  router.push("/");
+                  router.push("/dashboard");
                 }}
                 sx={{ cursor: "pointer" }}
               >
@@ -93,13 +99,21 @@ export const TopBar = () => {
               >
                 ХООЛНЫ ЦЭС
               </Typography>
-              <Typography fontSize={14}>ХҮРГЭЛТИЙН БҮС</Typography>
+              <Typography
+                fontSize={14}
+                onClick={() => {
+                  router.push("/deliveryArea");
+                }}
+                sx={{ cursor: "pointer" }}
+              >
+                ХҮРГЭЛТИЙН БҮС
+              </Typography>
             </Stack>
           </Stack>
           <Stack direction={"row"} gap={2} alignItems={"center"}>
             <CustomInput
               placeHolder="Хайх"
-              value={searchVal}
+              value={searchValue}
               handleChange={handleChange}
               type="text"
               adornment="start"

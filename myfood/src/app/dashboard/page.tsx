@@ -1,11 +1,13 @@
+"use client";
 import { Filter } from "@/components /Filter";
 import { TopSection } from "./_component/TopSection";
 import { Stack } from "@mui/material";
-import { CustomContainer } from "@/components ";
+import { CustomContainer, useData } from "@/components ";
 import { Category } from "./_component/Category";
 import { SearchedValue } from "@/components /search/SearchedValue";
 
 export default function Dashboard() {
+  const { categories, foods } = useData();
   return (
     <Stack gap={"120px"} marginBottom={"120px"}>
       <TopSection />
@@ -38,10 +40,12 @@ export default function Dashboard() {
               description="3ахиалга бэлтгэлийн явцыг хянах"
             />
           </Stack>
-          <Category title="Хямдралтай" />
-          <Category title="Үндсэн хоол" />
-          <Category title="Салад ба зууш" />
-          <Category title="Амттан" />
+
+          <Category isDiscount={true} name="Discounted" _id="discount" />
+          {categories &&
+            categories.map((item) => {
+              return <Category key={item._id} {...item} />;
+            })}
         </Stack>
       </CustomContainer>
     </Stack>

@@ -47,7 +47,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [isReady, setIsReady] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  // const [message, setMessage] = useState("");
 
   const router = useRouter();
 
@@ -59,6 +58,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
           Authorization: localStorage.getItem("token"),
         },
       });
+      console.log(res.data);
 
       setUser({
         address: res.data.address,
@@ -66,6 +66,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         name: res.data.name,
         phoneNumber: res.data.phoneNumber,
         _id: res.data._id,
+        avatar_url: res.data.avatar_url,
       });
     } catch (error) {
       console.log(error);
@@ -164,7 +165,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
   // USER UPDATE
   const userUpdate = async (props: userUpdateProps) => {
-    const { email, name, phoneNumber } = props;
+    const { email, name, phoneNumber, avatar_url } = props;
     const token = localStorage.getItem("token");
 
     try {
@@ -174,6 +175,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
           email,
           name,
           phoneNumber,
+          avatar_url,
         },
         {
           headers: {
@@ -187,6 +189,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         email: res.data.email,
         name: res.data.name,
         phoneNumber: res.data.phoneNumber,
+        avatar_url: res.data.avatar_url,
       });
       toast(<Notify message="Мэдээлэл амжилттай хадгалагдлаа" />);
       router.push("/userProfile");

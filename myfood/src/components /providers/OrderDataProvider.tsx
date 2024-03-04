@@ -30,6 +30,7 @@ const OrderContext = createContext<OrderContextType>({} as OrderContextType);
 export const OrderDataProvider = ({ children }: PropsWithChildren) => {
   const [myOrders, setMyOrders] = useState<orderType[]>();
   const [refresh, setRefresh] = useState(0);
+  const { setInCart } = useData();
 
   // GET ORDERS
   const getOrders = async () => {
@@ -40,7 +41,6 @@ export const OrderDataProvider = ({ children }: PropsWithChildren) => {
           Authorization: token,
         },
       });
-      console.log("GET ORDERS:", res.data);
 
       setMyOrders(res.data);
     } catch (error) {
@@ -68,7 +68,8 @@ export const OrderDataProvider = ({ children }: PropsWithChildren) => {
           },
         }
       );
-      console.log("Request result:", res.data);
+      setInCart([]);
+      localStorage.removeItem("cart");
 
       setRefresh((prev) => 1 - prev);
     } catch (error) {

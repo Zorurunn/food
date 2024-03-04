@@ -1,13 +1,21 @@
 import { Button, Stack, Typography } from "@mui/material";
 import StarIcon from "@mui/icons-material/Stars";
-import { Card, CustomContainer } from "@/components ";
+import { Card, CustomContainer, useData } from "@/components ";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import { categoryType } from "@/common";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
-type CategoryProps = {
-  title: string;
+type isDiscountType = {
+  isDiscount?: boolean;
 };
-export const Category = (props: CategoryProps) => {
-  const { title } = props;
+
+export const Category = (props: categoryType & isDiscountType) => {
+  const [length, setLength] = useState<number>();
+  const { foods, searchValue } = useData();
+  const { name, _id, isDiscount = false } = props;
+  const router = useRouter();
+
   return (
     <CustomContainer maxWidth="lg">
       <Stack gap={3}>
@@ -15,7 +23,7 @@ export const Category = (props: CategoryProps) => {
           <Stack direction={"row"} alignItems={"center"} gap={1}>
             <StarIcon sx={{ color: "primary.main" }} />
             <Typography fontWeight={800} fontSize={18}>
-              {title}
+              {name}
             </Typography>
           </Stack>
 
@@ -24,7 +32,14 @@ export const Category = (props: CategoryProps) => {
             justifyContent={"center"}
             alignItems={"center"}
           >
-            <Button sx={{ textTransform: "none" }}>Бүгдийг харах</Button>
+            <Button
+              sx={{ textTransform: "none" }}
+              onClick={() => {
+                router.push(`/menu?name=${name}&id=${_id}`);
+              }}
+            >
+              Бүгдийг харах
+            </Button>
             <ChevronRightIcon sx={{ color: "primary.main" }} />
           </Stack>
         </Stack>
@@ -33,14 +48,40 @@ export const Category = (props: CategoryProps) => {
           width={"100%"}
           gap={2}
         >
-          {new Array(4).fill(0).map((_, index) => (
-            <Card
-              imgPath="/temporary/morning.jpg"
-              title="Өглөөний хоол"
-              price={4800}
-              discountPercentage={20}
-            />
-          ))}
+          {isDiscount
+            ? foods &&
+              foods
+                .filter((item) => {
+                  return (
+                    item.name
+                      .toLowerCase()
+                      .includes(searchValue.toLowerCase()) ||
+                    item.ingredients
+                      .toLowerCase()
+                      .includes(searchValue.toLowerCase())
+                  );
+                })
+                .filter((item) => {
+                  return item.discount !== 0;
+                })
+                .map((item) => <Card key={item._id} {...item} />)
+            : foods &&
+              foods
+                .filter((item) => {
+                  return (
+                    item.name
+                      .toLowerCase()
+                      .includes(searchValue.toLowerCase()) ||
+                    item.ingredients
+                      .toLowerCase()
+                      .includes(searchValue.toLowerCase())
+                  );
+                })
+                .filter((item) => {
+                  return item.category === _id;
+                })
+                .filter((_item, index) => index < 4)
+                .map((item) => <Card key={item._id} {...item} />)}
         </Stack>
       </Stack>
     </CustomContainer>

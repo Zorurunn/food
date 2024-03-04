@@ -12,6 +12,7 @@ import {
 } from "react";
 import { Backdrop, Stack, Typography } from "@mui/material";
 import { Really } from "@/app/userProfile/_components/Really";
+import { useData } from "..";
 
 // const confirmType = {
 //   title: String;
@@ -32,9 +33,11 @@ export const ConfirmationProvider = ({ children }: PropsWithChildren) => {
     title: "",
     callback: () => Promise<void>,
   });
+  const { setRefresh } = useData();
 
   const confirm = async (title: string, callback: () => void) => {
     setCallBackFunction({ title, callback });
+    setRefresh((prev) => 1 - prev);
   };
 
   return (

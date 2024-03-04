@@ -1,6 +1,6 @@
 "use client";
 
-import { CustomContainer, useAuth, useData } from "@/components ";
+import { CustomContainer, Notify, useAuth, useData } from "@/components ";
 import { Stack } from "@mui/material";
 import { useState } from "react";
 import { AddressFormik } from "./_component/AddressFormik";
@@ -9,6 +9,8 @@ import { OrderFormik } from "./_component/OrderFormik";
 import { useFormik } from "formik";
 import * as yup from "yup";
 import { useOrderData } from "@/components /providers/OrderDataProvider";
+import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const validationSchema = yup.object({
   district: yup.string().required(),
@@ -21,9 +23,9 @@ const validationSchema = yup.object({
 
 export default function Order() {
   const { inCart } = useData();
-  const { user } = useAuth();
-
   const { createOrder } = useOrderData();
+
+  const router = useRouter();
 
   const formik = useFormik({
     initialValues: {
@@ -35,10 +37,8 @@ export default function Order() {
       // radioSelect: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log("a formik", values);
-
-      createOrder({
+    onSubmit: async (values) => {
+      await createOrder({
         deliveryAddress: {
           district: values.district,
           khoroo: values.khoroo,
@@ -48,6 +48,8 @@ export default function Order() {
         },
         foods: inCart,
       });
+      toast(<Notify message="Захиалга амжилттай бүртгэгдлээ" />);
+      router.push("/order/orderHistory");
     },
   });
 

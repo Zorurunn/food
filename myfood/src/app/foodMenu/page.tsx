@@ -12,30 +12,14 @@ import { useConfirm } from "@/components /providers/ConfirmationProvider";
 import { useBackDrop } from "@/components /providers/BackDropProvider";
 
 export default function FoodMenu() {
-  const { foods, categories, deleteCategory } = useData();
+  const { foods, categories, deleteCategory, searchValue } = useData();
   const { confirm } = useConfirm();
 
   const [selectedCategory, setSelectedCategory] = useState<categoryType>();
-  // const [foods, setFoods] = useState<foodType[] | null>(null);
   const [thisFood, setThisFood] = useState<foodType>();
   const [openEditFood, setOpenEditFood] = useState(false);
   const { setOpenCreateFood } = useBackDrop();
   const [openCreateCategory, setOpenCreateCategory] = useState(false);
-  // console.log("selected", selectedCategory);
-
-  // const getAllFoods = async () => {
-  //   try {
-  //     const res = await api.get("/getAllFoods");
-  //     setFoods(res.data);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
-  console.log("this food", thisFood);
-
-  // useEffect(() => {
-  //   getAllFoods();
-  // }, []);
 
   useEffect(() => {
     if (categories) {
@@ -45,55 +29,6 @@ export default function FoodMenu() {
 
   return (
     <CustomContainer maxWidth="lg">
-      {/* <Stack
-        onClick={() => {
-          deleteCategory({ name: "Main course" });
-        }}
-      >
-        DEEEE
-      </Stack> */}
-      {/* CREATE CATEGORY MODAL */}
-      {/* <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={openCreateCategory}
-      >
-        <CreateCategory setOpen={setOpenCreateCategory} />
-      </Backdrop> */}
-      {/* ADD FOOD MODAL */}
-      {/* <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={openCreateFood}
-      >
-        <CreateFood setOpen={setOpenCreateFood} />
-      </Backdrop> */}
-
-      {/* DELETE CATEGORY MODAL */}
-      {/* <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={openEditFood}
-      > */}
-      {/* {thisFood && (
-          <EditFood
-            {...thisFood}
-            setOpen={setOpenEditFood}
-            setThisFood={setThisFood}
-          />
-        )} */}
-      {/* </Backdrop> */}
-      {/* CREATE FOOD MODAL */}
-      {/* <Backdrop
-        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={openEditFood}
-      >
-        {thisFood && (
-          <EditFood
-            {...thisFood}
-            setOpen={setOpenEditFood}
-            setThisFood={setThisFood}
-          />
-        )}
-      </Backdrop> */}
-
       <Stack
         direction={"row"}
         sx={{ display: "grid", gridTemplateColumns: "1fr 3fr" }}
@@ -137,6 +72,16 @@ export default function FoodMenu() {
               {selectedCategory &&
                 foods &&
                 foods
+                  .filter((item) => {
+                    return (
+                      item.name
+                        .toLowerCase()
+                        .includes(searchValue.toLowerCase()) ||
+                      item.ingredients
+                        .toLowerCase()
+                        .includes(searchValue.toLowerCase())
+                    );
+                  })
                   ?.filter((item) => {
                     return item.category === selectedCategory._id;
                   })

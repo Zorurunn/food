@@ -70,12 +70,14 @@ export type UserType = {
   password?: string;
   phoneNumber: string;
   _id?: string;
+  avatar_url: string;
 };
 export type userUpdateProps = {
   // address: string;
   email: string;
   name: string;
   phoneNumber: string;
+  avatar_url: string;
 };
 export type userUpdatePasswordType = {
   email: string;

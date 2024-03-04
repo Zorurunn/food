@@ -1,5 +1,5 @@
 "use client";
-import { Avatar, Stack, Typography } from "@mui/material";
+import { Avatar, Button, Stack, TextField, Typography } from "@mui/material";
 import { FoodDetail } from "@/components /orderDetail/FoodDetail";
 import {
   Edit,
@@ -20,6 +20,7 @@ import { Formik, useFormik } from "formik";
 import * as yup from "yup";
 import { Really } from "../_components/Really";
 import { useConfirm } from "@/components /providers/ConfirmationProvider";
+import { ChangeEvent, useState } from "react";
 
 const validationSchema = yup.object({
   email: yup.string().email().required(),
@@ -30,6 +31,37 @@ const validationSchema = yup.object({
 export default function ProfileEdit() {
   const { user, userUpdate } = useAuth();
   const { confirm } = useConfirm();
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [imageUrl, setImageUrl] = useState();
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files) return;
+    setSelectedFile(event.target.files[0]);
+  };
+
+  const handleImageUpload = async () => {
+    if (selectedFile) {
+      try {
+        const formData = new FormData();
+        formData.append("file", selectedFile);
+
+        const res = await fetch(
+          "https://api.cloudinary.com/v1_1/dfytgnxd7/upload?upload_preset=rhkkfdkh",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        // end yagad await hiij bga ve?
+        // upload hiihees umnu
+        // oruulj irsen image ee haruulah
+        const data = await res.json();
+        setImageUrl(data.secure_url);
+        console.log(data.secure_url);
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -38,13 +70,20 @@ export default function ProfileEdit() {
       phoneNumber: user?.phoneNumber,
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
+      try {
+        await handleImageUpload();
+        console.log(imageUrl);
+      } catch (e) {
+        console.log(e);
+      }
       try {
         confirm("Та шинэчлэлт хийхдээ итгэлтэй байна уу ?", async () => {
           await userUpdate({
             name: values.name || "",
             email: values.email || "",
             phoneNumber: values.phoneNumber || "",
+            avatar_url: imageUrl ?? "",
           });
         });
       } catch (e) {
@@ -56,10 +95,39 @@ export default function ProfileEdit() {
   return (
     <Stack marginTop={"60px"} marginBottom={"60px"}>
       <Stack alignItems={"center"} justifyContent={"center"} gap={3}>
-        <Stack position={"relative"}>
+        <Stack>
+          {imageUrl ? (
+            <Stack>
+              <Stack position={"relative"}>
+                <Avatar
+                  alt="Remy Sharp"
+                  src={imageUrl}
+                  sx={{ width: "120px", height: "120px" }}
+                />
+              </Stack>
+            </Stack>
+          ) : (
+            <TextField
+              type="file"
+              onChange={handleImageChange}
+              variant="outlined"
+              sx={{
+                borderRadius: 2,
+                width: "100%",
+                height: 400,
+                justifyContent: "center",
+                alignItems: "center",
+                padding: 2,
+                backgroundColor: "primary.dark",
+              }}
+            />
+          )}
+        </Stack>
+        {/* <Button onClick={handleImageUpload}>upload to cloudinary</Button> */}
+        {/* <Stack position={"relative"}>
           <Avatar
             alt="Remy Sharp"
-            src="/temporary/morning.jpg"
+            src={user?.avatar_url}
             sx={{ width: "120px", height: "120px" }}
           />
           <Stack position={"absolute"} bottom={"-5%"} left={"70%"}>
@@ -81,7 +149,7 @@ export default function ProfileEdit() {
               />
             </Stack>
           </Stack>
-        </Stack>
+        </Stack> */}
         <HeadText text={user?.name} size="28px" wieght="700" />
         <Stack gap={2} width={500}>
           <Stack
@@ -203,8 +271,20 @@ export default function ProfileEdit() {
               />
             </Stack>
           </Stack>
-
-          <Stack
+          <Button
+            sx={{
+              textTransform: "none",
+              backgroundColor: "primary.main",
+              color: "#fff",
+            }}
+            disabled={!formik.isValid || !selectedFile}
+            onClick={() => {
+              formik.handleSubmit();
+            }}
+          >
+            Хадгалах
+          </Button>
+          {/* <Stack
             direction={"row"}
             width={"100%"}
             padding={2}
@@ -218,7 +298,7 @@ export default function ProfileEdit() {
             }}
           >
             Хадгалах
-          </Stack>
+          </Stack> */}
         </Stack>
       </Stack>
     </Stack>

@@ -22,6 +22,10 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
+  avatar_url: {
+    type: String,
+    required: true,
+  },
   otp: {
     type: String,
     required: false,

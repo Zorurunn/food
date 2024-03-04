@@ -3,7 +3,7 @@ import RamenDiningIcon from "@mui/icons-material/RamenDining";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import TwitterIcon from "@mui/icons-material/Twitter";
-import { Box, Button, Divider, Stack, Typography } from "@mui/material";
+import { Avatar, Box, Button, Divider, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import { CustomContainer } from "@/components ";
 
@@ -51,9 +51,21 @@ export const TopSection = () => {
                 </Stack>
               </Stack>
             </Stack>
-            <Stack width={"80%"} paddingTop={"100%"} position={"relative"}>
+            <Stack width={"100%"} paddingTop={"100%"} position={"relative"}>
+              {/* <Avatar
+                alt="Remy Sharp"
+                src="/temporary/home.png"
+                sx={{
+                  position: "absolute",
+                  width: "100%",
+                  height: "100%",
+                  top: 0,
+                  left: 0,
+                  objectFit: "contain",
+                }}
+              /> */}
               <Image
-                src={"/temporary/food1.png"}
+                src={"/temporary/home.png"}
                 alt="Background Image"
                 fill
                 style={{ objectFit: "contain" }}

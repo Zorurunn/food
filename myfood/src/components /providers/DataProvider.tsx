@@ -45,6 +45,8 @@ type DataContextType = {
   addQuantity: (id: string) => void;
   setSelectedFood: Dispatch<SetStateAction<foodType | undefined>>;
   selectedFood: foodType | undefined;
+  searchValue: string;
+  setSearchValue: Dispatch<SetStateAction<string>>;
 };
 
 const DataContext = createContext<DataContextType>({} as DataContextType);
@@ -60,13 +62,12 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
   const [inCart, setInCart] = useState<basketFoodType[]>([]);
   const [baskets, setBaskets] = useState<basketType[]>();
   const [selectedFood, setSelectedFood] = useState<foodType>();
+  const [isFirstRender, setIsFirstRender] = useState(true);
+  const [searchValue, setSearchValue] = useState("");
 
   // CREATE FOOD
   const createFood = async (props: foodType) => {
     const { imgPath, name, price, discount, ingredients, category } = props;
-
-    console.log("add new food", props);
-
     const token = localStorage.getItem("token");
 
     try {
@@ -86,8 +87,6 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
           },
         }
       );
-      console.log("added food res", res);
-
       setRefresh((prev) => 1 - prev);
     } catch (error) {
       console.log(error);
@@ -110,7 +109,6 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
           },
         }
       );
-      console.log("added category res", res);
 
       setRefresh((prev) => 1 - prev);
     } catch (error) {
@@ -122,8 +120,6 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
   const updateFood = async (props: foodType) => {
     const { imgPath, name, price, discount, ingredients, category, _id } =
       props;
-
-    console.log("Update food", props);
 
     const token = localStorage.getItem("token");
 
@@ -145,7 +141,6 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
           },
         }
       );
-      console.log("update food res", res);
 
       setRefresh((prev) => 1 - prev);
     } catch (error) {
@@ -157,8 +152,6 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
   const getAllFoods = async () => {
     try {
       const res = await api.get("/getAllFoods");
-      console.log("get All foods");
-
       setFoods(res.data);
     } catch (error) {
       console.log("in getAllFoods() function error:", error);
@@ -169,9 +162,6 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
   const getAllCategories = async () => {
     try {
       const res = await api.get("/getAllCategories");
-      console.log("get All categories ddd");
-      console.log("all cat", res);
-
       setCategories(res.data);
     } catch (error) {
       console.log("in getAllCategories() function error:", error);
@@ -187,10 +177,8 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
           Authorization: token,
         },
       });
-      console.log("get All districts");
 
       setDistricts(res.data);
-      console.log(res.data);
     } catch (error) {
       console.log("in get all districts() function error:", error);
     }
@@ -237,8 +225,6 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
           Authorization: token,
         },
       });
-      console.log("get baskets");
-
       setBaskets(res.data);
     } catch (error) {
       console.log("in getBaskets() function error:", error);
@@ -264,7 +250,6 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
           },
         }
       );
-      console.log("updated category  res", res);
 
       setRefresh((prev) => 1 - prev);
     } catch (error) {
@@ -291,7 +276,6 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
           },
         }
       );
-      console.log("delete category  res", res);
 
       setRefresh((prev) => 1 - prev);
     } catch (error) {
@@ -311,7 +295,6 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
       _id,
       countity,
     } = props;
-    console.log("add basket", props);
 
     const token = localStorage.getItem("token");
 
@@ -334,7 +317,6 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
           },
         }
       );
-      console.log("add basket result", res);
 
       setRefresh((prev) => 1 - prev);
     } catch (error) {
@@ -343,11 +325,8 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
   };
 
   // ADD CART
-  console.log("INCART", inCart);
 
   const addCart = (props: basketFoodType) => {
-    console.log(props);
-
     const { imgPath, name, price, discount, _id, ingredients, quantity } =
       props;
     const isAdded = inCart.find((item) => item._id === _id);
@@ -391,6 +370,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
       const newInCart = inCart.filter((item) => {
         return !(item._id === id);
       });
+
       setInCart(newInCart);
     } else {
       const newInCart = inCart.map((item) => {
@@ -413,7 +393,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
   }, [refresh]);
 
   useEffect(() => {
-    if (!inCart.length) return;
+    if (isFirstRender) return;
     const data = JSON.stringify(inCart);
     localStorage.setItem("cart", data);
   }, [inCart]);
@@ -423,6 +403,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
     if (!rawData) return;
     const data = JSON.parse(rawData);
     setInCart(data);
+    setIsFirstRender(false);
   }, []);
 
   return (
@@ -450,6 +431,8 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         addQuantity,
         selectedFood,
         setSelectedFood,
+        searchValue,
+        setSearchValue,
       }}
     >
       {children}

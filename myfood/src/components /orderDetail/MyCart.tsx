@@ -9,7 +9,6 @@ type toggleDrawerType = {
 export const MyCart = () => {
   const { inCart } = useData();
   const { setOpenMyCart } = useBackDrop();
-  console.log("incart", inCart);
 
   return (
     <Stack gap={2} width={650} paddingX={3}>

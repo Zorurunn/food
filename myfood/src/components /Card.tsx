@@ -10,7 +10,7 @@ export const Card = (props: foodType) => {
   const { setOpenFoodDetail, setOpenEditFood } = useBackDrop();
   const { imgPath, price, name, discount } = props;
   const [isHover, setIsHover] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(true);
 
   return (
     <Stack

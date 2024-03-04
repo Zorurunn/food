@@ -21,9 +21,7 @@ export const Profile = () => {
   useEffect(() => {
     getUser();
   }, []);
-  // const [really, setReally] = useState(false);
   const router = useRouter();
-  console.log("opo");
 
   return (
     <Stack marginY={2}>
@@ -31,7 +29,7 @@ export const Profile = () => {
         <Stack position={"relative"}>
           <Avatar
             alt="Remy Sharp"
-            src="/temporary/morning.jpg"
+            src={user?.avatar_url}
             sx={{ width: "120px", height: "120px" }}
           />
           <Stack position={"absolute"} bottom={"-5%"} left={"70%"}>
