@@ -289,9 +289,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         changePassword,
       }}
     >
-      {/* {isReady && children} */}
       {children}
-      {/* <div>Loading</div> */}
     </AuthContext.Provider>
   );
 };

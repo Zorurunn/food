@@ -40,12 +40,13 @@ export default function Dashboard() {
               description="3ахиалга бэлтгэлийн явцыг хянах"
             />
           </Stack>
-
-          <Category isDiscount={true} name="Discounted" _id="discount" />
-          {categories &&
-            categories.map((item) => {
-              return <Category key={item._id} {...item} />;
-            })}
+          <Stack gap={3}>
+            <Category isDiscount={true} name="Discounted" _id="discount" />
+            {categories &&
+              categories.map((item) => {
+                return <Category key={item._id} {...item} />;
+              })}
+          </Stack>
         </Stack>
       </CustomContainer>
     </Stack>

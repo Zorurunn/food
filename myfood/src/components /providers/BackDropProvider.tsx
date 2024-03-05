@@ -55,7 +55,7 @@ export const BackDropProvider = ({ children }: PropsWithChildren) => {
         setOpenMyCart,
       }}
     >
-      <Button onClick={toggleMyCart(true)}>Open drawer</Button>
+      {/* <Button onClick={toggleMyCart(true)}>Open drawer</Button> */}
 
       {/* MY CART */}
       <Drawer
@@ -66,7 +66,6 @@ export const BackDropProvider = ({ children }: PropsWithChildren) => {
         anchor="right"
       >
         <MyCart />
-        {/* <MyCart toggleDrawer={toggleMyCart} /> */}
       </Drawer>
 
       {/* FOOD DETAIL */}

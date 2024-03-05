@@ -53,25 +53,13 @@ export const TopBar = () => {
 
   return (
     <>
-      {/* <Button onClick={toggleDrawer(true)}>Open drawer</Button>
-      <Drawer open={open} onClose={toggleDrawer(false)} anchor="right">
-        <MyCart toggleDrawer={toggleDrawer} />
-      </Drawer> */}
       <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={isDisplay}
-
-        // onClick={handleClose}
       >
         <Login />
-        {/* <CircularProgress color="inherit" /> */}
       </Backdrop>
-      {/* {isDisplay && (
-        <Backdrop   sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
-        open={isDisplay}>
-          <Login />
-        </BackDrop>
-      )} */}
+
       <CustomContainer maxWidth="lg">
         <Stack
           direction={"row"}

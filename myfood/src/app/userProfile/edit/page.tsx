@@ -55,8 +55,9 @@ export default function ProfileEdit() {
         // upload hiihees umnu
         // oruulj irsen image ee haruulah
         const data = await res.json();
-        setImageUrl(data.secure_url);
-        console.log(data.secure_url);
+        // setImageUrl(data.secure_url);
+        console.log("daya", data.secure_url);
+        return data.secure_url;
       } catch (e) {
         console.log(e);
       }
@@ -72,18 +73,15 @@ export default function ProfileEdit() {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
-        await handleImageUpload();
-        console.log(imageUrl);
-      } catch (e) {
-        console.log(e);
-      }
-      try {
+        const url = await handleImageUpload();
+        // console.log(url);
+
         confirm("Та шинэчлэлт хийхдээ итгэлтэй байна уу ?", async () => {
           await userUpdate({
             name: values.name || "",
             email: values.email || "",
             phoneNumber: values.phoneNumber || "",
-            avatar_url: imageUrl ?? "",
+            avatar_url: url ?? "",
           });
         });
       } catch (e) {
@@ -123,33 +121,7 @@ export default function ProfileEdit() {
             />
           )}
         </Stack>
-        {/* <Button onClick={handleImageUpload}>upload to cloudinary</Button> */}
-        {/* <Stack position={"relative"}>
-          <Avatar
-            alt="Remy Sharp"
-            src={user?.avatar_url}
-            sx={{ width: "120px", height: "120px" }}
-          />
-          <Stack position={"absolute"} bottom={"-5%"} left={"70%"}>
-            <Stack
-              width={35}
-              height={35}
-              border="1px solid"
-              borderColor="text.secondary"
-              borderRadius={10}
-              justifyContent={"center"}
-              alignItems={"center"}
-              sx={{ backgroundColor: "#fff" }}
-            >
-              <Edit
-                sx={{
-                  fontSize: 24,
-                  color: "primary.main",
-                }}
-              />
-            </Stack>
-          </Stack>
-        </Stack> */}
+
         <HeadText text={user?.name} size="28px" wieght="700" />
         <Stack gap={2} width={500}>
           <Stack
@@ -184,8 +156,8 @@ export default function ProfileEdit() {
                 value={formik.values.name ?? user?.name ?? ""}
                 handleChange={formik.handleChange}
                 onBlur={formik.handleBlur}
+                helperText={String(formik.errors.name)}
                 error={formik.touched.name && Boolean(formik.errors.name)}
-                // helperText={}
                 size="medium"
                 type="text"
                 width={400}

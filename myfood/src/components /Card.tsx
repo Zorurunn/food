@@ -65,12 +65,16 @@ export const Card = (props: foodType) => {
             </Typography>
           </Stack>
         </Backdrop>
-        <Image
-          src={imgPath}
-          alt="Breakfast"
-          fill
-          style={{ objectFit: "cover" }}
-        />
+        <Stack position={"absolute"} top={0} left={0}>
+          <img
+            src={imgPath}
+            alt="Breakfast"
+            width={"100%"}
+            height={"100%"}
+            // fill
+            style={{ objectFit: "cover" }}
+          />
+        </Stack>
         <Stack
           position={"absolute"}
           zIndex={2}

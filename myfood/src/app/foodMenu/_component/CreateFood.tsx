@@ -1,14 +1,28 @@
 "use client";
 
 import { CustomInput, HeadText, useAuth, useData } from "@/components ";
-import { Backdrop, Stack, MenuItem } from "@mui/material";
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import {
+  Backdrop,
+  Stack,
+  MenuItem,
+  Typography,
+  TextField,
+  CircularProgress,
+} from "@mui/material";
+import {
+  ChangeEvent,
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useState,
+} from "react";
 import { Formik, useFormik } from "formik";
 import * as yup from "yup";
 import { useRouter } from "next/navigation";
 import { Really } from "@/app/userProfile/_components/Really";
 import { Close } from "@mui/icons-material";
 import { useConfirm } from "@/components /providers/ConfirmationProvider";
+import Image from "next/image";
 
 const validationSchema = yup.object({
   name: yup.string().required(),
@@ -16,7 +30,6 @@ const validationSchema = yup.object({
   ingredients: yup.string().required(),
   price: yup.number().required(),
   discount: yup.number().required(),
-  imgPath: yup.string().required(),
 });
 
 export const CreateFood = ({
@@ -26,7 +39,35 @@ export const CreateFood = ({
 }) => {
   const { confirm } = useConfirm();
   const { createFood, categories } = useData();
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (!event.target.files) return;
+    setSelectedFile(event.target.files[0]);
+  };
+  const handleImageUpload = async () => {
+    if (selectedFile) {
+      try {
+        const formData = new FormData();
+        formData.append("file", selectedFile);
 
+        const res = await fetch(
+          "https://api.cloudinary.com/v1_1/dfytgnxd7/upload?upload_preset=rhkkfdkh",
+          {
+            method: "POST",
+            body: formData,
+          }
+        );
+        // end yagad await hiij bga ve?
+        // upload hiihees umnu
+        // oruulj irsen image ee haruulah
+        const data = await res.json();
+        return data.secure_url;
+      } catch (e) {
+        console.log(e);
+      }
+    }
+  };
   const formik = useFormik({
     initialValues: {
       name: "",
@@ -34,14 +75,18 @@ export const CreateFood = ({
       ingredients: "",
       price: 0,
       discount: 0,
-      imgPath: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
+      // console.log();
+
       try {
+        setIsLoading(true);
+        const url = await handleImageUpload();
+        setIsLoading(false);
         confirm("Та хадгалахдаа итгэлтэй байна уу ?", async () => {
           await createFood({
-            imgPath: values.imgPath,
+            imgPath: url,
             name: values.name,
             price: values.price,
             discount: values.discount,
@@ -50,6 +95,7 @@ export const CreateFood = ({
           });
           setOpen(false);
           formik.resetForm();
+          setSelectedFile(null);
         });
       } catch (e) {
         alert(e);
@@ -64,6 +110,12 @@ export const CreateFood = ({
   }, [categories]);
   return (
     <>
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={isLoading}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
       <Stack padding={4} sx={{ backgroundColor: "#fff" }} borderRadius={"4%"}>
         <Stack alignItems={"center"} justifyContent={"center"} gap={3}>
           <Stack direction={"row"} width={"100%"}>
@@ -168,7 +220,7 @@ export const CreateFood = ({
                 type="text"
                 width={400}
               />
-              <CustomInput
+              {/* <CustomInput
                 name="imgPath"
                 label={"Хоолны зураг"}
                 placeHolder="Хоолны зураг оруулна уу"
@@ -179,7 +231,30 @@ export const CreateFood = ({
                 size="medium"
                 type="text"
                 width={400}
-              />
+              /> */}
+              <Stack>
+                <Typography color={"text.primary"}>Хоолны зураг</Typography>
+
+                <Stack direction={"row"} gap={2} height={200}>
+                  <Stack flexGrow={1} flexBasis={1}>
+                    <TextField
+                      label={""}
+                      type="file"
+                      onChange={handleImageChange}
+                      variant="outlined"
+                      sx={{
+                        borderRadius: 2,
+                        width: "100%",
+                        height: "100%",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        padding: 2,
+                        backgroundColor: "primary.dark",
+                      }}
+                    />
+                  </Stack>
+                </Stack>
+              </Stack>
               <Stack direction={"row"} justifyContent={"flex-end"} gap={2}>
                 <Stack
                   color={"text.primary"}

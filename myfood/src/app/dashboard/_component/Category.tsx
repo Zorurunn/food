@@ -11,79 +11,73 @@ type isDiscountType = {
 };
 
 export const Category = (props: categoryType & isDiscountType) => {
-  const [length, setLength] = useState<number>();
   const { foods, searchValue } = useData();
   const { name, _id, isDiscount = false } = props;
   const router = useRouter();
 
   return (
-    <CustomContainer maxWidth="lg">
-      <Stack gap={3}>
-        <Stack direction={"row"} justifyContent={"space-between"}>
-          <Stack direction={"row"} alignItems={"center"} gap={1}>
-            <StarIcon sx={{ color: "primary.main" }} />
-            <Typography fontWeight={800} fontSize={18}>
-              {name}
-            </Typography>
-          </Stack>
-
-          <Stack
-            direction={"row"}
-            justifyContent={"center"}
-            alignItems={"center"}
-          >
-            <Button
-              sx={{ textTransform: "none" }}
-              onClick={() => {
-                router.push(`/menu?name=${name}&id=${_id}`);
-              }}
-            >
-              Бүгдийг харах
-            </Button>
-            <ChevronRightIcon sx={{ color: "primary.main" }} />
-          </Stack>
+    <Stack gap={2}>
+      <Stack direction={"row"} justifyContent={"space-between"}>
+        <Stack direction={"row"} alignItems={"center"} gap={1}>
+          <StarIcon sx={{ color: "primary.main" }} />
+          <Typography fontWeight={800} fontSize={18}>
+            {name}
+          </Typography>
         </Stack>
+
         <Stack
-          sx={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)" }}
-          width={"100%"}
-          gap={2}
+          direction={"row"}
+          justifyContent={"center"}
+          alignItems={"center"}
         >
-          {isDiscount
-            ? foods &&
-              foods
-                .filter((item) => {
-                  return (
-                    item.name
-                      .toLowerCase()
-                      .includes(searchValue.toLowerCase()) ||
-                    item.ingredients
-                      .toLowerCase()
-                      .includes(searchValue.toLowerCase())
-                  );
-                })
-                .filter((item) => {
-                  return item.discount !== 0;
-                })
-                .map((item) => <Card key={item._id} {...item} />)
-            : foods &&
-              foods
-                .filter((item) => {
-                  return (
-                    item.name
-                      .toLowerCase()
-                      .includes(searchValue.toLowerCase()) ||
-                    item.ingredients
-                      .toLowerCase()
-                      .includes(searchValue.toLowerCase())
-                  );
-                })
-                .filter((item) => {
-                  return item.category === _id;
-                })
-                .filter((_item, index) => index < 4)
-                .map((item) => <Card key={item._id} {...item} />)}
+          <Button
+            sx={{ textTransform: "none" }}
+            onClick={() => {
+              router.push(`/menu?name=${name}&id=${_id}`);
+            }}
+          >
+            Бүгдийг харах
+          </Button>
+          <ChevronRightIcon sx={{ color: "primary.main" }} />
         </Stack>
       </Stack>
-    </CustomContainer>
+      <Stack
+        sx={{ display: "grid", gridTemplateColumns: "repeat(4,1fr)" }}
+        width={"100%"}
+        gap={2}
+      >
+        {isDiscount
+          ? foods &&
+            foods
+              .filter((item) => {
+                return (
+                  item.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+                  item.ingredients
+                    .toLowerCase()
+                    .includes(searchValue.toLowerCase())
+                );
+              })
+              .filter((item) => {
+                return item.discount !== 0;
+              })
+              .filter((_item, index) => index < 4)
+              .map((item) => <Card key={item._id} {...item} />)
+          : foods &&
+            foods
+              .filter((item) => {
+                return (
+                  item.name.toLowerCase().includes(searchValue.toLowerCase()) ||
+                  item.ingredients
+                    .toLowerCase()
+                    .includes(searchValue.toLowerCase())
+                );
+              })
+              .filter((item) => {
+                return item.category === _id;
+              })
+              .filter((_item, index) => index < 4)
+              .map((item) => <Card key={item._id} {...item} />)}
+      </Stack>
+    </Stack>
   );
 };

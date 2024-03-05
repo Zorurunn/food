@@ -119,7 +119,7 @@ export const ConfirmationProvider = ({ children }: PropsWithChildren) => {
           </Stack>
         </Stack>
       </Backdrop>
-      ;{children}
+      {children}
     </ConfirmationContext.Provider>
   );
 };
