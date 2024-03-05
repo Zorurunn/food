@@ -1,10 +1,11 @@
 import { CustomInput, HeadText, useData } from "@/components ";
 import { Button, Stack, Typography } from "@mui/material";
 import { ChangeEvent, useState } from "react";
-import { Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as yup from "yup";
 import { useAuth } from "../providers/AuthProvider";
 import { useRouter } from "next/navigation";
+import { useBackDrop } from "../providers/BackDropProvider";
 
 const validationSchema = yup.object({
   email: yup.string().email().required(),
@@ -18,29 +19,36 @@ const validationSchema = yup.object({
 export const Login = () => {
   const router = useRouter();
   const { signIn } = useAuth();
-  const { setIsDisplay } = useData();
+  const { setOpenLogin, setOpenLoading } = useBackDrop();
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
+    onSubmit: async (values) => {
+      setOpenLoading(true);
+      await signIn({
+        email: formik.values.email,
+        password: formik.values.password,
+      });
+      setOpenLogin(false);
+      setOpenLoading(false);
     },
   });
 
-  const handleSignIn = () => {
-    setIsDisplay(false);
-    signIn({ email: formik.values.email, password: formik.values.password });
-  };
   const handleSignUp = () => {
-    setIsDisplay(false);
+    setOpenLogin(false);
     router.push("/signUp");
   };
 
   return (
-    <Stack padding={4} sx={{ backgroundColor: "#fff" }} borderRadius={"4%"}>
+    <Stack
+      padding={4}
+      sx={{ backgroundColor: "#fff" }}
+      borderRadius={"4%"}
+      width={500}
+    >
       <Stack alignItems={"center"} justifyContent={"center"} gap={3}>
         <HeadText text={"Нэвтрэх"} size="28px" wieght="700" color="black" />
         <Stack gap={9}>
@@ -79,6 +87,10 @@ export const Login = () => {
                   textTransform={"none"}
                   fontWeight={"400"}
                   color={"text.secondary"}
+                  onClick={() => {
+                    setOpenLogin(false);
+                    router.push("/forgotPassword");
+                  }}
                 >
                   Нууц үг сэргээх
                 </Typography>
@@ -87,7 +99,9 @@ export const Login = () => {
           </Stack>
           <Stack alignItems="center" gap={4}>
             <Button
-              onClick={handleSignIn}
+              onClick={() => {
+                formik.handleSubmit();
+              }}
               fullWidth
               variant="contained"
               disableElevation

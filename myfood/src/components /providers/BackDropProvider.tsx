@@ -10,14 +10,22 @@ import {
   useEffect,
   useState,
 } from "react";
-import { FoodDetail, useData } from "..";
-import { Backdrop, Drawer, Stack, Typography } from "@mui/material";
+import { FoodDetail, Login, useData } from "..";
+import {
+  Backdrop,
+  CircularProgress,
+  Drawer,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { Really } from "@/app/userProfile/_components/Really";
-import { Button } from "@mui/base";
 import { MyCart } from "../orderDetail/MyCart";
 import { EditFood } from "@/app/foodMenu/_component/EditFood";
 import { CreateFood } from "@/app/foodMenu/_component/CreateFood";
 import { CreateCategory } from "@/app/foodMenu/_component/CreateCategory";
+import Box from "@mui/material/Box";
+import Modal from "@mui/material/Modal";
+import Button from "@mui/material/Button";
 
 type BackDropContextType = {
   toggleMyCart: (newOpen: boolean) => () => void;
@@ -26,6 +34,8 @@ type BackDropContextType = {
   setOpenCreateFood: Dispatch<SetStateAction<boolean>>;
   setOpenCreateCategory: Dispatch<SetStateAction<boolean>>;
   setOpenMyCart: Dispatch<SetStateAction<boolean>>;
+  setOpenLogin: Dispatch<SetStateAction<boolean>>;
+  setOpenLoading: Dispatch<SetStateAction<boolean>>;
 };
 
 const BackDropContext = createContext<BackDropContextType>(
@@ -38,6 +48,8 @@ export const BackDropProvider = ({ children }: PropsWithChildren) => {
   const [openEditFood, setOpenEditFood] = useState(false);
   const [openCreateFood, setOpenCreateFood] = useState(false);
   const [openCreateCategory, setOpenCreateCategory] = useState(false);
+  const [openLogIn, setOpenLogin] = useState(false);
+  const [openLoading, setOpenLoading] = useState(false);
   const { selectedFood } = useData();
 
   const toggleMyCart = (newOpen: boolean) => () => {
@@ -53,6 +65,8 @@ export const BackDropProvider = ({ children }: PropsWithChildren) => {
         setOpenCreateFood,
         setOpenCreateCategory,
         setOpenMyCart,
+        setOpenLogin,
+        setOpenLoading,
       }}
     >
       {/* <Button onClick={toggleMyCart(true)}>Open drawer</Button> */}
@@ -103,6 +117,27 @@ export const BackDropProvider = ({ children }: PropsWithChildren) => {
         open={openCreateCategory}
       >
         <CreateCategory setOpen={setOpenCreateCategory} />
+      </Backdrop>
+
+      {/* SIGN IN */}
+      <Modal
+        open={openLogIn}
+        onClose={() => {
+          setOpenLogin(false);
+        }}
+        sx={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+      >
+        <Stack>
+          <Login />
+        </Stack>
+      </Modal>
+
+      {/* LOADING */}
+      <Backdrop
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 2 }}
+        open={openLoading}
+      >
+        <CircularProgress color="inherit" />
       </Backdrop>
       {children}
     </BackDropContext.Provider>

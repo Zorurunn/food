@@ -2,6 +2,8 @@ import { RequestHandler } from "express";
 import { UserModel } from "../models";
 import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
+const otpGenerator = require("otp-generator");
+
 // SIGN UP
 export const signUp: RequestHandler = async (req, res) => {
   const { name, address, email, password, phoneNumber } = req.body;
@@ -59,23 +61,13 @@ export const reNewPassword: RequestHandler = async (req, res) => {
       message: "user not found",
     });
   } else {
-    const otp = 1234;
-    // send otp by email
+    const otp = otpGenerator.generate(4, {
+      upperCaseAlphabets: false,
+      lowerCaseAlphabets: false,
+      specialChars: false,
+    });
 
-    UserModel.findOneAndUpdate({ email: email }, { name: "Zoliu" });
-
-    // model.findOneAndUpdate(conditions,update,function(error,result){
-    //   if(error){
-    //     // handle error
-    //   }else{
-    //     console.log(result);
-    //   }
-    // });
-    // const userUpdate = await UserModel.updateOne({ name: "Zoluu" });
-    // console.log(userUpdate);
-
-    // const updateuser = await UserModel.findOne({ email: email });
-    // console.log(updateuser);
+    UserModel.findOneAndUpdate({ email: email }, { otp: otp });
 
     res.json({ message: "OTP succesfully created" });
   }
@@ -94,11 +86,14 @@ export const otpGenerate: RequestHandler = async (req, res) => {
     return;
   }
 
-  const otp = 1234;
+  const otp = otpGenerator.generate(4, {
+    upperCaseAlphabets: false,
+    lowerCaseAlphabets: false,
+    specialChars: false,
+  });
 
   try {
     const updatedUser = await UserModel.updateOne({ email: email }, { otp });
-    console.log(updatedUser);
 
     try {
       const transporter = nodemailer.createTransport({
@@ -142,8 +137,6 @@ export const changePassword: RequestHandler = async (req, res) => {
   }
 
   if (!user.otp) {
-    console.log("OTP DOESNOT MATCH");
-
     res.status(401).json({
       message: "otp did not generated",
     });

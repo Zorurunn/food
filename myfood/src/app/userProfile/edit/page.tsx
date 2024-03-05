@@ -21,6 +21,7 @@ import * as yup from "yup";
 import { Really } from "../_components/Really";
 import { useConfirm } from "@/components /providers/ConfirmationProvider";
 import { ChangeEvent, useState } from "react";
+import { useBackDrop } from "@/components /providers/BackDropProvider";
 
 const validationSchema = yup.object({
   email: yup.string().email().required(),
@@ -31,6 +32,7 @@ const validationSchema = yup.object({
 export default function ProfileEdit() {
   const { user, userUpdate } = useAuth();
   const { confirm } = useConfirm();
+  const { setOpenLoading } = useBackDrop();
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState();
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -74,16 +76,16 @@ export default function ProfileEdit() {
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
-        const url = await handleImageUpload();
-        // console.log(url);
-
         confirm("Та шинэчлэлт хийхдээ итгэлтэй байна уу ?", async () => {
+          setOpenLoading(true);
+          const url = await handleImageUpload();
           await userUpdate({
             name: values.name || "",
             email: values.email || "",
             phoneNumber: values.phoneNumber || "",
             avatar_url: url ?? "",
           });
+          setOpenLoading(false);
         });
       } catch (e) {
         console.log("could not update user", e);

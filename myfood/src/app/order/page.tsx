@@ -11,6 +11,7 @@ import * as yup from "yup";
 import { useOrderData } from "@/components /providers/OrderDataProvider";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
+import { useBackDrop } from "@/components /providers/BackDropProvider";
 
 const validationSchema = yup.object({
   district: yup.string().required(),
@@ -24,7 +25,8 @@ const validationSchema = yup.object({
 export default function Order() {
   const { inCart } = useData();
   const { createOrder } = useOrderData();
-
+  const { isLoggedIn } = useAuth();
+  const { setOpenLogin } = useBackDrop();
   const router = useRouter();
 
   const formik = useFormik({
@@ -38,6 +40,12 @@ export default function Order() {
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
+      if (!isLoggedIn) {
+        setOpenLogin(true);
+        return;
+      }
+      console.log(isLoggedIn);
+
       await createOrder({
         deliveryAddress: {
           district: values.district,

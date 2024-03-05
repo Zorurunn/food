@@ -46,7 +46,7 @@ export const Step2 = ({
       <Stack alignItems={"center"} justifyContent={"center"} gap={3}>
         <HeadText text={"Нууц үг сэргээх"} size="28px" wieght="700" />
 
-        <Stack gap={5}>
+        <Stack gap={5} width={400}>
           <Typography>
             Таны &nbsp;
             <Typography component="span" color="primary.main">

@@ -16,7 +16,6 @@ import {
 import Image from "next/image";
 import { ChangeEvent, useState } from "react";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import { InCartFood } from "./InCartFood";
 export const MyCart = () => {
   const { inCart, addCart } = useData();
   // console.log(baskets);
@@ -44,14 +43,6 @@ export const MyCart = () => {
             return (
               <Stack gap={2} key={item._id}>
                 <Divider></Divider>
-                {/* <InCartFood
-                  imgPath={item.food.imgPath}
-                  name={item.food.name}
-                  price={item.food.price}
-                  ingredients={item.food.ingredients}
-                  quantity={item.quantity}
-                  _id={item.food._id}
-                /> */}
               </Stack>
             );
           })}

@@ -399,7 +399,10 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
 
   useEffect(() => {
     const rawData = localStorage.getItem("cart");
-    if (!rawData) return;
+    if (!rawData) {
+      setIsFirstRender(false);
+      return;
+    }
     const data = JSON.parse(rawData);
     setInCart(data);
     setIsFirstRender(false);

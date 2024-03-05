@@ -24,6 +24,8 @@ import { useBackDrop } from "../providers/BackDropProvider";
 import { useAmount } from "../providers/AmountProvider";
 
 export const TopBar = () => {
+  const { isLoggedIn } = useAuth();
+  const { setOpenLogin } = useBackDrop();
   const { orderAmount } = useAmount();
   const {
     isDisplay,
@@ -33,7 +35,6 @@ export const TopBar = () => {
     setSearchValue,
     searchValue,
   } = useData();
-  const { isLoggedIn } = useAuth();
   const { toggleMyCart } = useBackDrop();
   const router = useRouter();
   const handleChange = (
@@ -47,18 +48,18 @@ export const TopBar = () => {
     if (isLoggedIn) {
       router.push("/userProfile");
     } else {
-      setIsDisplay(true);
+      setOpenLogin(true);
     }
   };
 
   return (
     <>
-      <Backdrop
+      {/* <Backdrop
         sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
         open={isDisplay}
       >
         <Login />
-      </Backdrop>
+      </Backdrop> */}
 
       <CustomContainer maxWidth="lg">
         <Stack
@@ -120,7 +121,10 @@ export const TopBar = () => {
                 alignItems={"center"}
                 sx={{ cursor: "pointer" }}
               >
-                <Badge badgeContent={orderAmount} color="error">
+                <Badge
+                  badgeContent={inCart.length ? orderAmount : 0}
+                  color="error"
+                >
                   <AddShoppingCartIcon sx={{ fontSize: 20 }} />
                 </Badge>
 

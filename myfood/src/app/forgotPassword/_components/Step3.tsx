@@ -14,9 +14,10 @@ import {
   useEffect,
   useState,
 } from "react";
-import { Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as yup from "yup";
 import { toast } from "react-toastify";
+import { useRouter } from "next/navigation";
 
 const validationSchema = yup.object({
   password: yup
@@ -37,6 +38,7 @@ export const Step3 = ({
 }: {
   setStep: Dispatch<SetStateAction<number>>;
 }) => {
+  const router = useRouter();
   const [open, setOpen] = useState(false);
   const { changePassword } = useAuth();
   const formik = useFormik({
@@ -56,30 +58,22 @@ export const Step3 = ({
         email,
         newPassword,
       });
+
       toast(<Notify error={err} message={message} />);
+      setOpen(false);
+
+      if (err) {
+        localStorage.removeItem("email");
+        localStorage.removeItem("otp");
+        setStep(1);
+        return;
+      }
 
       setStep(1);
-
-      setOpen(false);
+      router.push("/signIn");
     },
   });
 
-  // todo: after confirm display toast success message
-  const [password, setPassword] = useState("");
-  const [rePassword, setRePassword] = useState("");
-
-  const handlePassword = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    event.preventDefault();
-    setPassword(event.target.value);
-  };
-  const handleRePassword = (
-    event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    event.preventDefault();
-    setRePassword(event.target.value);
-  };
   return (
     <>
       <Backdrop
@@ -93,26 +87,6 @@ export const Step3 = ({
           <HeadText text={"Шинэ нууц үг зохиох "} size="28px" wieght="700" />
 
           <Stack gap={5}>
-            {/* <CustomInput
-            label={"Нууц үг"}
-            placeHolder="******"
-            value={password}
-            handleChange={handlePassword}
-            type="password"
-            adornment="end"
-            size="medium"
-            width={400}
-          />
-          <CustomInput
-            label={"Нууц үг давтах"}
-            placeHolder="******"
-            value={rePassword}
-            handleChange={handleRePassword}
-            type="password"
-            adornment="end"
-            size="medium"
-            width={400}
-          /> */}
             <CustomInput
               name="password"
               label={"Нууц үг"}

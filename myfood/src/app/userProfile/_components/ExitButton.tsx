@@ -1,4 +1,4 @@
-import { useAuth } from "@/components ";
+import { useAuth, useData } from "@/components ";
 import { ExitToApp } from "@mui/icons-material";
 import { Stack } from "@mui/material";
 import { useConfirm } from "@/components /providers/ConfirmationProvider";
@@ -6,6 +6,7 @@ import { useConfirm } from "@/components /providers/ConfirmationProvider";
 export const ExitButton = () => {
   const { confirm } = useConfirm();
   const { signOut } = useAuth();
+  const { setInCart } = useData();
 
   return (
     <Stack
@@ -16,6 +17,7 @@ export const ExitButton = () => {
       sx={{ backgroundColor: "primary.dark", cursor: "pointer" }}
       onClick={() => {
         confirm("Та системээс гарахдаа итгэлтэй байна уу?", () => {
+          setInCart([]);
           signOut();
         });
       }}
