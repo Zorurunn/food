@@ -35,6 +35,7 @@ export const OrderDataProvider = ({ children }: PropsWithChildren) => {
   // GET ORDERS
   const getOrders = async () => {
     const token = localStorage.getItem("token");
+    if (!token) return;
     try {
       const res = await api.get("/getOrders", {
         headers: {

@@ -19,7 +19,6 @@ import {
   useEffect,
   useState,
 } from "react";
-import { boolean } from "yup";
 import { Notify } from "..";
 import { ToastContainer, toast } from "react-toastify";
 
@@ -58,7 +57,6 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
           Authorization: localStorage.getItem("token"),
         },
       });
-      console.log(res.data);
 
       setUser({
         address: res.data.address,
@@ -67,6 +65,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         phoneNumber: res.data.phoneNumber,
         _id: res.data._id,
         avatar_url: res.data.avatar_url,
+        isAdmin: res.data.isAdmin,
       });
     } catch (error) {
       console.log(error);
@@ -137,6 +136,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
 
     router.push("/signIn");
   };
+
   // RENEWPASSWORD
   const reNewPassword = async ({ email }: { email: string }) => {
     try {

@@ -69,6 +69,7 @@ export default function ProfileEdit() {
       email: user?.email,
       name: user?.name,
       phoneNumber: user?.phoneNumber,
+      isAdmin: false,
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {

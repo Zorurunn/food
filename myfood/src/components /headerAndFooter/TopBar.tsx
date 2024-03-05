@@ -72,7 +72,7 @@ export const TopBar = () => {
               <Typography
                 fontSize={14}
                 onClick={() => {
-                  router.push("/dashboard");
+                  router.push("/");
                 }}
                 sx={{ cursor: "pointer" }}
               >

@@ -6,7 +6,7 @@ import { CustomContainer, useData } from "@/components ";
 import { Category } from "./_component/Category";
 import { SearchedValue } from "@/components /search/SearchedValue";
 
-export default function Dashboard() {
+export function Dashboard() {
   const { categories, foods } = useData();
   return (
     <Stack gap={"120px"} marginBottom={"120px"}>

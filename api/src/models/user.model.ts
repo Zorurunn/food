@@ -24,6 +24,10 @@ const userSchema = new Schema({
   },
   avatar_url: {
     type: String,
+    required: false,
+  },
+  isAdmin: {
+    type: Boolean,
     required: true,
   },
   otp: {

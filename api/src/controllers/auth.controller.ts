@@ -4,10 +4,8 @@ import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 // SIGN UP
 export const signUp: RequestHandler = async (req, res) => {
-  console.log("kitaaa");
-  console.log("req.body:", req.body);
-
   const { name, address, email, password, phoneNumber } = req.body;
+
   const userExist = await UserModel.findOne({ email: email });
 
   if (!userExist) {
@@ -18,7 +16,9 @@ export const signUp: RequestHandler = async (req, res) => {
         phoneNumber,
         email,
         password,
+        isAdmin: false,
       });
+
       return res.json({ message: "Амжилттай бүртгэгдлээ" });
     } catch (error) {
       return res

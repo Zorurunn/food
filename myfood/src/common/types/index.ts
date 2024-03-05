@@ -70,7 +70,8 @@ export type UserType = {
   password?: string;
   phoneNumber: string;
   _id?: string;
-  avatar_url: string;
+  avatar_url?: string;
+  isAdmin?: boolean;
 };
 export type userUpdateProps = {
   // address: string;

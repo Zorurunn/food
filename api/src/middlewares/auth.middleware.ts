@@ -6,7 +6,7 @@ type Payload = {
 };
 
 export const authMiddleware: RequestHandler = (req, res, next) => {
-  // if (req.path == "/") return next();
+  if (req.path == "/") return next();
 
   const { authorization } = req.headers;
 

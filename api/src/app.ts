@@ -20,10 +20,10 @@ app.use("/", authRouter);
 app.use("/", emailRouter);
 app.use("/", foodRouter);
 app.use("/", orderRouter);
+app.use("/", getRouter);
 
 app.use(authMiddleware);
 
-app.use("/", getRouter);
 app.use("/", getUserRouter);
 app.use("/", userUpdateRouter);
 app.use("/", basketRouter);

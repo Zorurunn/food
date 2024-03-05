@@ -2,15 +2,17 @@ import { foodType } from "@/common";
 import { Backdrop, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import { useState } from "react";
-import { useData } from ".";
+import { useAuth, useData } from ".";
 import { useBackDrop } from "./providers/BackDropProvider";
 
 export const Card = (props: foodType) => {
+  const { user } = useAuth();
   const { setSelectedFood, selectedFood } = useData();
   const { setOpenFoodDetail, setOpenEditFood } = useBackDrop();
   const { imgPath, price, name, discount } = props;
   const [isHover, setIsHover] = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  // const [isAdmin, setIsAdmin] = useState(false);
+  console.log(user);
 
   return (
     <Stack
@@ -18,7 +20,7 @@ export const Card = (props: foodType) => {
       width={"100%"}
       onClick={() => {
         setSelectedFood(props);
-        if (isAdmin) {
+        if (user?.isAdmin) {
           setOpenEditFood(true);
         } else {
           setOpenFoodDetail(true);
@@ -61,7 +63,7 @@ export const Card = (props: foodType) => {
             paddingX={2}
           >
             <Typography color={"text.primary"}>
-              {isAdmin ? "Edit" : "Food Detail"}
+              {user?.isAdmin ? "Edit" : "Food Detail"}
             </Typography>
           </Stack>
         </Backdrop>

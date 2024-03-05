@@ -126,7 +126,6 @@ export const EditFood = ({
       }
     },
   });
-  console.log(imgPath);
 
   return (
     <>

@@ -39,7 +39,7 @@ type DataContextType = {
   addCart: (props: basketFoodType) => void;
   createCategory: ({ name }: { name: string }) => Promise<void>;
   setRefresh: Dispatch<SetStateAction<number>>;
-  addBasket: (props: foodType & countityType) => Promise<void>;
+  // addBasket: (props: foodType & countityType) => Promise<void>;
   baskets: basketType[] | undefined;
   minusQuantity: (id: string) => void;
   addQuantity: (id: string) => void;
@@ -217,19 +217,19 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
   };
 
   // GET BASKETS
-  const getBaskets = async () => {
-    const token = localStorage.getItem("token");
-    try {
-      const res = await api.get("/getBaskets", {
-        headers: {
-          Authorization: token,
-        },
-      });
-      setBaskets(res.data);
-    } catch (error) {
-      console.log("in getBaskets() function error:", error);
-    }
-  };
+  // const getBaskets = async () => {
+  //   const token = localStorage.getItem("token");
+  //   try {
+  //     const res = await api.get("/getBaskets", {
+  //       headers: {
+  //         Authorization: token,
+  //       },
+  //     });
+  //     setBaskets(res.data);
+  //   } catch (error) {
+  //     console.log("in getBaskets() function error:", error);
+  //   }
+  // };
 
   // UPDATE CATEGORY
   const updateCategory = async (props: categoryType) => {
@@ -284,48 +284,47 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
   };
 
   // ADD BASKET
-  const addBasket = async (props: foodType & countityType) => {
-    const {
-      name,
-      ingredients,
-      imgPath,
-      price,
-      discount,
-      category,
-      _id,
-      countity,
-    } = props;
+  // const addBasket = async (props: foodType & countityType) => {
+  //   const {
+  //     name,
+  //     ingredients,
+  //     imgPath,
+  //     price,
+  //     discount,
+  //     category,
+  //     _id,
+  //     countity,
+  //   } = props;
 
-    const token = localStorage.getItem("token");
+  //   const token = localStorage.getItem("token");
 
-    try {
-      const res = await api.post(
-        "/addBasket",
-        {
-          name,
-          ingredients,
-          imgPath,
-          price,
-          discount,
-          category,
-          _id,
-          countity,
-        },
-        {
-          headers: {
-            Authorization: token,
-          },
-        }
-      );
+  //   try {
+  //     const res = await api.post(
+  //       "/addBasket",
+  //       {
+  //         name,
+  //         ingredients,
+  //         imgPath,
+  //         price,
+  //         discount,
+  //         category,
+  //         _id,
+  //         countity,
+  //       },
+  //       {
+  //         headers: {
+  //           Authorization: token,
+  //         },
+  //       }
+  //     );
 
-      setRefresh((prev) => 1 - prev);
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  //     setRefresh((prev) => 1 - prev);
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   // ADD CART
-
   const addCart = (props: basketFoodType) => {
     const { imgPath, name, price, discount, _id, ingredients, quantity } =
       props;
@@ -389,7 +388,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
     getDistricts();
     getKhoroos();
     getApartments();
-    getBaskets();
+    // getBaskets();
   }, [refresh]);
 
   useEffect(() => {
@@ -425,7 +424,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         inCart,
         setInCart,
         addCart,
-        addBasket,
+        // addBasket,
         baskets,
         minusQuantity,
         addQuantity,
