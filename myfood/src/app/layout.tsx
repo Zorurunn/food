@@ -4,7 +4,6 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { CssBaseline, Stack, ThemeProvider } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
-import { theme } from "@/theme";
 import { PropsWithChildren, useState } from "react";
 import { AuthProvider, DataProvider, Footer, TopBar } from "@/components ";
 const inter = Inter({ subsets: ["latin"] });
@@ -14,6 +13,7 @@ import { ConfirmationProvider } from "@/components /providers/ConfirmationProvid
 import { BackDropProvider } from "@/components /providers/BackDropProvider";
 import { AmountProvider } from "@/components /providers/AmountProvider";
 import { OrderDataProvider } from "@/components /providers/OrderDataProvider";
+import { theme } from "@/common/theme";
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (

@@ -126,19 +126,24 @@ export const changePassword: RequestHandler = async (req, res) => {
   }
 
   const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
-  const expirationTime = currentTime + 300; // Expires in 5 minutes (300 seconds)
-
-  if (!user.otp) {
+  // const expirationTime = currentTime + 300; // Expires in 5 minutes (300 seconds)
+  if (user.OneTimePass?.expiresIn) {
+    if (currentTime > user.OneTimePass?.expiresIn)
+      return res.status(401).json({
+        message: "otp expired",
+      });
+  }
+  if (!user.OneTimePass?.otp) {
     res.status(401).json({
       message: "otp did not generated",
     });
     return;
   }
 
-  if (user.otp !== otp) {
+  if (user.OneTimePass?.otp !== otp) {
     return res.status(401).json({ message: "OTP does not match try again" });
   }
-  if (user.otp === otp) {
+  if (user.OneTimePass?.otp === otp) {
     try {
       const updatedUser = await UserModel.updateOne(
         { email: email },

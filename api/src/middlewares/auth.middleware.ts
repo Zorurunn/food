@@ -1,9 +1,11 @@
 import { RequestHandler } from "express";
 import jwt from "jsonwebtoken";
 import { UserModel } from "../models";
+import { secretKey } from "../controllers";
 
 type Payload = {
   id: string;
+  role: string;
 };
 
 export const authMiddleware: RequestHandler = async (req, res, next) => {
@@ -18,7 +20,7 @@ export const authMiddleware: RequestHandler = async (req, res, next) => {
   }
 
   try {
-    const { id } = jwt.verify(authorization, "secret") as Payload;
+    const { id, role } = jwt.verify(authorization, secretKey) as Payload;
 
     const user = await UserModel.findOne({ _id: id });
 

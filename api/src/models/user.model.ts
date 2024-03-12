@@ -32,8 +32,8 @@ const userSchema = new Schema({
   },
   OneTimePass: {
     otp: String,
-    expiresIn: Date,
-    required: false,
+    expiresIn: Number,
+    // required: false,
   },
 });
 
