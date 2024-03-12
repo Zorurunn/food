@@ -4,31 +4,33 @@ import jwt from "jsonwebtoken";
 import nodemailer from "nodemailer";
 const otpGenerator = require("otp-generator");
 
+export const secretKey = "food delivery application secret key";
 // SIGN UP
 export const signUp: RequestHandler = async (req, res) => {
   const { name, address, email, password, phoneNumber } = req.body;
 
   const userExist = await UserModel.findOne({ email: email });
 
-  if (!userExist) {
-    try {
-      const user = await UserModel.create({
-        name,
-        address,
-        phoneNumber,
-        email,
-        password,
-        isAdmin: false,
-      });
-
-      return res.json({ message: "Амжилттай бүртгэгдлээ" });
-    } catch (error) {
-      return res
-        .status(401)
-        .json({ error: error, message: "could not add user" });
-    }
+  if (userExist) {
+    return res.status(401).json({
+      message: "This email already registered",
+    });
   }
-  return res.json({ message: "user already exists" });
+
+  try {
+    const user = await UserModel.create({
+      name,
+      address,
+      phoneNumber,
+      email,
+      password,
+      role: "user",
+    });
+
+    return res.json({ message: "Account successfully created", user: user });
+  } catch (error) {
+    return res.status(401).json({ error: error, message: "could create user" });
+  }
 };
 
 // SIGN IN
@@ -36,47 +38,29 @@ export const signIn: RequestHandler = async (req, res) => {
   const { email, password } = req.body;
 
   const user = await UserModel.findOne({ email: email, password: password });
-  console.log(user);
 
   if (!user) {
-    console.log("kita");
-
-    return res.status(401).json({ message: "Invalid credentials" });
+    return res.status(401).json({ message: "User not found" });
   }
 
   const id = user._id;
+  const role = user.role;
 
-  const token = jwt.sign({ id }, "secret");
-  res.json({
-    token,
-  });
-};
+  const token = jwt.sign(
+    {
+      id: id,
+      role: role,
+    },
+    secretKey,
+    { expiresIn: "1d" }
+  );
 
-// Renew Password
-export const reNewPassword: RequestHandler = async (req, res) => {
-  const { email } = req.body;
-  const user = await UserModel.findOne({ email: email });
-  if (!user) {
-    res.status(401).json({
-      message: "user not found",
-    });
-  } else {
-    const otp = otpGenerator.generate(4, {
-      upperCaseAlphabets: false,
-      lowerCaseAlphabets: false,
-      specialChars: false,
-    });
-
-    UserModel.findOneAndUpdate({ email: email }, { otp: otp });
-
-    res.json({ message: "OTP succesfully created" });
-  }
+  res.json({ token });
 };
 
 // OTP GENERATE
 export const otpGenerate: RequestHandler = async (req, res) => {
   const { email } = req.body;
-  console.log("email", email);
 
   const user = await UserModel.findOne({ email: email });
   if (!user) {
@@ -91,37 +75,42 @@ export const otpGenerate: RequestHandler = async (req, res) => {
     lowerCaseAlphabets: false,
     specialChars: false,
   });
+  const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+  const expirationTime = currentTime + 300; // Expires in 5 minutes (300 seconds)
 
   try {
-    const updatedUser = await UserModel.updateOne({ email: email }, { otp });
+    await UserModel.findOneAndUpdate(
+      { email: email },
+      { OneTimePass: { otp: otp, expiresIn: expirationTime } }
+    );
+  } catch (error) {
+    return res.status(500).json({ error, messeage: "Could not generate otp" });
+  }
 
-    try {
-      const transporter = nodemailer.createTransport({
-        service: "Gmail",
-        host: "smtp.gmail.com",
-        port: 465,
-        secure: true,
-        auth: {
-          user: "amjpodcast2021@gmail.com",
-          pass: "kktopivkjuembwin",
-        },
-      });
-      const mailOptions = {
-        from: "amjpodcast2021@gmail.com",
-        to: email,
-        subject: "Your OTP code",
-        text: `This is your code: ${otp}`,
-      };
-      await transporter.sendMail(mailOptions);
+  try {
+    const transporter = nodemailer.createTransport({
+      service: "Gmail",
+      host: "smtp.gmail.com",
+      port: 465,
+      secure: true,
+      auth: {
+        user: "amjpodcast2021@gmail.com",
+        pass: "kktopivkjuembwin",
+      },
+    });
+    const mailOptions = {
+      from: "amjpodcast2021@gmail.com",
+      to: email,
+      subject: "Your OTP code",
+      text: `This is your code: ${otp}`,
+    };
+    await transporter.sendMail(mailOptions);
 
-      res.json({ message: "OTP code is send by email" });
-    } catch (error) {
-      res.status(500).json(error);
-    }
+    return res.json({ message: "OTP code is sent by email" });
   } catch (error) {
     return res
-      .status(401)
-      .json({ error: error, message: "could not generate otp" });
+      .status(500)
+      .json({ error: error, message: "could not send otp by email" });
   }
 };
 
@@ -135,6 +124,9 @@ export const changePassword: RequestHandler = async (req, res) => {
     });
     return;
   }
+
+  const currentTime = Math.floor(Date.now() / 1000); // Current time in seconds
+  const expirationTime = currentTime + 300; // Expires in 5 minutes (300 seconds)
 
   if (!user.otp) {
     res.status(401).json({

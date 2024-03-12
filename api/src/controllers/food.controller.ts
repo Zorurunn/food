@@ -1,14 +1,8 @@
 import { RequestHandler } from "express";
-import { FoodModel, UserModel, CategoryModel } from "../models";
-import jwt from "jsonwebtoken";
+import { FoodModel, CategoryModel } from "../models";
 
-type Payload = {
-  id: string;
-};
 // GET ALL FOODS
 export const getAllFoods: RequestHandler = async (req, res) => {
-  console.log("GET ALL FOODS");
-
   const foods = await FoodModel.find({});
 
   res.json(foods);
@@ -17,20 +11,12 @@ export const getAllFoods: RequestHandler = async (req, res) => {
 // CREATE FOOD
 export const createFood: RequestHandler = async (req, res) => {
   const { name, ingredients, imgPath, price, discount, category } = req.body;
-  const { authorization } = req.headers;
 
-  if (!authorization) {
+  const isRemain = await FoodModel.findOne({ name });
+
+  if (isRemain) {
     return res.status(401).json({
-      message: "Invalid credentials Auth nashi",
-    });
-  }
-  const { id } = jwt.verify(authorization, "secret") as Payload;
-
-  const user = await UserModel.findOne({ _id: id });
-
-  if (!user) {
-    return res.status(401).json({
-      message: "Invalid credentials user nashi",
+      message: "food name already exist",
     });
   }
 
@@ -43,11 +29,11 @@ export const createFood: RequestHandler = async (req, res) => {
       discount,
       category,
     });
-    return res.json({ message: `new food "${name}" created` });
+    return res.json({ message: `"${name}" food  created` });
   } catch (error) {
     return res
       .status(401)
-      .json({ error: error, message: "could not add user" });
+      .json({ error: error, message: "could not create food" });
   }
 };
 
@@ -55,50 +41,31 @@ export const createFood: RequestHandler = async (req, res) => {
 export const updateFood: RequestHandler = async (req, res) => {
   const { name, ingredients, imgPath, price, discount, category, _id } =
     req.body;
-  const { authorization } = req.headers;
-
-  if (!authorization) {
-    return res.status(401).json({
-      message: "Invalid credentials Auth nashi",
-    });
-  }
-  const { id } = jwt.verify(authorization, "secret") as Payload;
-
-  const user = await UserModel.findOne({ _id: id });
-
-  if (!user) {
-    return res.status(401).json({
-      message: "Invalid credentials user nashi",
-    });
-  }
 
   const thisFood = await FoodModel.findOne({ _id });
 
   if (!thisFood) {
     return res.status(401).json({
-      message: "Invalid credentials food nashi",
+      message: "food not found",
     });
   }
+
   try {
     const updatedFood = await FoodModel.updateOne(
       { _id: _id },
       { name, ingredients, imgPath, price, discount, category }
     );
 
-    console.log(updatedFood);
-
     return res.json("food is successfully updated");
   } catch (error) {
     return res
       .status(401)
-      .json({ error: error, message: "could not update user information" });
+      .json({ error: error, message: "could not update food detail" });
   }
 };
 
 // GET ALL CATEGORIES
 export const getAllCategories: RequestHandler = async (req, res) => {
-  console.log("GET ALL categories");
-
   const categories = await CategoryModel.find({});
 
   res.json(categories);
@@ -107,20 +74,11 @@ export const getAllCategories: RequestHandler = async (req, res) => {
 // CREATE CATEGORY
 export const createCategory: RequestHandler = async (req, res) => {
   const { name } = req.body;
-  const { authorization } = req.headers;
 
-  if (!authorization) {
+  const isRemain = await CategoryModel.findOne({ name: name });
+  if (isRemain) {
     return res.status(401).json({
-      message: "Invalid credentials Auth nashi",
-    });
-  }
-  const { id } = jwt.verify(authorization, "secret") as Payload;
-
-  const user = await UserModel.findOne({ _id: id });
-
-  if (!user) {
-    return res.status(401).json({
-      message: "Invalid credentials user nashi",
+      message: "Category already exists",
     });
   }
 
@@ -128,40 +86,35 @@ export const createCategory: RequestHandler = async (req, res) => {
     await CategoryModel.create({
       name,
     });
-    return res.json({ message: `new category "${name}" created` });
+    return res.json({ message: `"${name}" category  created` });
   } catch (error) {
     return res
       .status(401)
-      .json({ error: error, message: "could not add category" });
+      .json({ error: error, message: "could not create category" });
   }
 };
 
 // UPDATE CATEGORY
 export const updateCategory: RequestHandler = async (req, res) => {
   const { name, _id } = req.body;
-  const { authorization } = req.headers;
 
-  if (!authorization) {
+  const isRemain = await CategoryModel.findOne({ _id: _id });
+
+  if (!isRemain) {
     return res.status(401).json({
-      message: "Invalid credentials Auth nashi",
-    });
-  }
-  const { id } = jwt.verify(authorization, "secret") as Payload;
-
-  const user = await UserModel.findOne({ _id: id });
-
-  if (!user) {
-    return res.status(401).json({
-      message: "Invalid credentials user nashi",
+      message: "category not found",
     });
   }
 
   try {
-    await CategoryModel.updateOne({
-      _id,
-    },
-    { name  });
-    return res.json({ message: ` category "${name}" updated` });
+    await CategoryModel.updateOne(
+      {
+        name,
+        _id,
+      },
+      { name }
+    );
+    return res.json({ message: `"${name}" category  updated` });
   } catch (error) {
     return res
       .status(401)
@@ -172,20 +125,12 @@ export const updateCategory: RequestHandler = async (req, res) => {
 // DELETE CATEGORY
 export const deleteCategory: RequestHandler = async (req, res) => {
   const { name, _id } = req.body;
-  const { authorization } = req.headers;
 
-  if (!authorization) {
+  const isRemain = await CategoryModel.findOne({ _id: _id });
+
+  if (!isRemain) {
     return res.status(401).json({
-      message: "Invalid credentials Auth nashi",
-    });
-  }
-  const { id } = jwt.verify(authorization, "secret") as Payload;
-
-  const user = await UserModel.findOne({ _id: id });
-
-  if (!user) {
-    return res.status(401).json({
-      message: "Invalid credentials user nashi",
+      message: "category not found",
     });
   }
 
@@ -194,7 +139,7 @@ export const deleteCategory: RequestHandler = async (req, res) => {
       name,
       _id,
     });
-    return res.json({ message: `ne category "${name}" deleted` });
+    return res.json({ message: `"${name}" category deleted` });
   } catch (error) {
     return res
       .status(401)

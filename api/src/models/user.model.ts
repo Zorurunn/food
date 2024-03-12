@@ -26,12 +26,13 @@ const userSchema = new Schema({
     type: String,
     required: false,
   },
-  isAdmin: {
-    type: Boolean,
+  role: {
+    type: String,
     required: true,
   },
-  otp: {
-    type: String,
+  OneTimePass: {
+    otp: String,
+    expiresIn: Date,
     required: false,
   },
 });
