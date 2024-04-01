@@ -73,6 +73,7 @@ export const OrderDataProvider = ({ children }: PropsWithChildren) => {
       );
       setInCart([]);
       localStorage.removeItem("cart");
+
       toast.success(res.data.message, {
         position: "top-center",
         autoClose: 3000,

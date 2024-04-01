@@ -66,7 +66,7 @@ export const createOrder: RequestHandler = async (req, res) => {
       createdAt: newDate,
       deliveryStatus: false,
     });
-    return res.json("Order completed");
+    return res.json({ message: "Order completed" });
   } catch (e) {
     return res
       .status(401)

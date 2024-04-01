@@ -56,7 +56,6 @@ export default function Order() {
         },
         foods: inCart,
       });
-      toast(<Notify message="Захиалга амжилттай бүртгэгдлээ" />);
       router.push("/order/orderHistory");
     },
   });

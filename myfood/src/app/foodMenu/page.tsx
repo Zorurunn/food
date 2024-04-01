@@ -1,5 +1,5 @@
 "use client";
-import { Card, CustomContainer, Login, useData } from "@/components ";
+import { Card, CustomContainer, Login, useAuth, useData } from "@/components ";
 import { Backdrop, Button, Grid, Stack, Typography } from "@mui/material";
 import { SideBar } from "./_component/SideBar";
 import { useEffect, useState } from "react";
@@ -14,6 +14,7 @@ import { useBackDrop } from "@/components /providers/BackDropProvider";
 export default function FoodMenu() {
   const { foods, categories, deleteCategory, searchValue } = useData();
   const { confirm } = useConfirm();
+  const { user } = useAuth();
 
   const [selectedCategory, setSelectedCategory] = useState<categoryType>();
   const [thisFood, setThisFood] = useState<foodType>();

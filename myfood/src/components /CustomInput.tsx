@@ -100,7 +100,7 @@ export const CustomInput = (props: CustomInputProps) => {
         id={id}
         value={value}
         onChange={handleChange}
-        placeholder={placeHolder}
+        placeholder={switchable && enableSwitch ? "" : placeHolder}
         onBlur={onBlur}
         error={error}
         helperText={isError && isTouched && helperText}
@@ -109,7 +109,6 @@ export const CustomInput = (props: CustomInputProps) => {
         multiline={multiLine}
         rows={multiLine ? 4 : 0}
         sx={{
-          visibility: switchable && enableSwitch ? "hidden" : "visible",
           "& fieldset": {
             borderColor: borderColor,
           },

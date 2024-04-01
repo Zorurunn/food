@@ -221,18 +221,6 @@ export const CreateFood = ({
                 width={400}
                 switchable={true}
               />
-              {/* <CustomInput
-                name="imgPath"
-                label={"Хоолны зураг"}
-                placeHolder="Хоолны зураг оруулна уу"
-                value={formik.values.imgPath}
-                handleChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={formik.touched.imgPath && Boolean(formik.errors.imgPath)}
-                size="medium"
-                type="text"
-                width={400}
-              /> */}
               <Stack>
                 <Typography color={"text.primary"}>Хоолны зураг</Typography>
 
