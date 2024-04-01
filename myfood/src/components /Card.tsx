@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState } from "react";
 import { useAuth, useData } from ".";
 import { useBackDrop } from "./providers/BackDropProvider";
+import { usePathname } from "next/navigation";
 
 export const Card = (props: foodType) => {
   const { user } = useAuth();
@@ -11,6 +12,7 @@ export const Card = (props: foodType) => {
   const { setOpenFoodDetail, setOpenEditFood } = useBackDrop();
   const { imgPath, price, name, discount } = props;
   const [isHover, setIsHover] = useState(false);
+  const pathname = usePathname();
 
   return (
     <Stack
@@ -18,7 +20,7 @@ export const Card = (props: foodType) => {
       width={"100%"}
       onClick={() => {
         setSelectedFood(props);
-        if (user?.isAdmin) {
+        if (user?.role === "admin" && pathname === "/foodMenu") {
           setOpenEditFood(true);
         } else {
           setOpenFoodDetail(true);
@@ -61,7 +63,9 @@ export const Card = (props: foodType) => {
             paddingX={2}
           >
             <Typography color={"text.primary"}>
-              {user?.isAdmin ? "Edit" : "Food Detail"}
+              {user?.role === "admin" && pathname === "/foodMenu"
+                ? "Edit"
+                : "Food Detail"}
             </Typography>
           </Stack>
         </Backdrop>

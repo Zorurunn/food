@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import { UserModel } from "../models";
 import jwt from "jsonwebtoken";
+import { secretKey } from "./auth.controller";
 
 type Payload = {
   id: string;
@@ -15,7 +16,7 @@ export const userUpdate: RequestHandler = async (req, res) => {
       message: "Invalid credentials",
     });
   }
-  const { id } = jwt.verify(authorization, "secret") as Payload;
+  const { id } = jwt.verify(authorization, secretKey) as Payload;
 
   const user = await UserModel.findOne({ _id: id });
 

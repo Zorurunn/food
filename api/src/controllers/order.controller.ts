@@ -1,7 +1,8 @@
 import { RequestHandler } from "express";
-import { UserModel, CategoryModel, BasketModel, OrderModel } from "../models";
+import { UserModel, CategoryModel, OrderModel } from "../models";
 import jwt from "jsonwebtoken";
 import { basketFoodType } from "../types/types";
+import { secretKey } from "./auth.controller";
 
 type Payload = {
   id: string;
@@ -16,7 +17,7 @@ export const getOrders: RequestHandler = async (req, res) => {
       message: "Invalid credentials Auth nashi",
     });
   }
-  const { id } = jwt.verify(authorization, "secret") as Payload;
+  const { id } = jwt.verify(authorization, secretKey) as Payload;
 
   const user = await UserModel.findOne({ _id: id });
   if (!user) {
@@ -48,7 +49,7 @@ export const createOrder: RequestHandler = async (req, res) => {
         message: "Invalid credentials Auth nashi",
       });
     }
-    const { id } = jwt.verify(authorization, "secret") as Payload;
+    const { id } = jwt.verify(authorization, secretKey) as Payload;
 
     const user = await UserModel.findOne({ _id: id });
 

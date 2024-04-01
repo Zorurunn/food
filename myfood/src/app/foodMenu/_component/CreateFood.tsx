@@ -8,6 +8,7 @@ import {
   Typography,
   TextField,
   CircularProgress,
+  Button,
 } from "@mui/material";
 import {
   ChangeEvent,
@@ -29,7 +30,7 @@ const validationSchema = yup.object({
   category: yup.string().required(),
   ingredients: yup.string().required(),
   price: yup.number().required(),
-  discount: yup.number().required(),
+  discount: yup.number().nullable(),
 });
 
 export const CreateFood = ({
@@ -58,9 +59,6 @@ export const CreateFood = ({
             body: formData,
           }
         );
-        // end yagad await hiij bga ve?
-        // upload hiihees umnu
-        // oruulj irsen image ee haruulah
         const data = await res.json();
         return data.secure_url;
       } catch (e) {
@@ -73,13 +71,11 @@ export const CreateFood = ({
       name: "",
       category: "",
       ingredients: "",
-      price: 0,
-      discount: 0,
+      price: undefined,
+      discount: undefined,
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      // console.log();
-
       try {
         setIsLoading(true);
         const url = await handleImageUpload();
@@ -88,8 +84,8 @@ export const CreateFood = ({
           await createFood({
             imgPath: url,
             name: values.name,
-            price: values.price,
-            discount: values.discount,
+            price: values.price ?? 0,
+            discount: values.discount ?? 0,
             ingredients: values.ingredients,
             category: values.category,
           });
@@ -201,9 +197,13 @@ export const CreateFood = ({
                 value={formik.values.price}
                 handleChange={formik.handleChange}
                 onBlur={formik.handleBlur}
-                error={formik.touched.price && Boolean(formik.errors.price)}
+                error={
+                  (formik.touched.price && Boolean(formik.errors.price)) ||
+                  (formik.touched.price &&
+                    formik.values.price == formik.initialValues.price)
+                }
                 size="medium"
-                type="text"
+                type="number"
                 width={400}
               />
               <CustomInput
@@ -217,8 +217,9 @@ export const CreateFood = ({
                   formik.touched.discount && Boolean(formik.errors.discount)
                 }
                 size="medium"
-                type="text"
+                type="number"
                 width={400}
+                switchable={true}
               />
               {/* <CustomInput
                 name="imgPath"
@@ -269,20 +270,28 @@ export const CreateFood = ({
                 >
                   Clear
                 </Stack>
-                <Stack
-                  color={"#fff"}
-                  fontSize={16}
-                  fontWeight={700}
-                  sx={{ backgroundColor: "#393939", cursor: "pointer" }}
-                  paddingX={2}
-                  paddingY={1}
-                  borderRadius={2}
+                <Button
+                  sx={{
+                    textTransform: "none",
+                    backgroundColor: "#393939",
+                    cursor: "pointer",
+                    color: "#fff",
+                    fontSize: 16,
+                    fontWeight: 700,
+                    paddingX: 2,
+                    paddingY: 1,
+                    borderRadius: 2,
+                    ":hover": {
+                      backgroundColor: "gray",
+                    },
+                  }}
+                  disabled={!formik.isValid || !formik.dirty || !selectedFile}
                   onClick={() => {
                     formik.handleSubmit();
                   }}
                 >
                   Continue
-                </Stack>
+                </Button>
               </Stack>
             </Stack>
           </Stack>

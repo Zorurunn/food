@@ -17,6 +17,7 @@ import { Exit } from "./Exit";
 import { useConfirm } from "@/components /providers/ConfirmationProvider";
 export const Profile = () => {
   const { user, getUser } = useAuth();
+  console.log(user);
 
   useEffect(() => {
     getUser();

@@ -8,9 +8,8 @@ import {
   useEffect,
   useState,
 } from "react";
-import { Formik, useFormik } from "formik";
+import { useFormik } from "formik";
 import * as yup from "yup";
-import { useRouter } from "next/navigation";
 
 const validationSchema = yup.object({
   password: yup.string().required(),
@@ -21,7 +20,6 @@ export const Step2 = ({
   setStep: Dispatch<SetStateAction<number>>;
 }) => {
   const [storedEmail, setStoredEmail] = useState<string | null>("****");
-  const router = useRouter();
   const formik = useFormik({
     initialValues: {
       password: "",
@@ -29,10 +27,7 @@ export const Step2 = ({
     validationSchema: validationSchema,
     onSubmit: (values) => {
       localStorage.setItem("otp", values.password);
-      // otpGenerate({ email: values.email });
-      console.log(values);
       setStep(3);
-      // router.push(`/forgotPassword?step=3&${values.password}`);
     },
   });
 

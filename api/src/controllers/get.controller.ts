@@ -1,11 +1,28 @@
 import { RequestHandler } from "express";
-import { ApartmentModel, DistrictModel, KhorooModel } from "../models";
-import jwt from "jsonwebtoken";
+import {
+  ApartmentModel,
+  CategoryModel,
+  DistrictModel,
+  FoodModel,
+  KhorooModel,
+} from "../models";
+
+// GET ALL FOODS
+export const getAllFoods: RequestHandler = async (req, res) => {
+  const foods = await FoodModel.find({});
+
+  res.json(foods);
+};
+
+// GET ALL CATEGORIES
+export const getAllCategories: RequestHandler = async (req, res) => {
+  const categories = await CategoryModel.find({});
+
+  res.json(categories);
+};
 
 // GET DISTRICTS
 export const getDistricts: RequestHandler = async (req, res) => {
-  console.log("GET ALL DISTRICTS");
-
   const districts = await DistrictModel.find({});
 
   res.json(districts);
@@ -13,8 +30,6 @@ export const getDistricts: RequestHandler = async (req, res) => {
 
 // GET KHOROO
 export const getKhoroos: RequestHandler = async (req, res) => {
-  console.log("GET ALL KHOROO");
-
   const khoroos = await KhorooModel.find({});
 
   res.json(khoroos);
@@ -22,8 +37,6 @@ export const getKhoroos: RequestHandler = async (req, res) => {
 
 // GET APARTMENT
 export const getApartments: RequestHandler = async (req, res) => {
-  console.log("GET ALL APARTMENTS");
-
   const apartments = await ApartmentModel.find({});
 
   res.json(apartments);

@@ -1,17 +1,45 @@
 import { RequestHandler } from "express";
-import { FoodModel, CategoryModel } from "../models";
+import { FoodModel, CategoryModel, UserModel } from "../models";
+import jwt from "jsonwebtoken";
+import { secretKey } from "./auth.controller";
+import { Payload } from "../middlewares";
 
-// GET ALL FOODS
-export const getAllFoods: RequestHandler = async (req, res) => {
-  const foods = await FoodModel.find({});
+// CHECK IS ADMIN
+const checkIsAdmin = async (authorization: string) => {
+  try {
+    const { id, role } = jwt.verify(authorization, secretKey) as Payload;
 
-  res.json(foods);
+    const user = await UserModel.findOne({ _id: id });
+
+    if (!user || role !== "admin") {
+      return false;
+    }
+    return true;
+  } catch (error) {
+    return false;
+  }
 };
 
 // CREATE FOOD
 export const createFood: RequestHandler = async (req, res) => {
   const { name, ingredients, imgPath, price, discount, category } = req.body;
 
+  // CHECK IS ADMIN
+  const { authorization } = req.headers;
+  if (!authorization) {
+    return res.status(401).json({
+      message: "Invalid credentials: AUTHORIZATION NOT FOUND",
+    });
+  }
+  const isAdmin = await checkIsAdmin(authorization);
+
+  if (!isAdmin) {
+    return res.status(401).json({
+      message: "YOU ARE NOT ADMIN OR USER NOT FOUND",
+    });
+  }
+
+  // CREATE FOOD
   const isRemain = await FoodModel.findOne({ name });
 
   if (isRemain) {
@@ -42,6 +70,22 @@ export const updateFood: RequestHandler = async (req, res) => {
   const { name, ingredients, imgPath, price, discount, category, _id } =
     req.body;
 
+  // CHECK IS ADMIN
+  const { authorization } = req.headers;
+  if (!authorization) {
+    return res.status(401).json({
+      message: "Invalid credentials: AUTHORIZATION NOT FOUND",
+    });
+  }
+  const isAdmin = await checkIsAdmin(authorization);
+
+  if (!isAdmin) {
+    return res.status(401).json({
+      message: "YOU ARE NOT ADMIN OR USER NOT FOUND",
+    });
+  }
+
+  // UPDATE FOOD
   const thisFood = await FoodModel.findOne({ _id });
 
   if (!thisFood) {
@@ -51,7 +95,7 @@ export const updateFood: RequestHandler = async (req, res) => {
   }
 
   try {
-    const updatedFood = await FoodModel.updateOne(
+    await FoodModel.updateOne(
       { _id: _id },
       { name, ingredients, imgPath, price, discount, category }
     );
@@ -64,17 +108,26 @@ export const updateFood: RequestHandler = async (req, res) => {
   }
 };
 
-// GET ALL CATEGORIES
-export const getAllCategories: RequestHandler = async (req, res) => {
-  const categories = await CategoryModel.find({});
-
-  res.json(categories);
-};
-
 // CREATE CATEGORY
 export const createCategory: RequestHandler = async (req, res) => {
   const { name } = req.body;
 
+  // CHECK IS ADMIN
+  const { authorization } = req.headers;
+  if (!authorization) {
+    return res.status(401).json({
+      message: "Invalid credentials: AUTHORIZATION NOT FOUND",
+    });
+  }
+  const isAdmin = await checkIsAdmin(authorization);
+
+  if (!isAdmin) {
+    return res.status(401).json({
+      message: "YOU ARE NOT ADMIN OR USER NOT FOUND",
+    });
+  }
+
+  // CREATE CATEGORY
   const isRemain = await CategoryModel.findOne({ name: name });
   if (isRemain) {
     return res.status(401).json({
@@ -98,6 +151,22 @@ export const createCategory: RequestHandler = async (req, res) => {
 export const updateCategory: RequestHandler = async (req, res) => {
   const { name, _id } = req.body;
 
+  // CHECK IS ADMIN
+  const { authorization } = req.headers;
+  if (!authorization) {
+    return res.status(401).json({
+      message: "Invalid credentials: AUTHORIZATION NOT FOUND",
+    });
+  }
+  const isAdmin = await checkIsAdmin(authorization);
+
+  if (!isAdmin) {
+    return res.status(401).json({
+      message: "YOU ARE NOT ADMIN OR USER NOT FOUND",
+    });
+  }
+
+  // UPDATE CATEGORY
   const isRemain = await CategoryModel.findOne({ _id: _id });
 
   if (!isRemain) {
@@ -126,6 +195,22 @@ export const updateCategory: RequestHandler = async (req, res) => {
 export const deleteCategory: RequestHandler = async (req, res) => {
   const { name, _id } = req.body;
 
+  // CHECK IS ADMIN
+  const { authorization } = req.headers;
+  if (!authorization) {
+    return res.status(401).json({
+      message: "Invalid credentials: AUTHORIZATION NOT FOUND",
+    });
+  }
+  const isAdmin = await checkIsAdmin(authorization);
+
+  if (!isAdmin) {
+    return res.status(401).json({
+      message: "YOU ARE NOT ADMIN OR USER NOT FOUND",
+    });
+  }
+
+  // DELETE CATEGORY
   const isRemain = await CategoryModel.findOne({ _id: _id });
 
   if (!isRemain) {

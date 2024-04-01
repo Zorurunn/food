@@ -3,6 +3,8 @@ import {
   getApartments,
   getDistricts,
   getKhoroos,
+  getAllFoods,
+  getAllCategories,
 } from "../controllers/get.controller";
 
 const getRouter = Router();
@@ -10,6 +12,8 @@ const getRouter = Router();
 getRouter
   .get("/getDistricts", getDistricts)
   .get("/getKhoroos", getKhoroos)
-  .get("/getApartments", getApartments);
+  .get("/getApartments", getApartments)
+  .get("/getAllCategories", getAllCategories)
+  .get("/getAllFoods", getAllFoods);
 
 export default getRouter;

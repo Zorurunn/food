@@ -29,7 +29,9 @@ export const signUp: RequestHandler = async (req, res) => {
 
     return res.json({ message: "Account successfully created", user: user });
   } catch (error) {
-    return res.status(401).json({ error: error, message: "could create user" });
+    return res
+      .status(401)
+      .json({ error: error, message: "could not create user" });
   }
 };
 
@@ -40,7 +42,9 @@ export const signIn: RequestHandler = async (req, res) => {
   const user = await UserModel.findOne({ email: email, password: password });
 
   if (!user) {
-    return res.status(401).json({ message: "User not found" });
+    return res
+      .status(401)
+      .json({ message: "Email or Password does not match" });
   }
 
   const id = user._id;
@@ -52,8 +56,9 @@ export const signIn: RequestHandler = async (req, res) => {
       role: role,
     },
     secretKey,
-    { expiresIn: "1d" }
+    { expiresIn: "1h" }
   );
+  console.log("token:", token);
 
   res.json({ token });
 };

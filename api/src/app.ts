@@ -8,7 +8,6 @@ import emailRouter from "./routers/email.router";
 import getUserRouter from "./routers/getUser.router";
 import userUpdateRouter from "./routers/userUpdate.router";
 import getRouter from "./routers/get.router";
-import basketRouter from "./routers/basket.router";
 import orderRouter from "./routers/order.router";
 
 const app = express();
@@ -19,13 +18,12 @@ app.use(json());
 app.use("/", authRouter);
 app.use("/", emailRouter);
 app.use("/", foodRouter);
-app.use("/", orderRouter);
 app.use("/", getRouter);
 
 app.use(authMiddleware);
 
 app.use("/", getUserRouter);
 app.use("/", userUpdateRouter);
-app.use("/", basketRouter);
+app.use("/", orderRouter);
 
 export default app;

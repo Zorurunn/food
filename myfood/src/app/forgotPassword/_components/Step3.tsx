@@ -48,21 +48,22 @@ export const Step3 = ({
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
-      const otp = localStorage.getItem("otp") ?? "";
-      const email = localStorage.getItem("email") ?? "";
+      const otp = localStorage.getItem("otp");
+      const email = localStorage.getItem("email");
+      if (!otp || !email) return;
       const newPassword = values.password;
+
       setOpen(true);
 
-      const { message, err } = await changePassword({
+      const isSuccess = await changePassword({
         otp,
         email,
         newPassword,
       });
 
-      toast(<Notify error={err} message={message} />);
       setOpen(false);
 
-      if (err) {
+      if (!isSuccess) {
         localStorage.removeItem("email");
         localStorage.removeItem("otp");
         setStep(1);

@@ -3,13 +3,13 @@ import jwt from "jsonwebtoken";
 import { UserModel } from "../models";
 import { secretKey } from "../controllers";
 
-type Payload = {
+export type Payload = {
   id: string;
   role: string;
 };
 
 export const authMiddleware: RequestHandler = async (req, res, next) => {
-  if (req.path == "/") return next();
+  // if (req.path == "/") return next();
 
   const { authorization } = req.headers;
 

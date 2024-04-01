@@ -1,22 +1,23 @@
 import { RequestHandler } from "express";
 import { UserModel } from "../models";
 import jwt from "jsonwebtoken";
+import { secretKey } from "./auth.controller";
 
 type Payload = {
   id: string;
+  role: string;
 };
 
 // GET USER
 export const getUser: RequestHandler = async (req, res) => {
   const { authorization } = req.headers;
-  console.log("Auth:", authorization);
 
   if (!authorization) {
     return res.status(401).json({
       message: "Invalid credentials",
     });
   }
-  const { id } = jwt.verify(authorization, "secret") as Payload;
+  const { id, role } = jwt.verify(authorization, secretKey) as Payload;
 
   const user = await UserModel.findOne({ _id: id });
 

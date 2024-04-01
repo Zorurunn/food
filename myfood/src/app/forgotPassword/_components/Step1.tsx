@@ -22,9 +22,7 @@ export const Step1 = ({
   setStep: Dispatch<SetStateAction<number>>;
 }) => {
   const [open, setOpen] = useState(false);
-  // const { setStep } = props;
-  // export const Step1 = (props: stepType) => {
-  //   const { setStep } = props;
+
   const { otpGenerate } = useAuth();
   const formik = useFormik({
     initialValues: {
@@ -33,13 +31,7 @@ export const Step1 = ({
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       setOpen(true);
-      const { message, err } = await otpGenerate({ email: values.email });
-      if (err) {
-        toast(<Notify error={err} message={message} />);
-        setOpen(false);
-        return;
-      }
-      toast(<Notify error={err} message={message} />);
+      await otpGenerate({ email: values.email });
       setOpen(false);
       setStep(2);
     },

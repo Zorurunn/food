@@ -1,4 +1,6 @@
 "use client";
+import Switch from "@mui/material/Switch";
+
 import {
   Search,
   VisibilityOff,
@@ -24,7 +26,7 @@ type CustomInputProps = {
     | FocusEventHandler<HTMLInputElement | HTMLTextAreaElement>
     | undefined;
   error?: boolean | undefined;
-  value: string | number;
+  value: string | number | undefined;
   name?: string;
   label?: string;
   placeHolder?: string;
@@ -43,6 +45,7 @@ type CustomInputProps = {
   select?: boolean;
   iconType?: "location" | "search";
   multiLine?: boolean;
+  switchable?: boolean;
 } & TextFieldProps;
 
 export const CustomInput = (props: CustomInputProps) => {
@@ -67,9 +70,11 @@ export const CustomInput = (props: CustomInputProps) => {
     select = false,
     iconType = "search",
     multiLine = false,
+    switchable = false,
   } = props;
 
   const [showPassword, setShowPassword] = useState(false);
+  const [enableSwitch, setEnableSwitch] = useState(true);
   const handleShowPassword = () => {
     setShowPassword((prev) => !prev);
   };
@@ -77,24 +82,20 @@ export const CustomInput = (props: CustomInputProps) => {
     setShowPassword((prev) => !prev);
   };
 
-  //   <Select
-  //   name="district"
-  //   placeholder="Дүүрэг сонгоно уу"
-  //   value={formik.values.district}
-  //   onChange={formik.handleChange}
-  //   onBlur={formik.handleBlur}
-  //   error={formik.touched.district && Boolean(formik.errors.district)}
-  //   startAdornment={
-  //     <InputAdornment position="start">
-  //       <LocationOnIcon />
-  //     </InputAdornment>
-  //   }
-  // >
   return (
     <Stack>
-      <Typography color={"text.primary"}>{label}</Typography>
+      <Stack direction={"row"} gap={1} alignItems={"center"}>
+        <Typography color={"text.primary"}>{label}</Typography>
+        {switchable && (
+          <Switch
+            onChange={() => {
+              setEnableSwitch((prev) => !prev);
+            }}
+          />
+        )}
+      </Stack>
       <TextField
-        // select
+        disabled={switchable && enableSwitch}
         name={name}
         id={id}
         value={value}
@@ -108,6 +109,7 @@ export const CustomInput = (props: CustomInputProps) => {
         multiline={multiLine}
         rows={multiLine ? 4 : 0}
         sx={{
+          visibility: switchable && enableSwitch ? "hidden" : "visible",
           "& fieldset": {
             borderColor: borderColor,
           },

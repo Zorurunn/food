@@ -18,6 +18,8 @@ import {
 } from "react";
 import { Backdrop, Stack, Typography } from "@mui/material";
 import { useData } from "..";
+import { toast } from "react-toastify";
+import { AxiosError } from "axios";
 
 type OrderContextType = {
   createOrder: (props: orderType) => Promise<void>;
@@ -45,7 +47,7 @@ export const OrderDataProvider = ({ children }: PropsWithChildren) => {
 
       setMyOrders(res.data);
     } catch (error) {
-      console.log("in get all districts() function error:", error);
+      console.log("in getOrders function error:", error);
     }
   };
 
@@ -71,10 +73,21 @@ export const OrderDataProvider = ({ children }: PropsWithChildren) => {
       );
       setInCart([]);
       localStorage.removeItem("cart");
+      toast.success(res.data.message, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
 
       setRefresh((prev) => 1 - prev);
     } catch (error) {
-      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message ?? error.message, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: true,
+        });
+      }
     }
   };
 

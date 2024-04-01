@@ -71,7 +71,7 @@ export type UserType = {
   phoneNumber: string;
   _id?: string;
   avatar_url?: string;
-  isAdmin?: boolean;
+  role?: string;
 };
 export type userUpdateProps = {
   // address: string;

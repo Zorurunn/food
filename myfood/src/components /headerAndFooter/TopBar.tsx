@@ -3,6 +3,7 @@ import RamenDiningIcon from "@mui/icons-material/RamenDining";
 import PermIdentityIcon from "@mui/icons-material/PermIdentity";
 import AddShoppingCartIcon from "@mui/icons-material/AddShoppingCart";
 import { Backdrop, Button, Drawer, Stack, Typography } from "@mui/material";
+import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
 import MailIcon from "@mui/icons-material/Mail";
 import Badge from "@mui/material/Badge";
 import {
@@ -24,7 +25,7 @@ import { useBackDrop } from "../providers/BackDropProvider";
 import { useAmount } from "../providers/AmountProvider";
 
 export const TopBar = () => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, user } = useAuth();
   const { setOpenLogin } = useBackDrop();
   const { orderAmount } = useAmount();
   const {
@@ -146,6 +147,26 @@ export const TopBar = () => {
                 <Typography fontSize={14}>
                   {isLoggedIn ? "Хэрэглэгч" : "Нэвтрэх"}
                 </Typography>
+              </Stack>
+            </Button>
+            <Button
+              sx={{
+                textTransform: "none",
+                color: "text.primary",
+                display: isLoggedIn && user?.role === "admin" ? "flex" : "none",
+              }}
+              onClick={() => {
+                router.push("/foodMenu");
+              }}
+            >
+              <Stack
+                direction={"row"}
+                gap={1}
+                alignItems={"center"}
+                sx={{ cursor: "pointer" }}
+              >
+                <AdminPanelSettingsOutlinedIcon sx={{ fontSize: 20 }} />
+                <Typography fontSize={14}>Админ</Typography>
               </Stack>
             </Button>
           </Stack>

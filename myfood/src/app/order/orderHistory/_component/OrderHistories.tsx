@@ -3,14 +3,14 @@ import { State } from "@/components ";
 import { useOrderData } from "@/components /providers/OrderDataProvider";
 import { Divider, Stack, Typography } from "@mui/material";
 import { Dispatch, SetStateAction, useEffect } from "react";
-
-export const OrderHistories = ({
-  setFoods,
-  setOrderId,
-}: {
+type orderHistoriesType = {
   setFoods: Dispatch<SetStateAction<basketFoodType[] | undefined>>;
   setOrderId: Dispatch<SetStateAction<string>>;
-}) => {
+  selectedOrder: string | undefined;
+  setSelectedOrder: Dispatch<SetStateAction<string | undefined>>;
+};
+export const OrderHistories = (props: orderHistoriesType) => {
+  const { setFoods, setOrderId, selectedOrder, setSelectedOrder } = props;
   const { myOrders } = useOrderData();
 
   return (
@@ -35,6 +35,7 @@ export const OrderHistories = ({
                     gap={2}
                     onClick={() => {
                       setFoods(item.foods);
+                      setSelectedOrder(item._id);
                       if (item._id) {
                         setOrderId(item._id.slice(-4));
                       }
@@ -46,6 +47,10 @@ export const OrderHistories = ({
                       ":hover": {
                         backgroundColor: "rgba(0, 0, 0, 0.1)",
                       },
+                      backgroundColor:
+                        selectedOrder === item._id
+                          ? "rgba(0, 0, 0, 0.1)"
+                          : undefined,
                     }}
                   >
                     <Stack

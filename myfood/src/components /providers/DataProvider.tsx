@@ -9,6 +9,7 @@ import {
   nameIdType,
   userUpdateProps,
 } from "@/common";
+import { AxiosError } from "axios";
 import {
   Dispatch,
   PropsWithChildren,
@@ -18,6 +19,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import { toast } from "react-toastify";
 type countityType = {
   countity: number;
 };
@@ -87,9 +89,20 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
           },
         }
       );
+      toast.success(res.data.message, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
       setRefresh((prev) => 1 - prev);
     } catch (error) {
-      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message ?? error.message, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: true,
+        });
+      }
     }
   };
 
@@ -109,10 +122,21 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
           },
         }
       );
+      toast.success(res.data.message, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
 
       setRefresh((prev) => 1 - prev);
     } catch (error) {
-      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message ?? error.message, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: true,
+        });
+      }
     }
   };
 
@@ -141,10 +165,21 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
           },
         }
       );
+      toast.success(res.data.message, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
 
       setRefresh((prev) => 1 - prev);
     } catch (error) {
-      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message ?? error.message, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: true,
+        });
+      }
     }
   };
 
@@ -216,21 +251,6 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
     }
   };
 
-  // GET BASKETS
-  // const getBaskets = async () => {
-  //   const token = localStorage.getItem("token");
-  //   try {
-  //     const res = await api.get("/getBaskets", {
-  //       headers: {
-  //         Authorization: token,
-  //       },
-  //     });
-  //     setBaskets(res.data);
-  //   } catch (error) {
-  //     console.log("in getBaskets() function error:", error);
-  //   }
-  // };
-
   // UPDATE CATEGORY
   const updateCategory = async (props: categoryType) => {
     const { name, _id } = props;
@@ -250,10 +270,20 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
           },
         }
       );
-
+      toast.success(res.data.message, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
       setRefresh((prev) => 1 - prev);
     } catch (error) {
-      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message ?? error.message, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: true,
+        });
+      }
     }
   };
 
@@ -276,53 +306,23 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
           },
         }
       );
+      toast.success(res.data.message, {
+        position: "top-center",
+        autoClose: 3000,
+        hideProgressBar: true,
+      });
 
       setRefresh((prev) => 1 - prev);
     } catch (error) {
-      console.log(error);
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data.message ?? error.message, {
+          position: "top-center",
+          autoClose: 3000,
+          hideProgressBar: true,
+        });
+      }
     }
   };
-
-  // ADD BASKET
-  // const addBasket = async (props: foodType & countityType) => {
-  //   const {
-  //     name,
-  //     ingredients,
-  //     imgPath,
-  //     price,
-  //     discount,
-  //     category,
-  //     _id,
-  //     countity,
-  //   } = props;
-
-  //   const token = localStorage.getItem("token");
-
-  //   try {
-  //     const res = await api.post(
-  //       "/addBasket",
-  //       {
-  //         name,
-  //         ingredients,
-  //         imgPath,
-  //         price,
-  //         discount,
-  //         category,
-  //         _id,
-  //         countity,
-  //       },
-  //       {
-  //         headers: {
-  //           Authorization: token,
-  //         },
-  //       }
-  //     );
-
-  //     setRefresh((prev) => 1 - prev);
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   // ADD CART
   const addCart = (props: basketFoodType) => {
@@ -388,7 +388,6 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
     getDistricts();
     getKhoroos();
     getApartments();
-    // getBaskets();
   }, [refresh]);
 
   useEffect(() => {
@@ -427,7 +426,6 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         inCart,
         setInCart,
         addCart,
-        // addBasket,
         baskets,
         minusQuantity,
         addQuantity,
