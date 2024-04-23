@@ -1,7 +1,7 @@
 "use client";
 import { AbsContCenter, AbsContRight, CustomInput, Login } from "@/components ";
 import { Dashboard } from "@/components /dashboard/DashBoard";
-import { FoodDetail } from "@/components /orderDetail/FoodDetail";
+// import { FoodDetail } from "@/components /orderDetail/FoodDetail";
 import { MyCart } from "@/components /orderDetail/MyCart";
 // import { OrderStep } from "@/components /orderDetail/OrderStep";
 import { NotFound } from "@/components /search/NotFound";
