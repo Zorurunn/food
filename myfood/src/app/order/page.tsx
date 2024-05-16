@@ -46,7 +46,6 @@ export default function Order() {
         setOpenLogin(true);
         return;
       }
-      console.log(isLoggedIn);
 
       await createOrder({
         deliveryAddress: {

@@ -16,7 +16,8 @@ export default function Page() {
 
   const { myOrders } = useOrderData();
   useEffect(() => {
-    if (myOrders) {
+    if (!myOrders) return;
+    if (myOrders.length > 0) {
       setFoods(myOrders[0].foods);
       setSelectedOrder(myOrders[0]._id);
     }
@@ -33,6 +34,7 @@ export default function Page() {
       </Stack>
     );
   }
+
   if (myOrders.length === 0) {
     return (
       <Stack
@@ -45,6 +47,7 @@ export default function Page() {
       </Stack>
     );
   }
+
   return (
     <CustomContainer maxWidth="lg">
       {myOrders && (

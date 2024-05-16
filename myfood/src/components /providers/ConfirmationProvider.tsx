@@ -10,7 +10,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { Backdrop, Stack, Typography } from "@mui/material";
+import { Backdrop, Button, Stack, Typography } from "@mui/material";
 import { Really } from "@/app/userProfile/_components/Really";
 import { useData } from "..";
 
@@ -81,14 +81,19 @@ export const ConfirmationProvider = ({ children }: PropsWithChildren) => {
               </Typography>
             </Stack>
             <Stack width={"100%"} direction={"row"}>
-              <Stack
-                flexGrow={1}
-                justifyContent={"center"}
-                alignItems={"center"}
-                padding={2}
-                sx={{ backgroundColor: "primary.light", cursor: "pointer" }}
-                fontWeight={600}
-                fontSize={"20px"}
+              <Button
+                sx={{
+                  fontWeight: 600,
+                  fontSize: "20px",
+                  color: "#fff",
+                  bgcolor: "primary.main",
+                  width: "100%",
+                  borderRadius: 0,
+                  borderRight: "2px solid #fff",
+                  ":hover": {
+                    color: "#000",
+                  },
+                }}
                 onClick={async () => {
                   if (callBackFunction.callback) {
                     await callBackFunction.callback();
@@ -97,24 +102,25 @@ export const ConfirmationProvider = ({ children }: PropsWithChildren) => {
                 }}
               >
                 Тийм
-              </Stack>
-              <Stack
-                flexGrow={1}
-                justifyContent={"center"}
-                alignItems={"center"}
+              </Button>
+              <Button
                 sx={{
-                  backgroundColor: "primary.main",
+                  fontWeight: 600,
+                  fontSize: "20px",
                   color: "#fff",
-                  cursor: "pointer",
+                  bgcolor: "primary.main",
+                  width: "100%",
+                  borderRadius: 0,
+                  ":hover": {
+                    color: "#000",
+                  },
                 }}
-                fontWeight={600}
-                fontSize={"20px"}
                 onClick={() => {
                   setCallBackFunction({ title: "", callback: undefined });
                 }}
               >
                 Үгүй
-              </Stack>
+              </Button>
             </Stack>
           </Stack>
         </Stack>

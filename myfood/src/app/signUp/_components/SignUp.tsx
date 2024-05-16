@@ -38,9 +38,7 @@ export const SignUp = () => {
       repeatPassword: "",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
-    },
+    onSubmit: (values) => {},
   });
 
   const handleSubmit = () => {
@@ -51,7 +49,6 @@ export const SignUp = () => {
       password: formik.values.password,
       phoneNumber: formik.values.phoneNumber,
     });
-    console.log(formik.values);
   };
 
   return (

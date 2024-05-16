@@ -12,8 +12,6 @@ type CustomButtonProps = {
 };
 
 export const Exit = () => {
-  console.log("as");
-
   return (
     <Stack>
       <Stack>hh</Stack>

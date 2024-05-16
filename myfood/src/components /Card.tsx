@@ -75,7 +75,6 @@ export const Card = (props: foodType) => {
             alt="Breakfast"
             width={"100%"}
             height={"100%"}
-            // fill
             style={{ objectFit: "cover" }}
           />
         </Stack>

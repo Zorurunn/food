@@ -16,9 +16,7 @@ import { ExitButton } from "./ExitButton";
 import { Exit } from "./Exit";
 export const Profile = () => {
   const { user, signOut } = useAuth();
-  // const [really, setReally] = useState(false);
   const router = useRouter();
-  console.log("opo");
 
   return (
     <Stack marginY={2}>

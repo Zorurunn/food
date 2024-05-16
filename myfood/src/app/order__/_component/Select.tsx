@@ -38,13 +38,8 @@ export default function Dashboard() {
       district: "Дүүрэг сонгоно уу",
     },
     validationSchema: validationSchema,
-    onSubmit: (values) => {
-      console.log(values);
-    },
+    onSubmit: (values) => {},
   });
-  {
-    console.log(formik.values.district);
-  }
 
   return (
     <Stack>

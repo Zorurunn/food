@@ -85,9 +85,7 @@ export const EditFood = ({
         // oruulj irsen image ee haruulah
         const data = await res.json();
         return data.secure_url;
-      } catch (e) {
-        console.log(e);
-      }
+      } catch (e) {}
     }
   };
 

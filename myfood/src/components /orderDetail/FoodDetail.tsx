@@ -4,6 +4,8 @@ import { Close } from "@mui/icons-material";
 import { Button, ButtonBase, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useAmount } from "../providers/AmountProvider";
+import { DiscountedImage } from "../DiscountedImage";
 
 export const FoodDetail = ({
   food,
@@ -15,6 +17,7 @@ export const FoodDetail = ({
   const [count, setCount] = useState<number>(1);
   const { imgPath, name, price, discount, ingredients, _id, category } = food;
   const { addCart } = useData();
+  const { discountCalculate } = useAmount();
 
   return (
     <Stack
@@ -29,14 +32,7 @@ export const FoodDetail = ({
       gap={4}
       padding={5}
     >
-      <Stack position={"relative"} width={"100%"} paddingTop={"100%"}>
-        <Image
-          src={imgPath}
-          alt="Breakfast"
-          fill
-          style={{ objectFit: "cover" }}
-        />
-      </Stack>
+      <DiscountedImage imgPath={imgPath} discount={discount} />
       <Stack justifyContent={"center"} alignItems={"center"}>
         <Stack gap={4} width={"90%"}>
           <Stack>
@@ -54,7 +50,10 @@ export const FoodDetail = ({
               {name}
             </Typography>
             <Typography fontSize={20} fontWeight={800} color={"primary.main"}>
-              {price}₮
+              {discount
+                ? discountCalculate({ price: price, discount: discount })
+                : price}
+              ₮
             </Typography>
           </Stack>
           <Stack gap={1.2}>
@@ -88,8 +87,6 @@ export const FoodDetail = ({
                   alignItems: "center",
                   ":hover": {
                     color: "text.primary",
-                    // border: "1px solid",
-                    // borderColor: "text.primary",
                   },
                 }}
                 onClick={() => {
@@ -111,8 +108,6 @@ export const FoodDetail = ({
                   alignItems: "center",
                   ":hover": {
                     color: "text.primary",
-                    // border: "1px solid",
-                    // borderColor: "text.primary",
                   },
                 }}
                 onClick={() => {
@@ -133,7 +128,6 @@ export const FoodDetail = ({
                 alignItems: "center",
                 ":hover": {
                   color: "text.primary",
-                  // border: "1px solid",
                   borderColor: "text.primary",
                 },
               }}

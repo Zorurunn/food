@@ -13,6 +13,17 @@ export const OrderHistories = (props: orderHistoriesType) => {
   const { setFoods, setOrderId, selectedOrder, setSelectedOrder } = props;
   const { myOrders } = useOrderData();
 
+  if (!myOrders) return <Stack>Loading....</Stack>;
+
+  const formatDate = ({ date }: { date: Date | undefined }) => {
+    if (!date) return;
+    const newDate = new Date(date);
+    var year = newDate.getFullYear();
+    var month = newDate.getMonth() + 1;
+    var day = newDate.getDate();
+    return year + "/" + month + "/" + day;
+  };
+
   return (
     <Stack>
       <Stack alignItems={"center"} gap={4} width={400}>
@@ -27,8 +38,13 @@ export const OrderHistories = (props: orderHistoriesType) => {
           <Stack width={"100%"}>Захиалгын түүх</Stack>
           <Stack width={"100%"} gap={3}>
             {myOrders &&
-              myOrders.map((item) => {
-                return (
+              myOrders
+                .sort(
+                  (a, b) =>
+                    new Date(b.createdAt ?? "").getTime() -
+                    new Date(a.createdAt ?? "").getTime()
+                )
+                .map((item, index) => (
                   <Stack
                     width={"100%"}
                     key={item._id}
@@ -80,21 +96,21 @@ export const OrderHistories = (props: orderHistoriesType) => {
                               ? "Амжилттай"
                               : "Хүлээгдэж байна"}
                           </Typography>
+                          <Typography>
+                            {formatDate({ date: item.createdAt })}
+                          </Typography>
                         </Stack>
-                        <Stack>{item.createdAt}</Stack>
                       </Stack>
                     </Stack>
                     <Divider
                       sx={{
-                        // color:
                         borderColor: item.deliveryStatus
                           ? "primary.main"
                           : "blue",
                       }}
                     ></Divider>
                   </Stack>
-                );
-              })}
+                ))}
           </Stack>
         </Stack>
       </Stack>

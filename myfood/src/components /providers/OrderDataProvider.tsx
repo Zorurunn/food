@@ -46,9 +46,7 @@ export const OrderDataProvider = ({ children }: PropsWithChildren) => {
       });
 
       setMyOrders(res.data);
-    } catch (error) {
-      console.log("in getOrders function error:", error);
-    }
+    } catch (error) {}
   };
 
   // CREATE ORDER

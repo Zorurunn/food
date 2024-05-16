@@ -58,11 +58,8 @@ export default function ProfileEdit() {
         // oruulj irsen image ee haruulah
         const data = await res.json();
         // setImageUrl(data.secure_url);
-        console.log("daya", data.secure_url);
         return data.secure_url;
-      } catch (e) {
-        console.log(e);
-      }
+      } catch (e) {}
     }
   };
 
@@ -87,9 +84,7 @@ export default function ProfileEdit() {
           });
           setOpenLoading(false);
         });
-      } catch (e) {
-        console.log("could not update user", e);
-      }
+      } catch (e) {}
     },
   });
 

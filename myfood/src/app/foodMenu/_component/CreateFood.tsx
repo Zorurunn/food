@@ -62,7 +62,6 @@ export const CreateFood = ({
         const data = await res.json();
         return data.secure_url;
       } catch (e) {
-        console.log(e);
       }
     }
   };

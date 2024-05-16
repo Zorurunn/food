@@ -18,7 +18,6 @@ import * as yup from "yup";
 // import { useAuth } from "../providers/AuthProvider";
 import { useRouter } from "next/navigation";
 import { foodType } from "@/app/menu/page";
-import { log } from "console";
 import { Really } from "@/app/userProfile/_components/Really";
 import { Close } from "@mui/icons-material";
 import { create } from "domain";

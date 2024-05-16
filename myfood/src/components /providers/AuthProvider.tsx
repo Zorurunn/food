@@ -66,9 +66,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
       if (res.data.role === "admin") {
         setIsAdmin(true);
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   // SIGN UP
@@ -146,6 +144,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const signOut = () => {
     localStorage.removeItem("cart");
     localStorage.removeItem("token");
+    setUser(undefined);
 
     setIsLoggedIn(false);
 

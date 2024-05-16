@@ -19,6 +19,13 @@ import { MyCart } from "../orderDetail/MyCart";
 type AmountContextType = {
   orderAmount: number | undefined;
   priceAmount: number | undefined;
+  discountCalculate: ({
+    price,
+    discount,
+  }: {
+    price: number;
+    discount: number;
+  }) => number;
 };
 
 const AmountContext = createContext<AmountContextType>({} as AmountContextType);
@@ -53,8 +60,20 @@ export const AmountProvider = ({ children }: PropsWithChildren) => {
     setPriceAmount(priceResult);
   }, [inCart]);
 
+  //  Calculate discounted amount
+  const discountCalculate = ({
+    price,
+    discount,
+  }: {
+    price: number;
+    discount: number;
+  }) => {
+    return price - (price * discount) / 100;
+  };
   return (
-    <AmountContext.Provider value={{ orderAmount, priceAmount }}>
+    <AmountContext.Provider
+      value={{ orderAmount, priceAmount, discountCalculate }}
+    >
       {children}
     </AmountContext.Provider>
   );

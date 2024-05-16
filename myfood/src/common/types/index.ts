@@ -48,7 +48,7 @@ export type orderType = {
   deliveryAddress: deliveryAddressType;
   foods: basketFoodType[];
   deliveryStatus?: boolean;
-  createdAt?: string;
+  createdAt?: Date;
 };
 
 export type SignInProps = {

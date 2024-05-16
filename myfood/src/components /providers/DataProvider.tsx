@@ -188,9 +188,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
     try {
       const res = await api.get("/getAllFoods");
       setFoods(res.data);
-    } catch (error) {
-      console.log("in getAllFoods() function error:", error);
-    }
+    } catch (error) {}
   };
 
   // GET ALL CATEGORIES
@@ -198,9 +196,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
     try {
       const res = await api.get("/getAllCategories");
       setCategories(res.data);
-    } catch (error) {
-      console.log("in getAllCategories() function error:", error);
-    }
+    } catch (error) {}
   };
 
   // GET  DISTRICTS
@@ -214,9 +210,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
       });
 
       setDistricts(res.data);
-    } catch (error) {
-      console.log("in get all districts() function error:", error);
-    }
+    } catch (error) {}
   };
 
   // GET  KHOROOS
@@ -230,9 +224,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
       });
 
       setKhoroos(res.data);
-    } catch (error) {
-      console.log("in get all districts() function error:", error);
-    }
+    } catch (error) {}
   };
 
   // GET  APARTMENTS
@@ -246,9 +238,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
       });
 
       setApartments(res.data);
-    } catch (error) {
-      console.log("in get all apartments() function error:", error);
-    }
+    } catch (error) {}
   };
 
   // UPDATE CATEGORY

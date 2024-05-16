@@ -23,7 +23,6 @@ const ProfileImage = () => {
           }
         );
         const data = await response.json();
-        console.log(data);
         setImageUrl(data.secure_url);
       } catch (error) {
         console.error("Image upload error:", error);

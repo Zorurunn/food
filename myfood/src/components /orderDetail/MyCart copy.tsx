@@ -18,7 +18,6 @@ import { ChangeEvent, useState } from "react";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 export const MyCart = () => {
   const { inCart, addCart } = useData();
-  // console.log(baskets);
 
   return (
     <AbsContRight width="60%">

@@ -5,6 +5,8 @@ import RemoveIcon from "@mui/icons-material/Remove";
 import { useData } from "..";
 import { AddCard } from "@mui/icons-material";
 import { basketFoodType } from "@/common";
+import { DiscountedImage } from "../DiscountedImage";
+import { useAmount } from "../providers/AmountProvider";
 
 type sizeType = {
   fontSize?: number;
@@ -13,6 +15,7 @@ type sizeType = {
 };
 export const InCartFood = (props: basketFoodType & sizeType) => {
   const { minusQuantity, addQuantity } = useData();
+  const { discountCalculate } = useAmount();
   const {
     imgPath,
     name,
@@ -34,7 +37,7 @@ export const InCartFood = (props: basketFoodType & sizeType) => {
       gap={2}
     >
       {/* IMAGE */}
-      <Stack flexGrow={1}>
+      {/* <Stack flexGrow={1}>
         <Stack position={"relative"} width={"100%"} height={"100%"}>
           <Image
             src={imgPath}
@@ -43,8 +46,10 @@ export const InCartFood = (props: basketFoodType & sizeType) => {
             style={{ objectFit: "cover" }}
           />
         </Stack>
+      </Stack> */}
+      <Stack flexGrow={1}>
+        <DiscountedImage imgPath={imgPath ?? ""} discount={discount} />
       </Stack>
-
       {/* FOOD DETAIL */}
       <Stack flexGrow={1}>
         <Stack position={"relative"} width={"100%"} height={"100%"}>
@@ -64,7 +69,10 @@ export const InCartFood = (props: basketFoodType & sizeType) => {
                 fontWeight={800}
                 color={"primary.main"}
               >
-                {price}₮
+                {discount
+                  ? discountCalculate({ price: price, discount: discount })
+                  : price}
+                ₮
               </Typography>
               {!isSimple && (
                 <Typography

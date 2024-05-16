@@ -45,7 +45,6 @@ export default function Dashboard() {
     validationSchema: validationSchema,
     onSubmit: (values) => {
       formik.values.radioSelect = paymentType;
-      console.log(values);
     },
   });
 
