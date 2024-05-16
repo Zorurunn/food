@@ -6,25 +6,10 @@ import { useEffect, useState } from "react";
 import { api, categoryType, foodType } from "@/common";
 import { useSearchParams } from "next/navigation";
 
-// path: "/temporary/morning.jpg",
-
 export default function Menu() {
-  const searchParams = useSearchParams();
-
-  const paramName = searchParams.get("name");
-  const paramId = searchParams.get("id");
-
   const [selectedCategory, setSelectedCategory] = useState<categoryType>();
   const { categories, foods, searchValue } = useData();
 
-  useEffect(() => {
-    if (!categories) return;
-    if (paramName) {
-      setSelectedCategory({ name: paramName, _id: paramId ?? undefined });
-    } else {
-      setSelectedCategory(categories[0]);
-    }
-  }, [categories]);
   return (
     <>
       <CustomContainer maxWidth="lg">
@@ -72,6 +57,7 @@ export default function Menu() {
                   );
                 })
                 .filter((item) => {
+                  if (!selectedCategory) return item;
                   if (selectedCategory?._id === "discount") {
                     return item.discount !== 0;
                   } else {
