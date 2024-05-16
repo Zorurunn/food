@@ -42,7 +42,7 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
     const month = dateObj.getUTCMonth() + 1; // months from 1-12
     const day = dateObj.getUTCDate();
     const year = dateObj.getUTCFullYear();
-    const newDate = year + "/" + month + "/" + day;
+    // const newDate = year + "/" + month + "/" + day;
     try {
         const { deliveryAddress, foods } = req.body;
         const { authorization } = req.headers;
@@ -62,7 +62,7 @@ const createOrder = (req, res) => __awaiter(void 0, void 0, void 0, function* ()
             userId: user.id,
             deliveryAddress,
             foods,
-            createdAt: newDate,
+            createdAt: new Date(),
             deliveryStatus: false,
         });
         return res.json({ message: "Order completed" });

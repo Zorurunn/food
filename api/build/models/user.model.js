@@ -35,7 +35,6 @@ const userSchema = new mongoose_1.Schema({
     OneTimePass: {
         otp: String,
         expiresIn: Number,
-        // required: false,
     },
 });
 exports.UserModel = (0, mongoose_1.model)("user", userSchema);

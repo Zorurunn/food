@@ -60,7 +60,6 @@ const signIn = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
         id: id,
         role: role,
     }, exports.secretKey, { expiresIn: "1h" });
-    console.log("token:", token);
     res.json({ token });
 });
 exports.signIn = signIn;
