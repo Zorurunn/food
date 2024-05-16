@@ -2,7 +2,7 @@
 
 import { CustomContainer, Notify, useAuth, useData } from "@/components ";
 import { Stack } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AddressFormik } from "./_component/AddressFormik";
 import { HeaderState } from "./_component/HeaderState";
 import { OrderFormik } from "./_component/OrderFormik";
@@ -12,6 +12,7 @@ import { useOrderData } from "@/components /providers/OrderDataProvider";
 import { toast } from "react-toastify";
 import { useRouter } from "next/navigation";
 import { useBackDrop } from "@/components /providers/BackDropProvider";
+import { LoaderPage } from "@/components /LoaderPage";
 
 const validationSchema = yup.object({
   district: yup.string().required(),
@@ -28,6 +29,7 @@ export default function Order() {
   const { isLoggedIn } = useAuth();
   const { setOpenLogin } = useBackDrop();
   const router = useRouter();
+  const { user } = useAuth();
 
   const formik = useFormik({
     initialValues: {
@@ -60,6 +62,12 @@ export default function Order() {
     },
   });
 
+  useEffect(() => {
+    if (!user) {
+      router.push("/signIn");
+    }
+  });
+  if (!user) return <LoaderPage />;
   return (
     <CustomContainer maxWidth="lg">
       <Stack

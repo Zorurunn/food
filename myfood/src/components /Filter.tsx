@@ -3,16 +3,18 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import RiceBowlIcon from "@mui/icons-material/RiceBowl";
 import { OverridableComponent } from "@mui/material/OverridableComponent";
 import ImportContactsIcon from "@mui/icons-material/ImportContacts";
+import Link from "next/link";
 
 type FilterProps = {
   title: string;
   description: string;
   icon: string;
+  href?: string;
 };
 export const Filter = (props: FilterProps) => {
-  const { title, description, icon } = props;
+  const { title, description, icon, href } = props;
   return (
-    <Stack>
+    <Link href={href ?? ""}>
       <Stack
         position={"relative"}
         paddingTop={"56.25%"}
@@ -45,6 +47,6 @@ export const Filter = (props: FilterProps) => {
           </Typography>
         </Stack>
       </Stack>
-    </Stack>
+    </Link>
   );
 };

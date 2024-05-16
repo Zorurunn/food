@@ -23,11 +23,13 @@ export function Dashboard() {
               icon="book"
               title="Хүргэлтийн төлөв хянах"
               description="3ахиалга бэлтгэлийн явцыг хянах"
+              href="/order/orderHistory"
             />
             <Filter
               icon="time"
               title="Шуурхай хүргэлт"
               description="Захиалга бэлтгэлийн явцыг хянах"
+              href="/order/orderHistory"
             />
             <Filter
               icon="healthy"
@@ -38,6 +40,7 @@ export function Dashboard() {
               icon="book"
               title="Хоолны өргөн сонголт"
               description="3ахиалга бэлтгэлийн явцыг хянах"
+              href="/menu"
             />
           </Stack>
           <Stack gap={3}>

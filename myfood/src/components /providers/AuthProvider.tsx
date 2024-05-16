@@ -10,7 +10,6 @@ import {
   userUpdateProps,
 } from "@/common";
 import { AxiosError } from "axios";
-// import { Backdrop, CircularProgress } from "@mui/material";
 import { useRouter } from "next/navigation";
 import {
   PropsWithChildren,
@@ -24,6 +23,8 @@ import { ToastContainer, toast } from "react-toastify";
 
 type AuthContextType = {
   isLoggedIn: boolean;
+  user: UserType | undefined;
+  isAdmin: boolean;
   signUp: (props: SignUpProps) => Promise<void>;
   signIn: (props: SignInProps) => Promise<void>;
   userUpdate: (props: userUpdateProps) => Promise<void>;
@@ -31,7 +32,6 @@ type AuthContextType = {
   changePassword: (props: changePasswordType) => Promise<boolean>;
   getUser: () => Promise<void>;
   signOut: () => void;
-  user: UserType | undefined;
 };
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -41,6 +41,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [refresh, setRefresh] = useState(0);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const router = useRouter();
 
@@ -62,6 +63,9 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         avatar_url: res.data.avatar_url,
         role: res.data.role,
       });
+      if (res.data.role === "admin") {
+        setIsAdmin(true);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -274,6 +278,7 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         getUser,
         otpGenerate,
         changePassword,
+        isAdmin,
       }}
     >
       {children}

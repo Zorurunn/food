@@ -176,7 +176,7 @@ export const SignUp = () => {
               fullWidth
               variant="contained"
               disableElevation
-              sx={{ py: "14.5px" }}
+              sx={{ py: "14.5px", color: "#fff" }}
               disabled={!formik.isValid || !formik.dirty}
             >
               Бүртгүүлэх

@@ -1,20 +1,19 @@
 "use client";
 import { Card, CustomContainer, Login, useAuth, useData } from "@/components ";
-import { Backdrop, Button, Grid, Stack, Typography } from "@mui/material";
+import { Grid, Stack, Typography } from "@mui/material";
 import { SideBar } from "./_component/SideBar";
 import { useEffect, useState } from "react";
-import { api, categoryType, foodType } from "@/common";
-import { RightTop } from "./_component/RightTop";
-import { EditFood } from "./_component/EditFood";
-import { CreateFood } from "./_component/CreateFood";
-import { CreateCategory } from "./_component/CreateCategory";
+import { categoryType, foodType } from "@/common";
 import { useConfirm } from "@/components /providers/ConfirmationProvider";
 import { useBackDrop } from "@/components /providers/BackDropProvider";
+import { LoaderPage } from "@/components /LoaderPage";
+import { useRouter } from "next/navigation";
 
 export default function FoodMenu() {
   const { foods, categories, deleteCategory, searchValue } = useData();
   const { confirm } = useConfirm();
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
+  const router = useRouter();
 
   const [selectedCategory, setSelectedCategory] = useState<categoryType>();
   const [thisFood, setThisFood] = useState<foodType>();
@@ -23,10 +22,17 @@ export default function FoodMenu() {
   const [openCreateCategory, setOpenCreateCategory] = useState(false);
 
   useEffect(() => {
+    if (!isAdmin) {
+      router.push("/");
+    }
+  });
+  useEffect(() => {
     if (categories) {
       setSelectedCategory(categories[0]);
     }
   }, [categories]);
+
+  if (!isAdmin) return <LoaderPage />;
 
   return (
     <CustomContainer maxWidth="lg">
@@ -40,7 +46,7 @@ export default function FoodMenu() {
           selectedCategory={selectedCategory}
           setSelectedCategory={setSelectedCategory}
         />
-        <Stack sx={{ backgroundColor: "primary.dark" }}>
+        <Stack>
           <Stack
             gap={4}
             alignItems={"space-between"}

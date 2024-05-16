@@ -1,16 +1,19 @@
-import { useData } from "@/components ";
+import { useAuth, useData } from "@/components ";
 import { Divider, Stack, Typography, Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { InCartFood } from "./InCartFood";
 import { useAmount } from "../providers/AmountProvider";
 import { useRouter } from "next/navigation";
 import { useBackDrop } from "../providers/BackDropProvider";
+import { toast } from "react-toastify";
+import SignIn from "@/app/signIn/page";
 
 export const OrderDetail = () => {
   const { priceAmount } = useAmount();
   const { inCart } = useData();
   const router = useRouter();
   const { setOpenMyCart } = useBackDrop();
+  const { user } = useAuth();
   return (
     <Stack gap={2}>
       {inCart &&
@@ -45,8 +48,17 @@ export const OrderDetail = () => {
           </Stack>
           <Button
             onClick={() => {
-              setOpenMyCart(false);
-              router.push("/order");
+              if (!user) {
+                toast.success("Захиалга хийхийн тулд нэвтрэнэ үү...", {
+                  position: "top-center",
+                  hideProgressBar: true,
+                });
+                setOpenMyCart(false);
+                router.push("/signIn");
+              } else {
+                setOpenMyCart(false);
+                router.push("/order");
+              }
             }}
             sx={{
               textTransform: "none",
@@ -58,26 +70,9 @@ export const OrderDetail = () => {
               },
               width: "50%",
             }}
-            // onClick={() => {
-            //   submitFormik();
-            // }}
-            // disabled={disable || inCart.length === 0}
           >
             Захиалах
           </Button>
-
-          {/* <Stack
-            width={"50% "}
-            justifyContent={"center"}
-            alignItems={"center"}
-            sx={{
-              backgroundColor: "primary.main",
-              color: "white",
-              borderRadius: "5px",
-            }}
-          >
-            Захиалах
-          </Stack> */}
         </Stack>
       </Stack>
     </Stack>

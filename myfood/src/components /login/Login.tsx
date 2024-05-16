@@ -105,24 +105,46 @@ export const Login = () => {
               fullWidth
               variant="contained"
               disableElevation
-              sx={{ py: "14.5px" }}
+              sx={{ py: "14.5px", color: "#fff" }}
               disabled={!formik.isValid || !formik.dirty}
             >
               Нэвтрэх
             </Button>
             <Typography color={"text.primary"}>Эсвэл</Typography>
-            <Button
-              fullWidth
-              variant="outlined"
-              disableElevation
-              sx={{
-                py: "14.5px",
-                color: "text.primary",
-              }}
-              onClick={handleSignUp}
-            >
-              Бүртгүүлэх
-            </Button>
+            <Stack direction={"row"} gap={1} width={"100%"}>
+              <Button
+                fullWidth
+                variant="outlined"
+                disableElevation
+                sx={{
+                  py: "14.5px",
+                  color: "text.primary",
+                }}
+                onClick={handleSignUp}
+              >
+                Бүртгүүлэх
+              </Button>
+              <Button
+                fullWidth
+                variant="outlined"
+                disableElevation
+                sx={{
+                  py: "14.5px",
+                  color: "text.primary",
+                }}
+                onClick={async () => {
+                  setOpenLoading(true);
+                  await signIn({
+                    email: "admin@gmail.com",
+                    password: "aa",
+                  });
+                  setOpenLogin(false);
+                  setOpenLoading(false);
+                }}
+              >
+                Demo
+              </Button>
+            </Stack>
           </Stack>
         </Stack>
       </Stack>

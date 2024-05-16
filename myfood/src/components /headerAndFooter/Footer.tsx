@@ -15,7 +15,11 @@ type CustomButtonProps = {
 export const Footer = () => {
   return (
     <Stack
-      sx={{ backgroundColor: "primary.main" }}
+      sx={{
+        backgroundColor: "primary.main",
+        backgroundImage: "url(/temporary/Bg.png)",
+        backgroundSize: "contain",
+      }}
       position={"relative"}
       justifyContent={"center"}
     >
@@ -82,12 +86,6 @@ export const Footer = () => {
           </Stack>
         </Stack>
       </CustomContainer>
-      <Image
-        src={"/temporary/Bg.png"}
-        alt="Background Image"
-        fill
-        style={{ objectFit: "cover" }}
-      />
     </Stack>
   );
 };

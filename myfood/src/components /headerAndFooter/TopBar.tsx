@@ -23,6 +23,7 @@ import { useRouter } from "next/navigation";
 import { MyCart } from "../orderDetail/MyCart";
 import { useBackDrop } from "../providers/BackDropProvider";
 import { useAmount } from "../providers/AmountProvider";
+import Link from "next/link";
 
 export const TopBar = () => {
   const { isLoggedIn, user } = useAuth();
@@ -69,35 +70,19 @@ export const TopBar = () => {
           sx={{ height: "60px" }}
         >
           <Stack direction={"row"} gap={3} alignItems={"center"}>
-            <RamenDiningIcon sx={{ fontSize: 30 }} />
+            <Link href={"/"}>
+              <RamenDiningIcon sx={{ fontSize: 30 }} />
+            </Link>
             <Stack direction={"row"} gap={2} alignItems={"center"}>
-              <Typography
-                fontSize={14}
-                onClick={() => {
-                  router.push("/");
-                }}
-                sx={{ cursor: "pointer" }}
-              >
-                НҮҮР
-              </Typography>
-              <Typography
-                fontSize={14}
-                onClick={() => {
-                  router.push("/menu");
-                }}
-                sx={{ cursor: "pointer" }}
-              >
-                ХООЛНЫ ЦЭС
-              </Typography>
-              <Typography
-                fontSize={14}
-                onClick={() => {
-                  router.push("/deliveryArea");
-                }}
-                sx={{ cursor: "pointer" }}
-              >
-                ХҮРГЭЛТИЙН БҮС
-              </Typography>
+              <Link href={"/"}>
+                <Button sx={{ color: "black" }}>НҮҮР</Button>
+              </Link>
+              <Link href={"/menu"}>
+                <Button sx={{ color: "black" }}>ХООЛНЫ ЦЭС</Button>
+              </Link>
+              <Link href={"/deliveryArea"}>
+                <Button sx={{ color: "black" }}>ХҮРГЭЛТИЙН БҮС</Button>
+              </Link>
             </Stack>
           </Stack>
           <Stack direction={"row"} gap={2} alignItems={"center"}>

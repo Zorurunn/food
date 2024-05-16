@@ -1,16 +1,16 @@
 "use client";
-import RamenDiningIcon from "@mui/icons-material/RamenDining";
-import FacebookIcon from "@mui/icons-material/Facebook";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import { Box, Button, Divider, Stack, Typography } from "@mui/material";
+import { Divider, Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import { CustomContainer } from "@/components ";
 
 export const TopSection = () => {
   return (
     <Stack
-      sx={{ backgroundColor: "primary.main" }}
+      sx={{
+        backgroundColor: "primary.main",
+        backgroundImage: "url(/temporary/Bg.png)",
+        backgroundSize: "contain",
+      }}
       position={"relative"}
       justifyContent={"center"}
     >
@@ -51,7 +51,12 @@ export const TopSection = () => {
                 </Stack>
               </Stack>
             </Stack>
-            <Stack width={"80%"} paddingTop={"100%"} position={"relative"}>
+            <Stack
+              width={"80%"}
+              paddingTop={"100%"}
+              position={"relative"}
+              sx={{ zIndex: 4 }}
+            >
               <Image
                 src={"/temporary/food1.png"}
                 alt="Background Image"
@@ -62,12 +67,6 @@ export const TopSection = () => {
           </Stack>
         </Stack>
       </CustomContainer>
-      <Image
-        src={"/temporary/Bg.png"}
-        alt="Background Image"
-        fill
-        style={{ objectFit: "cover" }}
-      />
     </Stack>
   );
 };
