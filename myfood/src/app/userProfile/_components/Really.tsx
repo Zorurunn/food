@@ -1,4 +1,4 @@
-import { categoryType, foodType } from "@/common";
+import { foodType } from "@/common";
 import { useAuth } from "@/components ";
 import { Button, Stack, Typography } from "@mui/material";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";

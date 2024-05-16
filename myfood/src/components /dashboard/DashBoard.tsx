@@ -4,7 +4,6 @@ import { TopSection } from "./_component/TopSection";
 import { Stack } from "@mui/material";
 import { CustomContainer, useData } from "@/components ";
 import { Category } from "./_component/Category";
-import { SearchedValue } from "@/components /search/SearchedValue";
 
 export function Dashboard() {
   const { categories, foods } = useData();

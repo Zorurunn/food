@@ -10,17 +10,11 @@ import {
   AbsContCenter,
   CustomContainer,
   CustomInput,
-  Login,
-  State,
   useAuth,
   useData,
 } from "..";
 import { ChangeEvent, useEffect, useState } from "react";
-import { Notify } from "../notfication/ Notify";
-import { Test } from "../notfication/Test";
-import { Absolute } from "@/app/userProfile/_components/Absolute";
 import { useRouter } from "next/navigation";
-import { MyCart } from "../orderDetail/MyCart";
 import { useBackDrop } from "../providers/BackDropProvider";
 import { useAmount } from "../providers/AmountProvider";
 import Link from "next/link";

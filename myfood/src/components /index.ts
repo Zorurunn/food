@@ -11,7 +11,6 @@ export * from "./State";
 export * from "./headerAndFooter/Footer";
 export * from "./headerAndFooter/TopBar";
 export * from "./notfication/ Notify";
-export * from "./notfication/Test";
 export * from "./notfication/notifyToast";
 export * from "./orderDetail/FoodDetail";
 export * from "./search/NotFound";

@@ -1,14 +1,10 @@
-import { CustomContainer } from "@/components ";
-import { Add, MoreVert } from "@mui/icons-material";
-import { Button, Stack, Typography } from "@mui/material";
-import { SideLine, selectCategoryTypes } from "./SideLine";
-import { ChangeEvent, useState } from "react";
-import { api } from "@/common";
+import { Stack, Typography } from "@mui/material";
 
-const categories = ["breakfast", "soup", "main course", "desserts"];
-export const RightTop = (props: selectCategoryTypes) => {
-  const { selectedCategory } = props;
-
+export const RightTop = ({
+  selectedCategory,
+}: {
+  selectedCategory: string;
+}) => {
   return (
     <Stack direction={"row"} justifyContent={"space-between"}>
       <Typography fontSize={22} fontWeight={700}>

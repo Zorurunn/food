@@ -1,20 +1,9 @@
 import { HeadText, useAuth } from "@/components ";
 import { Avatar, Stack, Typography } from "@mui/material";
-import {
-  Edit,
-  Email,
-  ExitToApp,
-  History,
-  Person,
-  Phone,
-} from "@mui/icons-material";
+import { Edit, Email, History, Person, Phone } from "@mui/icons-material";
 import { useRouter } from "next/navigation";
-import { AbsContCenter } from "@/components ";
-import { Really } from "./Really";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { ExitButton } from "./ExitButton";
-import { Exit } from "./Exit";
-import { useConfirm } from "@/components /providers/ConfirmationProvider";
 export const Profile = () => {
   const { user, getUser } = useAuth();
 

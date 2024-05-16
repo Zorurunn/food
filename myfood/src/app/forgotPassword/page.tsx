@@ -1,7 +1,6 @@
 "use client";
 import { Stack } from "@mui/material";
-import { ForgotPassword } from "./_components/ForgotPassword";
-import { Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { Step1 } from "./_components/Step1";
 import { Step2 } from "./_components/Step2";
 import { Step3 } from "./_components/Step3";

@@ -1,16 +1,8 @@
-import { CustomInput, HeadText, Notify, useAuth } from "@/components ";
-import {
-  Backdrop,
-  Button,
-  CircularProgress,
-  Modal,
-  Stack,
-} from "@mui/material";
-import { ChangeEvent, Dispatch, SetStateAction, useState } from "react";
-import { Formik, useFormik } from "formik";
+import { CustomInput, HeadText, useAuth } from "@/components ";
+import { Backdrop, Button, CircularProgress, Stack } from "@mui/material";
+import { Dispatch, SetStateAction, useState } from "react";
+import { useFormik } from "formik";
 import * as yup from "yup";
-import { useRouter } from "next/navigation";
-import { toast } from "react-toastify";
 
 const validationSchema = yup.object({
   email: yup.string().email().required(),

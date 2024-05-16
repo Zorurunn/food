@@ -3,15 +3,9 @@ import { useData } from "@/components ";
 import { Dropdown, MenuButton } from "@mui/base";
 import { Delete, Edit, MoreVert } from "@mui/icons-material";
 import { Backdrop, MenuItem, Stack, Typography } from "@mui/material";
-import { ChangeEventHandler, Dispatch, SetStateAction, useState } from "react";
+import { useState } from "react";
 import { Menu } from "@mui/base/Menu";
-import { MenuButton as BaseMenuButton } from "@mui/base/MenuButton";
-import { MenuItem as BaseMenuItem, menuItemClasses } from "@mui/base/MenuItem";
-import { styled } from "@mui/system";
-import { CssTransition } from "@mui/base/Transitions";
-import { PopupContext } from "@mui/base/Unstable_Popup";
 import { EditCategory } from "./EditCategory";
-import { Really } from "@/app/userProfile/_components/Really";
 import { useConfirm } from "@/components /providers/ConfirmationProvider";
 
 // const categories = ["breakfast", "soup", "main course", "desserts"];

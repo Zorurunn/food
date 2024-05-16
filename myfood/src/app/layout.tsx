@@ -20,7 +20,6 @@ import { BackDropProvider } from "@/components /providers/BackDropProvider";
 import { AmountProvider } from "@/components /providers/AmountProvider";
 import { OrderDataProvider } from "@/components /providers/OrderDataProvider";
 import { theme } from "@/common/theme";
-import { LoaderPage } from "@/components /LoaderPage";
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (

@@ -1,7 +1,6 @@
 "use client";
 
-import { CustomContainer, State, useData } from "@/components ";
-import { OrderDetail } from "@/components /orderDetail/OrderDetail";
+import { CustomContainer } from "@/components ";
 import { Button, Grid, Stack, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import { OrderHistories } from "./_component/OrderHistories";

@@ -436,7 +436,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         setSearchValue,
       }}
     >
-      {isLoading ? <LoaderPage /> : children}
+      {children}
     </DataContext.Provider>
   );
 };

@@ -4,7 +4,6 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import TwitterIcon from "@mui/icons-material/Twitter";
 import { Button, Divider, Stack, Typography } from "@mui/material";
-import Image from "next/image";
 import { CustomContainer } from "..";
 type CustomButtonProps = {
   title: string;

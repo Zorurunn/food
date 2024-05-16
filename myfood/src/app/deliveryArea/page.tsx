@@ -1,7 +1,7 @@
 "use client";
 
 import { CustomContainer, useData } from "@/components ";
-import { Divider, Stack, Typography } from "@mui/material";
+import { Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import StarIcon from "@mui/icons-material/Stars";
 const address = [

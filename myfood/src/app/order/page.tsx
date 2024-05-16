@@ -1,6 +1,6 @@
 "use client";
 
-import { CustomContainer, Notify, useAuth, useData } from "@/components ";
+import { CustomContainer, useAuth, useData } from "@/components ";
 import { Stack } from "@mui/material";
 import { useEffect, useState } from "react";
 import { AddressFormik } from "./_component/AddressFormik";
@@ -20,7 +20,6 @@ const validationSchema = yup.object({
   apartment: yup.string().required(),
   additionalInformation: yup.string(),
   phoneNumber: yup.number().required(),
-  // radioSelect: yup.string().required(),
 });
 
 export default function Order() {
