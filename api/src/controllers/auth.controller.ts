@@ -58,7 +58,6 @@ export const signIn: RequestHandler = async (req, res) => {
     secretKey,
     { expiresIn: "1h" }
   );
-  console.log("token:", token);
 
   res.json({ token });
 };

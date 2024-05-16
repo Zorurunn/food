@@ -37,7 +37,7 @@ export const createOrder: RequestHandler = async (req, res) => {
   const month = dateObj.getUTCMonth() + 1; // months from 1-12
   const day = dateObj.getUTCDate();
   const year = dateObj.getUTCFullYear();
-  const newDate = year + "/" + month + "/" + day;
+  // const newDate = year + "/" + month + "/" + day;
 
   try {
     const { deliveryAddress, foods } = req.body;
@@ -63,7 +63,7 @@ export const createOrder: RequestHandler = async (req, res) => {
       userId: user.id,
       deliveryAddress,
       foods,
-      createdAt: newDate,
+      createdAt: new Date(),
       deliveryStatus: false,
     });
     return res.json({ message: "Order completed" });
