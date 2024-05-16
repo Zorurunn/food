@@ -20,6 +20,8 @@ import {
   useState,
 } from "react";
 import { toast } from "react-toastify";
+import { useAuth } from "./AuthProvider";
+import { LoaderPage } from "../LoaderPage";
 type countityType = {
   countity: number;
 };
@@ -66,6 +68,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
   const [selectedFood, setSelectedFood] = useState<foodType>();
   const [isFirstRender, setIsFirstRender] = useState(true);
   const [searchValue, setSearchValue] = useState("");
+  const { isLoading, setIsLoading } = useAuth();
 
   // CREATE FOOD
   const createFood = async (props: foodType) => {
@@ -244,6 +247,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
   // UPDATE CATEGORY
   const updateCategory = async (props: categoryType) => {
     const { name, _id } = props;
+    console.log(name);
 
     const token = localStorage.getItem("token");
 
@@ -260,6 +264,8 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
           },
         }
       );
+      console.log(res);
+
       toast.success(res.data.message, {
         position: "top-center",
         autoClose: 3000,
@@ -373,11 +379,16 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
   };
 
   useEffect(() => {
-    getAllFoods();
-    getAllCategories();
-    getDistricts();
-    getKhoroos();
-    getApartments();
+    const getDatas = async () => {
+      setIsLoading(true);
+      await getAllFoods();
+      await getAllCategories();
+      await getDistricts();
+      await getKhoroos();
+      await getApartments();
+      setIsLoading(false);
+    };
+    getDatas();
   }, [refresh]);
 
   useEffect(() => {
@@ -425,7 +436,7 @@ export const DataProvider = ({ children }: PropsWithChildren) => {
         setSearchValue,
       }}
     >
-      {children}
+      {isLoading ? <LoaderPage /> : children}
     </DataContext.Provider>
   );
 };

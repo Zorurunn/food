@@ -152,22 +152,23 @@ export const updateCategory: RequestHandler = async (req, res) => {
   const { name, _id } = req.body;
 
   // CHECK IS ADMIN
-  const { authorization } = req.headers;
-  if (!authorization) {
-    return res.status(401).json({
-      message: "Invalid credentials: AUTHORIZATION NOT FOUND",
-    });
-  }
-  const isAdmin = await checkIsAdmin(authorization);
+  // const { authorization } = req.headers;
+  // if (!authorization) {
+  //   return res.status(401).json({
+  //     message: "Invalid credentials: AUTHORIZATION NOT FOUND",
+  //   });
+  // }
+  // const isAdmin = await checkIsAdmin(authorization);
 
-  if (!isAdmin) {
-    return res.status(401).json({
-      message: "YOU ARE NOT ADMIN OR USER NOT FOUND",
-    });
-  }
+  // if (!isAdmin) {
+  //   return res.status(401).json({
+  //     message: "YOU ARE NOT ADMIN OR USER NOT FOUND",
+  //   });
+  // }
 
   // UPDATE CATEGORY
   const isRemain = await CategoryModel.findOne({ _id: _id });
+  console.log(isRemain);
 
   if (!isRemain) {
     return res.status(401).json({
@@ -176,14 +177,8 @@ export const updateCategory: RequestHandler = async (req, res) => {
   }
 
   try {
-    await CategoryModel.updateOne(
-      {
-        name,
-        _id,
-      },
-      { name }
-    );
-    return res.json({ message: `"${name}" category  updated` });
+    await CategoryModel.findByIdAndUpdate(_id, { name });
+    return res.json({ message: `"${name}" category  updated local` });
   } catch (error) {
     return res
       .status(401)

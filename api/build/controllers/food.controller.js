@@ -145,31 +145,29 @@ exports.createCategory = createCategory;
 const updateCategory = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const { name, _id } = req.body;
     // CHECK IS ADMIN
-    const { authorization } = req.headers;
-    if (!authorization) {
-        return res.status(401).json({
-            message: "Invalid credentials: AUTHORIZATION NOT FOUND",
-        });
-    }
-    const isAdmin = yield checkIsAdmin(authorization);
-    if (!isAdmin) {
-        return res.status(401).json({
-            message: "YOU ARE NOT ADMIN OR USER NOT FOUND",
-        });
-    }
+    // const { authorization } = req.headers;
+    // if (!authorization) {
+    //   return res.status(401).json({
+    //     message: "Invalid credentials: AUTHORIZATION NOT FOUND",
+    //   });
+    // }
+    // const isAdmin = await checkIsAdmin(authorization);
+    // if (!isAdmin) {
+    //   return res.status(401).json({
+    //     message: "YOU ARE NOT ADMIN OR USER NOT FOUND",
+    //   });
+    // }
     // UPDATE CATEGORY
     const isRemain = yield models_1.CategoryModel.findOne({ _id: _id });
+    console.log(isRemain);
     if (!isRemain) {
         return res.status(401).json({
             message: "category not found",
         });
     }
     try {
-        yield models_1.CategoryModel.updateOne({
-            name,
-            _id,
-        }, { name });
-        return res.json({ message: `"${name}" category  updated` });
+        yield models_1.CategoryModel.findByIdAndUpdate(_id, { name });
+        return res.json({ message: `"${name}" category  updated local` });
     }
     catch (error) {
         return res

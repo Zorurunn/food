@@ -12,7 +12,9 @@ import {
 import { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import {
+  Dispatch,
   PropsWithChildren,
+  SetStateAction,
   createContext,
   useContext,
   useEffect,
@@ -23,6 +25,7 @@ import { ToastContainer, toast } from "react-toastify";
 
 type AuthContextType = {
   isLoggedIn: boolean;
+  isLoading: boolean;
   user: UserType | undefined;
   isAdmin: boolean;
   signUp: (props: SignUpProps) => Promise<void>;
@@ -32,6 +35,7 @@ type AuthContextType = {
   changePassword: (props: changePasswordType) => Promise<boolean>;
   getUser: () => Promise<void>;
   signOut: () => void;
+  setIsLoading: Dispatch<SetStateAction<boolean>>;
 };
 
 const AuthContext = createContext<AuthContextType>({} as AuthContextType);
@@ -278,6 +282,8 @@ export const AuthProvider = ({ children }: PropsWithChildren) => {
         otpGenerate,
         changePassword,
         isAdmin,
+        isLoading,
+        setIsLoading,
       }}
     >
       {children}

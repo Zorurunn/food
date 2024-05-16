@@ -5,7 +5,13 @@ import "./globals.css";
 import { CssBaseline, Stack, ThemeProvider } from "@mui/material";
 import { AppRouterCacheProvider } from "@mui/material-nextjs/v13-appRouter";
 import { PropsWithChildren, useState } from "react";
-import { AuthProvider, DataProvider, Footer, TopBar } from "@/components ";
+import {
+  AuthProvider,
+  DataProvider,
+  Footer,
+  TopBar,
+  useAuth,
+} from "@/components ";
 const inter = Inter({ subsets: ["latin"] });
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -14,6 +20,7 @@ import { BackDropProvider } from "@/components /providers/BackDropProvider";
 import { AmountProvider } from "@/components /providers/AmountProvider";
 import { OrderDataProvider } from "@/components /providers/OrderDataProvider";
 import { theme } from "@/common/theme";
+import { LoaderPage } from "@/components /LoaderPage";
 
 export default function RootLayout({ children }: PropsWithChildren) {
   return (

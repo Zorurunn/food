@@ -1,10 +1,4 @@
-import {
-  CustomInput,
-  HeadText,
-  setOpenType,
-  useAuth,
-  useData,
-} from "@/components ";
+import { CustomInput, HeadText, useAuth, useData } from "@/components ";
 import { Backdrop, Button, Stack, Typography } from "@mui/material";
 import {
   ChangeEvent,
@@ -17,7 +11,7 @@ import { Formik, useFormik } from "formik";
 import * as yup from "yup";
 // import { useAuth } from "../providers/AuthProvider";
 import { useRouter } from "next/navigation";
-import { foodType } from "@/app/menu/page";
+// import { foodType } from "@/app/menu/page";
 import { Really } from "@/app/userProfile/_components/Really";
 import { Close } from "@mui/icons-material";
 import { create } from "domain";
@@ -37,6 +31,9 @@ const validationSchema = yup.object({
   name: yup.string().required(),
 });
 
+type setOpenType = {
+  setOpen: Dispatch<SetStateAction<boolean>>;
+};
 export const EditCategory = (props: setOpenType & categoryType) => {
   const { name, _id, setOpen } = props;
   const { updateCategory } = useData();
