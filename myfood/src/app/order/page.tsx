@@ -60,12 +60,6 @@ export default function Order() {
     },
   });
 
-  useEffect(() => {
-    if (!user) {
-      router.push("/signIn");
-    }
-  });
-  if (!user) return <LoaderPage />;
   return (
     <CustomContainer maxWidth="lg">
       <Stack

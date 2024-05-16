@@ -48,17 +48,8 @@ export const OrderDetail = () => {
           </Stack>
           <Button
             onClick={() => {
-              if (!user) {
-                toast.success("Захиалга хийхийн тулд нэвтрэнэ үү...", {
-                  position: "top-center",
-                  hideProgressBar: true,
-                });
-                setOpenMyCart(false);
-                router.push("/signIn");
-              } else {
-                setOpenMyCart(false);
-                router.push("/order");
-              }
+              setOpenMyCart(false);
+              router.push("/order");
             }}
             sx={{
               textTransform: "none",
