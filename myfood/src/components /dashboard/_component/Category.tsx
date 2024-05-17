@@ -36,7 +36,7 @@ export const Category = (props: categoryType & isDiscountType) => {
               router.push(`/menu?name=${name}&id=${_id}`);
             }}
           >
-            Бүгдийг харах
+            Show more...
           </Button>
           <ChevronRightIcon sx={{ color: "primary.main" }} />
         </Stack>

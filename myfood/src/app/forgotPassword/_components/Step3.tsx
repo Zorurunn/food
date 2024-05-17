@@ -79,13 +79,13 @@ export const Step3 = ({
       </Backdrop>
       <Stack>
         <Stack alignItems={"center"} justifyContent={"center"} gap={3}>
-          <HeadText text={"Шинэ нууц үг зохиох "} size="28px" wieght="700" />
+          <HeadText text={"Create new password"} size="28px" wieght="700" />
 
           <Stack gap={5}>
             <CustomInput
               name="password"
-              label={"Нууц үг"}
-              placeHolder="Нууц үг"
+              label={"Password"}
+              placeHolder="Password"
               value={formik.values.password}
               handleChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -100,8 +100,8 @@ export const Step3 = ({
             />
             <CustomInput
               name="repeatPassword"
-              label={"Нууц үг давтах"}
-              placeHolder="Нууц үг давтах"
+              label={"Repeat password"}
+              placeHolder="Repeat password"
               value={formik.values.repeatPassword}
               handleChange={formik.handleChange}
               onBlur={formik.handleBlur}

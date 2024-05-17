@@ -21,7 +21,7 @@ export const OrderedFoods = ({
           borderRadius={2}
           gap={2}
         >
-          <Stack width={"100%"}>Захиалгын дэлгэрэнгүй #{orderId}</Stack>
+          <Stack width={"100%"}>Details of order #{orderId}</Stack>
           <Stack width={"100%"} sx={{ paddingX: 2 }} gap={3}>
             {foods &&
               foods.map((item) => {

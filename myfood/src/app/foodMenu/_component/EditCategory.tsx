@@ -18,15 +18,6 @@ import { create } from "domain";
 import { categoryType } from "@/common";
 import { useConfirm } from "@/components /providers/ConfirmationProvider";
 
-const lines = [
-  "Хоолны нэр",
-  "Хоолны ангилал",
-  "Хоолны орц",
-  "Хоолны үнэ",
-  "Хямдралтай эсэх",
-  "Хоолны зураг",
-];
-
 const validationSchema = yup.object({
   name: yup.string().required(),
 });

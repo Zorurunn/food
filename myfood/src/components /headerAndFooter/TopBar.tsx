@@ -69,19 +69,19 @@ export const TopBar = () => {
             </Link>
             <Stack direction={"row"} gap={2} alignItems={"center"}>
               <Link href={"/"}>
-                <Button sx={{ color: "black" }}>НҮҮР</Button>
+                <Button sx={{ color: "black" }}>Home</Button>
               </Link>
               <Link href={"/menu"}>
-                <Button sx={{ color: "black" }}>ХООЛНЫ ЦЭС</Button>
+                <Button sx={{ color: "black" }}>Food menu</Button>
               </Link>
               <Link href={"/deliveryArea"}>
-                <Button sx={{ color: "black" }}>ХҮРГЭЛТИЙН БҮС</Button>
+                <Button sx={{ color: "black" }}>Delivery area</Button>
               </Link>
             </Stack>
           </Stack>
           <Stack direction={"row"} gap={2} alignItems={"center"}>
             <CustomInput
-              placeHolder="Хайх"
+              placeHolder="Search"
               value={searchValue}
               handleChange={handleChange}
               type="text"
@@ -108,7 +108,7 @@ export const TopBar = () => {
                   <AddShoppingCartIcon sx={{ fontSize: 20 }} />
                 </Badge>
 
-                <Typography fontSize={14}>Сагс</Typography>
+                <Typography fontSize={14}>Cart</Typography>
               </Stack>
             </Button>
 
@@ -124,7 +124,7 @@ export const TopBar = () => {
               >
                 <PermIdentityIcon sx={{ fontSize: 20 }} />
                 <Typography fontSize={14}>
-                  {isLoggedIn ? "Хэрэглэгч" : "Нэвтрэх"}
+                  {isLoggedIn ? "User" : "Sign in"}
                 </Typography>
               </Stack>
             </Button>
@@ -145,7 +145,7 @@ export const TopBar = () => {
                 sx={{ cursor: "pointer" }}
               >
                 <AdminPanelSettingsOutlinedIcon sx={{ fontSize: 20 }} />
-                <Typography fontSize={14}>Админ</Typography>
+                <Typography fontSize={14}>Admin</Typography>
               </Stack>
             </Button>
           </Stack>

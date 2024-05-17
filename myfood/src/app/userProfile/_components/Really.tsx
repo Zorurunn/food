@@ -53,7 +53,7 @@ export const Really = ({
           fontWeight={600}
           fontSize={"20px"}
           onClick={() => {
-            if (title === "Та системээс гарахдаа итгэлтэй байна уу?") {
+            if (title === "Are you sure to log out?") {
               signOut();
             } else {
               if (otherSet1) {
@@ -72,7 +72,7 @@ export const Really = ({
             }
           }}
         >
-          Тийм
+          Yes
         </Stack>
         <Stack
           flexGrow={1}
@@ -89,7 +89,7 @@ export const Really = ({
             setReally(false);
           }}
         >
-          Үгүй
+          No
         </Stack>
       </Stack>
     </Stack>

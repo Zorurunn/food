@@ -16,7 +16,7 @@ export const ExitButton = () => {
       gap={2}
       sx={{ backgroundColor: "primary.dark", cursor: "pointer" }}
       onClick={() => {
-        confirm("Та системээс гарахдаа итгэлтэй байна уу?", () => {
+        confirm("Are you sure to log out?", () => {
           setInCart([]);
           signOut();
         });
@@ -37,7 +37,7 @@ export const ExitButton = () => {
         <ExitToApp />
       </Stack>
       <Stack flexGrow={1} justifyContent={"center"}>
-        Гарах
+        Log out
       </Stack>
     </Stack>
   );

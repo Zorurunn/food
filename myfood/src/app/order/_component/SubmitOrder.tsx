@@ -26,7 +26,7 @@ export const SubmitOrder = () => {
       >
         <Stack>
           <Typography fontSize={18} color={"text.secondary"}>
-            Нийт төлөх дүн
+            Total amount
           </Typography>
           <Typography fontSize={18} fontWeight={800}>
             {priceAmount && priceAmount}₮
@@ -47,7 +47,7 @@ export const SubmitOrder = () => {
             // addressFormikSubmit();
           }}
         >
-          Захиалах
+          Create order
         </Stack>
       </Stack>
     </Stack>

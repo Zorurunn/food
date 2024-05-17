@@ -5,13 +5,13 @@ import { Stack, Typography } from "@mui/material";
 import Image from "next/image";
 import StarIcon from "@mui/icons-material/Stars";
 const address = [
-  "Нархан хотхон",
-  "26-р байр",
-  "28-р байр",
-  "45-р байр",
-  "3-р байр",
-  "Хоймор хотхон",
-  "Хоймор хотхон",
+  "Naran apartment",
+  "26th apartment",
+  "13th apartment",
+  "45th apartment",
+  "23th apartment",
+  "Residence",
+  "Residence",
 ];
 export default function Page() {
   const { apartments } = useData();
@@ -29,7 +29,7 @@ export default function Page() {
           <Stack direction={"row"} alignItems={"center"} gap={1}>
             <StarIcon sx={{ color: "primary.main" }} />
             <Typography fontWeight={800} fontSize={18}>
-              Хүргэлтийн бүс дэх хаягууд
+              Delivery area
             </Typography>
           </Stack>
           <Stack flexDirection={{ xs: "column", md: "row" }} gap={3}>
@@ -42,7 +42,7 @@ export default function Page() {
                   fontWeight={590}
                   borderColor={"primary.main"}
                 >
-                  А бүс
+                  А region
                 </Typography>
                 <Stack flexDirection={"row"} gap={2}>
                   <Stack width={1} gap={2}>
@@ -71,7 +71,7 @@ export default function Page() {
                   fontWeight={590}
                   borderColor={"primary.main"}
                 >
-                  Б бүс
+                  B region
                 </Typography>
                 <Stack flexDirection={"row"} gap={2}>
                   <Stack width={1} gap={2}>

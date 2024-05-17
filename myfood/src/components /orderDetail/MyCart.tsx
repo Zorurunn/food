@@ -32,10 +32,10 @@ export const MyCart = () => {
           fontWeight={800}
           fontSize={18}
         >
-          Таны сагс
+          Shopping cart
         </Stack>
       </Stack>
-      {inCart.length ? <OrderDetail /> : "Таны сагс хоосон байна"}
+      {inCart.length ? <OrderDetail /> : "Cart empty"}
     </Stack>
   );
 };

@@ -39,21 +39,21 @@ export const Step2 = ({
   return (
     <Stack>
       <Stack alignItems={"center"} justifyContent={"center"} gap={3}>
-        <HeadText text={"Нууц үг сэргээх"} size="28px" wieght="700" />
+        <HeadText text={"Reset password"} size="28px" wieght="700" />
 
         <Stack gap={5} width={400}>
           <Typography>
-            Таны &nbsp;
+            We sent email to your &nbsp;
             <Typography component="span" color="primary.main">
               {storedEmail}
             </Typography>
-            &nbsp;хаяг руу илгээсэн нууц кодыг оруулна уу.
+            &nbsp; address
           </Typography>
 
           <CustomInput
             name="password"
-            label={"Нууц үг сэргээх код"}
-            placeHolder="Нууц үг сэргээх код оруулна уу"
+            label={"Reset password"}
+            placeHolder="Reset password"
             value={formik.values.password}
             handleChange={formik.handleChange}
             onBlur={formik.handleBlur}

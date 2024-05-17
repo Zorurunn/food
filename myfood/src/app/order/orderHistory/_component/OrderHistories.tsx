@@ -35,7 +35,7 @@ export const OrderHistories = (props: orderHistoriesType) => {
           gap={2}
           alignItems={"center"}
         >
-          <Stack width={"100%"}>Захиалгын түүх</Stack>
+          <Stack width={"100%"}>Order histories</Stack>
           <Stack width={"100%"} gap={3}>
             {myOrders &&
               myOrders
@@ -84,7 +84,7 @@ export const OrderHistories = (props: orderHistoriesType) => {
                       >
                         <Stack>
                           <Typography color={"text.primary"} fontSize={16}>
-                            Захиалга #{item._id && item._id.slice(-4)}
+                            Order #{item._id && item._id.slice(-4)}
                           </Typography>
                           <Typography
                             fontSize={14}
@@ -92,9 +92,7 @@ export const OrderHistories = (props: orderHistoriesType) => {
                               item.deliveryStatus ? "primary.main" : "blue"
                             }
                           >
-                            {item.deliveryStatus
-                              ? "Амжилттай"
-                              : "Хүлээгдэж байна"}
+                            {item.deliveryStatus ? "Success" : "Proccessing"}
                           </Typography>
                           <Typography>
                             {formatDate({ date: item.createdAt })}

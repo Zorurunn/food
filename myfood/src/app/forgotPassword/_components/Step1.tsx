@@ -40,12 +40,12 @@ export const Step1 = ({
 
       <Stack>
         <Stack alignItems={"center"} justifyContent={"center"} gap={3}>
-          <HeadText text={"Нууц үг сэргээх"} size="28px" wieght="700" />
+          <HeadText text={"Reset password"} size="28px" wieght="700" />
           <Stack gap={5}>
             <CustomInput
               name="email"
-              label={"Имэйл"}
-              placeHolder="Имэйл хаягаа оруулна уу"
+              label={"E-mail"}
+              placeHolder="Insert email address"
               value={formik.values.email}
               handleChange={formik.handleChange}
               onBlur={formik.handleBlur}

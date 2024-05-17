@@ -185,11 +185,11 @@ export default function ProfileEdit() {
             </Stack>
             <Stack flexGrow={1} justifyContent={"center"}>
               <Typography fontSize={12} color={"text.secondary"}>
-                Утасны дугаар
+                Phone number
               </Typography>
               <CustomInput
                 name="phoneNumber"
-                placeHolder="Утасны дугаар аа оруулна уу"
+                placeHolder="Insert your phone number"
                 value={formik.values.phoneNumber ?? user?.phoneNumber ?? ""}
                 handleChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -226,7 +226,7 @@ export default function ProfileEdit() {
             </Stack>
             <Stack flexGrow={1} justifyContent={"center"}>
               <Typography fontSize={12} color={"text.secondary"}>
-                Имэйл хаяг
+                Email address
               </Typography>
               <CustomInput
                 name="email"

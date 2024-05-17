@@ -70,7 +70,7 @@ export const Profile = () => {
             </Stack>
             <Stack flexGrow={1} justifyContent={"center"}>
               <Typography fontSize={12} color={"text.secondary"}>
-                Таны нэр
+                Your name
               </Typography>
               <Typography fontSize={16}>{user?.name}</Typography>
             </Stack>
@@ -110,7 +110,7 @@ export const Profile = () => {
             </Stack>
             <Stack flexGrow={1} justifyContent={"center"}>
               <Typography fontSize={12} color={"text.secondary"}>
-                Утасны дугаар
+                Phone number
               </Typography>
               <Typography fontSize={16}>{user?.phoneNumber}</Typography>
             </Stack>
@@ -150,7 +150,7 @@ export const Profile = () => {
             </Stack>
             <Stack flexGrow={1} justifyContent={"center"}>
               <Typography fontSize={12} color={"text.secondary"}>
-                Имэйл хаяг
+                Email address
               </Typography>
               <Typography fontSize={16}>{user?.email}</Typography>
             </Stack>
@@ -193,7 +193,7 @@ export const Profile = () => {
               <History />
             </Stack>
             <Stack flexGrow={1} justifyContent={"center"} onClick={getUser}>
-              Захиалгын түүх
+              Order histories
             </Stack>
           </Stack>
           <ExitButton />

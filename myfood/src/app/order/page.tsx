@@ -37,26 +37,25 @@ export default function Order() {
       apartment: "defaultValue",
       additionalInformation: "",
       phoneNumber: null,
-      // radioSelect: "",
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       if (!isLoggedIn) {
         setOpenLogin(true);
-        return;
+        router.push("/order");
+      } else {
+        await createOrder({
+          deliveryAddress: {
+            district: values.district,
+            khoroo: values.khoroo,
+            apartment: values.apartment,
+            additionalInformation: values.additionalInformation,
+            phoneNumber: values.phoneNumber ?? 0,
+          },
+          foods: inCart,
+        });
+        router.push("/order/orderHistory");
       }
-
-      await createOrder({
-        deliveryAddress: {
-          district: values.district,
-          khoroo: values.khoroo,
-          apartment: values.apartment,
-          additionalInformation: values.additionalInformation,
-          phoneNumber: values.phoneNumber ?? 0,
-        },
-        foods: inCart,
-      });
-      router.push("/order/orderHistory");
     },
   });
 
@@ -71,7 +70,7 @@ export default function Order() {
           <Stack gap={4} alignItems={"center"} width={500}>
             <Stack width={"100%"}>
               <HeaderState
-                title="Хаягийн мэдээлэл оруулах"
+                title="Delivery information"
                 stepNumber={1}
                 disabled={!formik.isValid || !formik.dirty}
               />
@@ -121,7 +120,7 @@ export default function Order() {
           <Stack gap={4} alignItems={"center"} width={500}>
             <Stack width={"100%"}>
               <HeaderState
-                title="Захиалга баталгаажуулах"
+                title="Confirm order"
                 stepNumber={2}
                 disabled={true}
               />

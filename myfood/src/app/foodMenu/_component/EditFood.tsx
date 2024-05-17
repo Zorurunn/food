@@ -26,15 +26,6 @@ import { foodType } from "@/common";
 import { useConfirm } from "@/components /providers/ConfirmationProvider";
 import Image from "next/image";
 
-const lines = [
-  "Хоолны нэр",
-  "Хоолны ангилал",
-  "Хоолны орц",
-  "Хоолны үнэ",
-  "Хямдралтай эсэх",
-  "Хоолны зураг",
-];
-
 const validationSchema = yup.object({
   name: yup.string().required(),
   category: yup.string().required(),
@@ -166,8 +157,8 @@ export const EditFood = ({
             <Stack gap={3} width={"100%"}>
               <CustomInput
                 name="name"
-                label={"Хоолны нэр"}
-                placeHolder="Хоолны нэр оруулна уу"
+                label={"Food name"}
+                placeHolder="Insert food name"
                 value={formik.values.name}
                 handleChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -179,8 +170,8 @@ export const EditFood = ({
               {categories && (
                 <CustomInput
                   name="category"
-                  label={"Хоолны ангилал"}
-                  placeHolder="Хоолны ангилал оруулна уу"
+                  label={"Category"}
+                  placeHolder="Insert category"
                   value={formik.values.category ?? ""}
                   handleChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -204,8 +195,8 @@ export const EditFood = ({
 
               <CustomInput
                 name="ingredients"
-                label={"Хоолны орц"}
-                placeHolder="Хоолны орц оруулна уу"
+                label={"Ingredients"}
+                placeHolder="Insert ingredients"
                 value={formik.values.ingredients}
                 handleChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -219,8 +210,8 @@ export const EditFood = ({
               />
               <CustomInput
                 name="price"
-                label={"Хоолны үнэ"}
-                placeHolder="Хоолны үнэ оруулна уу"
+                label={"Price"}
+                placeHolder="Insert price"
                 value={formik.values.price}
                 handleChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -231,8 +222,8 @@ export const EditFood = ({
               />
               <CustomInput
                 name="discount"
-                label={"Хямдралтай эсэх"}
-                placeHolder="Хямдралын хувь оруулна уу"
+                label={"Discount"}
+                placeHolder="Insert discount percent"
                 value={formik.values.discount}
                 handleChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -243,20 +234,9 @@ export const EditFood = ({
                 type="text"
                 width={500}
               />
-              {/* <CustomInput
-                name="imgPath"
-                label={"Хоолны зураг"}
-                placeHolder="Хоолны зураг оруулна уу"
-                value={formik.values.imgPath}
-                handleChange={formik.handleChange}
-                onBlur={formik.handleBlur}
-                error={formik.touched.imgPath && Boolean(formik.errors.imgPath)}
-                size="medium"
-                type="text"
-                width={400}
-              /> */}
+
               <Stack>
-                <Typography color={"text.primary"}>Хоолны зураг</Typography>
+                <Typography color={"text.primary"}>Cover image</Typography>
 
                 <Stack direction={"row"} gap={2} height={200}>
                   <Stack flexGrow={1} flexBasis={1}>

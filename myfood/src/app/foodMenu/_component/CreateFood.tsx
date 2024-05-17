@@ -61,8 +61,7 @@ export const CreateFood = ({
         );
         const data = await res.json();
         return data.secure_url;
-      } catch (e) {
-      }
+      } catch (e) {}
     }
   };
   const formik = useFormik({
@@ -138,8 +137,8 @@ export const CreateFood = ({
             <Stack gap={3}>
               <CustomInput
                 name="name"
-                label={"Хоолны нэр"}
-                placeHolder="Хоолны нэр оруулна уу"
+                label={"Food name"}
+                placeHolder="Insert food name"
                 value={formik.values.name}
                 handleChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -152,8 +151,8 @@ export const CreateFood = ({
               {categories && (
                 <CustomInput
                   name="category"
-                  label={"Хоолны ангилал"}
-                  placeHolder="Хоолны ангилал оруулна уу"
+                  label={"Category"}
+                  placeHolder="Insert category"
                   value={formik.values.category ?? ""}
                   handleChange={formik.handleChange}
                   onBlur={formik.handleBlur}
@@ -176,8 +175,8 @@ export const CreateFood = ({
               )}
               <CustomInput
                 name="ingredients"
-                label={"Хоолны орц"}
-                placeHolder="Хоолны орц оруулна уу"
+                label={"Ingredients"}
+                placeHolder="Insert ingredients"
                 value={formik.values.ingredients}
                 handleChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -191,8 +190,8 @@ export const CreateFood = ({
               />
               <CustomInput
                 name="price"
-                label={"Хоолны үнэ"}
-                placeHolder="Хоолны үнэ оруулна уу"
+                label={"Price"}
+                placeHolder="Insert price"
                 value={formik.values.price}
                 handleChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -207,8 +206,8 @@ export const CreateFood = ({
               />
               <CustomInput
                 name="discount"
-                label={"Хямдралтай эсэх"}
-                placeHolder="Хямдралын хувь оруулна уу"
+                label={"Discount"}
+                placeHolder="Insert discount percentage"
                 value={formik.values.discount}
                 handleChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -221,7 +220,7 @@ export const CreateFood = ({
                 switchable={true}
               />
               <Stack>
-                <Typography color={"text.primary"}>Хоолны зураг</Typography>
+                <Typography color={"text.primary"}>Cover image</Typography>
 
                 <Stack direction={"row"} gap={2} height={200}>
                   <Stack flexGrow={1} flexBasis={1}>

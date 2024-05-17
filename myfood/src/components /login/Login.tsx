@@ -49,13 +49,13 @@ export const Login = () => {
       width={500}
     >
       <Stack alignItems={"center"} justifyContent={"center"} gap={3}>
-        <HeadText text={"Нэвтрэх"} size="28px" wieght="700" color="black" />
+        <HeadText text={"Sign in"} size="28px" wieght="700" color="black" />
         <Stack gap={9}>
           <Stack gap={2}>
             <CustomInput
               name="email"
-              label={"Имэйл"}
-              placeHolder="Имэйл хаягаа оруулна уу"
+              label={"Email"}
+              placeHolder="Insert email address"
               value={formik.values.email}
               handleChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -67,8 +67,8 @@ export const Login = () => {
             <Stack alignItems="flex-end">
               <CustomInput
                 name="password"
-                label={"Нууц үг"}
-                placeHolder="Нууц үг"
+                label={"Password"}
+                placeHolder="Password"
                 value={formik.values.password}
                 handleChange={formik.handleChange}
                 onBlur={formik.handleBlur}
@@ -91,7 +91,7 @@ export const Login = () => {
                     router.push("/forgotPassword");
                   }}
                 >
-                  Нууц үг сэргээх
+                  Reset password
                 </Typography>
               </Button>
             </Stack>
@@ -107,9 +107,9 @@ export const Login = () => {
               sx={{ py: "14.5px", color: "#fff" }}
               disabled={!formik.isValid || !formik.dirty}
             >
-              Нэвтрэх
+              Sign in
             </Button>
-            <Typography color={"text.primary"}>Эсвэл</Typography>
+            <Typography color={"text.primary"}>OR</Typography>
             <Stack direction={"row"} gap={1} width={"100%"}>
               <Button
                 fullWidth
@@ -121,7 +121,7 @@ export const Login = () => {
                 }}
                 onClick={handleSignUp}
               >
-                Бүртгүүлэх
+                Sign up
               </Button>
               <Button
                 fullWidth

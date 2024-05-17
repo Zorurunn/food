@@ -74,8 +74,8 @@ export const SignUp = () => {
             />
             <CustomInput
               name="email"
-              label={"Имэйл"}
-              placeHolder="Имэйл хаягаа оруулна уу"
+              label={"Email"}
+              placeHolder="Insert email address"
               value={formik.values.email}
               handleChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -104,8 +104,8 @@ export const SignUp = () => {
             />
             <CustomInput
               name="phoneNumber"
-              label={"Утасны дугаар"}
-              placeHolder="Та утасны дугаар аа оруулна уу"
+              label={"Phone number"}
+              placeHolder="Insert you phone number"
               value={formik.values.phoneNumber}
               handleChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -121,8 +121,8 @@ export const SignUp = () => {
             />
             <CustomInput
               name="password"
-              label={"Нууц үг"}
-              placeHolder="Нууц үг"
+              label={"Password"}
+              placeHolder="Password"
               value={formik.values.password}
               handleChange={formik.handleChange}
               onBlur={formik.handleBlur}
@@ -137,8 +137,8 @@ export const SignUp = () => {
             />
             <CustomInput
               name="repeatPassword"
-              label={"Нууц үг давтах"}
-              placeHolder="Нууц үг давтах"
+              label={"Repeat password"}
+              placeHolder="Repeat password"
               value={formik.values.repeatPassword}
               handleChange={formik.handleChange}
               onBlur={formik.handleBlur}

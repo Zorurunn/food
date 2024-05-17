@@ -20,25 +20,25 @@ export function Dashboard() {
           >
             <Filter
               icon="book"
-              title="Хүргэлтийн төлөв хянах"
-              description="3ахиалга бэлтгэлийн явцыг хянах"
+              title="Check delivery status"
+              description="If you want to check delivery status click here"
               href="/order/orderHistory"
             />
             <Filter
               icon="time"
-              title="Шуурхай хүргэлт"
-              description="Захиалга бэлтгэлийн явцыг хянах"
+              title="Speed delivery"
+              description="If you want to check delivery status click here"
               href="/order/orderHistory"
             />
             <Filter
               icon="healthy"
-              title="Эрүүл, баталгаат орц"
-              description="3ахиалга бэлтгэлийн явцыг хянах"
+              title="Healthy foods"
+              description="If you want to check delivery status click here"
             />
             <Filter
               icon="book"
-              title="Хоолны өргөн сонголт"
-              description="3ахиалга бэлтгэлийн явцыг хянах"
+              title="Variable food menu"
+              description="If you want to check delivery status click here"
               href="/menu"
             />
           </Stack>

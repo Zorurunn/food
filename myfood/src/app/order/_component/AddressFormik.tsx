@@ -109,7 +109,7 @@ export const AddressFormik = (props: AddressFormikType) => {
         <Stack gap={2}>
           {/* ADDRESS INFORMATION */}
           <Stack>
-            <Stack>Хаяг аа оруулна уу</Stack>
+            <Stack>Insert your address</Stack>
             <Stack gap={2}>
               {districts && (
                 <CustomInput
@@ -126,7 +126,7 @@ export const AddressFormik = (props: AddressFormikType) => {
                   iconType="location"
                 >
                   <MenuItem value={"defaultValue"} disabled>
-                    Дүүрэг сонгоно уу
+                    Select district
                   </MenuItem>
                   {districts.map((item) => {
                     return (
@@ -152,7 +152,7 @@ export const AddressFormik = (props: AddressFormikType) => {
                   iconType="location"
                 >
                   <MenuItem value={"defaultValue"} disabled>
-                    Хороо сонгоно уу
+                    Select section
                   </MenuItem>
                   {khoroos.map((item) => {
                     return (
@@ -178,7 +178,7 @@ export const AddressFormik = (props: AddressFormikType) => {
                   iconType="location"
                 >
                   <MenuItem value={"defaultValue"} disabled>
-                    Байр гудамж сонгоно уу
+                    Select apartment
                   </MenuItem>
                   {apartments.map((item) => {
                     return (
@@ -195,8 +195,8 @@ export const AddressFormik = (props: AddressFormikType) => {
           {/* ADDITIONAL INFORMATION */}
           <CustomInput
             name={additionalInformationName}
-            label={"Нэмэлт мэдээлэл"}
-            placeHolder="Орц, давхар, орцны код ..."
+            label={"Additional information"}
+            placeHolder="Ingredients...."
             value={additionalInformationValue}
             handleChange={handleChange}
             onBlur={handleBlur}
@@ -210,8 +210,8 @@ export const AddressFormik = (props: AddressFormikType) => {
           {/* PHONE NUMBER */}
           <CustomInput
             name={phoneNumberName}
-            label={"Утасны дугаар *"}
-            placeHolder="Утасны дугаараа оруулна уу"
+            label={"Phone number"}
+            placeHolder="insert your phone number"
             value={phoneNumberValue ?? ""}
             handleChange={handleChange}
             onBlur={handleBlur}

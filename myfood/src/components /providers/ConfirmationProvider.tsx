@@ -101,7 +101,7 @@ export const ConfirmationProvider = ({ children }: PropsWithChildren) => {
                   setCallBackFunction({ title: "", callback: undefined });
                 }}
               >
-                Тийм
+                Yes
               </Button>
               <Button
                 sx={{
@@ -119,7 +119,7 @@ export const ConfirmationProvider = ({ children }: PropsWithChildren) => {
                   setCallBackFunction({ title: "", callback: undefined });
                 }}
               >
-                Үгүй
+                No
               </Button>
             </Stack>
           </Stack>

@@ -45,22 +45,22 @@ export const Footer = () => {
               fontSize={16}
               sx={{ textDecoration: "underline", textDecorationColor: "#fff" }}
             >
-              Нүүр
+              Home
             </Typography>
             <Typography fontWeight={600} fontSize={16}>
-              Холбоо барих
+              Contact us
             </Typography>
             <Typography fontWeight={600} fontSize={16}>
-              Хоолны цэс
+              Food menu
             </Typography>
             <Typography fontWeight={600} fontSize={16}>
-              Үйлчилгээний нөхцөл
+              Term and conditions
             </Typography>
             <Typography fontWeight={600} fontSize={16}>
-              Хүргэлтийн бүс
+              Delivery area
             </Typography>
             <Typography fontWeight={600} fontSize={16}>
-              Нууцлалын бодлого
+              Others
             </Typography>
           </Stack>
           <Stack
@@ -80,7 +80,7 @@ export const Footer = () => {
           </Stack>
           <Stack direction={"row"} color={"#fff"} justifyContent={"center"}>
             <Typography fontSize={16}>
-              Зохиогчийн эрх хуулиар хамгаалагдсан.
+              Real-World Example of Copyright: ‘Udval Zolzaya’ by Queen
             </Typography>
           </Stack>
         </Stack>
